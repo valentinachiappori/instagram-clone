@@ -5,6 +5,20 @@ class UserController {
         this.system = system;
     }
 
+    getUserTimeline = (req, res) => {
+        try {
+            const user = req.user;
+            const timeline = this.system.timeline(user.id);
+
+            res.json({
+                ...userDTO(user),
+                timeline: timeline.map(simplePostDTO)
+            });
+        } catch (e) {
+            res.status(401).json({ error: e.message });
+        }
+    };
+
     getUser = (req, res) => {
         try {
             const userId = req.params.userId;

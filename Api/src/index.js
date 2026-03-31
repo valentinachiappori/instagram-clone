@@ -24,7 +24,7 @@ app.post("/register", tokenController.checkRole("public"), authController.regist
 // User routes
 app.get("/user/:userId", tokenController.checkRole("public"), userController.getUser);
 
-app.get("/search",searchController.search);
+app.get("/search", searchController.search);
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);

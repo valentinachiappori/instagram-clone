@@ -14,7 +14,7 @@ const tokenController = new TokenController(system);
 const authController = new AuthController(system, tokenController);
 
 app.post("/login", authController.login);
-
+app.post("/register", authController.register);
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });

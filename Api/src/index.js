@@ -22,6 +22,7 @@ app.post("/login", tokenController.checkRole("public"), authController.login);
 app.post("/register", tokenController.checkRole("public"), authController.register);
 
 // User routes
+app.get("/user", tokenController.checkRole("user"), userController.getUserTimeline);
 app.get("/user/:userId", tokenController.checkRole("public"), userController.getUser);
 
 app.get("/search", searchController.search);

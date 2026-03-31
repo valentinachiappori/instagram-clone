@@ -1,4 +1,4 @@
-import { mapUser, mapSimplePost } from "../dtos/dtos.js";
+import { userDTO, simplePostDTO } from "../schemas/dtos.js";
 import { HEADER } from "../constants.js";
 
 class AuthController {
@@ -18,8 +18,8 @@ class AuthController {
             res
                 .header(HEADER, token)
                 .json({
-                    ...mapUser(user),
-                    posts: posts.map(mapSimplePost)
+                    ...userDTO(user),
+                    posts: posts.map(simplePostDTO)
                 });
 
         } catch (e) {

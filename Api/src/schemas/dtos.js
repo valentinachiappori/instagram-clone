@@ -1,4 +1,4 @@
-export const mapSimpleUser = (user) => {
+export const simpleUserDTO = (user) => {
     return {
         id: user.id,
         name: user.name,
@@ -6,32 +6,32 @@ export const mapSimpleUser = (user) => {
     };
 }
 
-export const mapComment = (comment) => {
+export const commentDTO = (comment) => {
     return {
         id: comment.id,
         body: comment.body,
-        user: mapSimpleUser(comment.user),
+        user: simpleUserDTO(comment.user),
     };
 }
 
-export const mapSimplePost = (post) => {
+export const simplePostDTO = (post) => {
     return {
         id: post.id,
         description: post.description,
         image: post.image,
-        user: mapSimpleUser(post.user),
+        user: simpleUserDTO(post.user),
         date: post.date,
-        comments: post.comments.map(mapComment),
-        likes: post.likes.map(mapSimpleUser),
+        comments: post.comments.map(commentDTO),
+        likes: post.likes.map(simpleUserDTO),
     };
 }
 
-export const mapUser = (user) => {
+export const userDTO = (user) => {
     return {
         id: user.id,
         email: user.email,
         name: user.name,
         image: user.image,
-        followers: user.followers.map(mapSimpleUser),
+        followers: user.followers.map(simpleUserDTO),
     };
 }

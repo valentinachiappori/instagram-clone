@@ -27,19 +27,20 @@ class AuthController {
             res.status(400).json({ error: e.message });
         }
     };
+    
     register = (req, res) => {
         try {
             const { name, email, password, image } = req.body;
             const newUser = this.system.register(draftUser(email, password, name, image));
-            const token = this.tokenController.generateToken(newUser);
+            const token = this.tokenController.generateToken(newUser.id);
 
             return res
-                    .header(HEADER, token)
-                    .json({ ...userDTO(newUser), post : [] });
-                } catch (e) {
-                  res.status(400).json({ error: e.message });
+                .header(HEADER, token)
+                .json({ ...userDTO(newUser), posts: [] });
+        } catch (e) {
+            res.status(400).json({ error: e.message });
         }
     };
 }
-    
+
 export default AuthController;

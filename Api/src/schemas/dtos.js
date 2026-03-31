@@ -35,3 +35,14 @@ export const userDTO = (user) => {
         followers: user.followers.map(simpleUserDTO),
     };
 }
+
+export const userTimelineDTO = (user, timeline) => {
+    return {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        image: user.image,
+        followers: user.followers.map(simpleUserDTO),
+        timeline: timeline.map(simplePostDTO),
+    };
+}

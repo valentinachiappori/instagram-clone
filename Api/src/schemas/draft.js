@@ -13,3 +13,9 @@ export const draftPost = (text, image) => {
         image: image,
     }
 }
+
+export const draftComment = (text) => {
+    return {
+        body: text,
+    }
+}

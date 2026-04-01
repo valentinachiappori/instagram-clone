@@ -23,8 +23,8 @@ class TokenController {
                     return;
                 }
                 try {
-                    const tokenLimpio = authHeader.split(" ")[1];
-                    const decoded = this.validateToken(tokenLimpio);
+                    const token = authHeader.split(" ")[1];
+                    const decoded = this.validateToken(token);
                     const user = this.service.getUser(decoded.userId);
                     req.user = user;
                     next();

@@ -6,3 +6,10 @@ export const draftUser = (email,password, name, image) => {
         image: image,
     }
 }
+
+export const draftPost = (text, image) => {
+    return {
+        description: text,
+        image: image,
+    }
+}

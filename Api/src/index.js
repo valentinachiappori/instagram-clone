@@ -25,6 +25,8 @@ app.post("/register", tokenController.checkRole("public"), authController.regist
 
 // Post routes
 app.post("/posts", tokenController.checkRole("user"), postController.createPost);
+app.put("/posts/:postId/like", tokenController.checkRole("user"), postController.updateLike);
+app.post("/posts/:postId/comment", tokenController.checkRole("user"), postController.addComment);
 
 // User routes
 app.get("/user", tokenController.checkRole("user"), userController.getUserTimeline);

@@ -1,4 +1,4 @@
-import { draftPost } from "../schemas/draft.js";
+import { draftPost, draftComment } from "../schemas/draft.js";
 import { simplePostDTO } from "../schemas/dtos.js";
 
 class PostController {
@@ -15,6 +15,34 @@ class PostController {
             const newPost = this.system.addPost(userId, postToCreate);
 
             res.json(simplePostDTO(newPost));
+        } catch (e) {
+            res.status(404).json({ error: e.message });
+        }
+    };
+
+    updateLike = (req, res) => {
+        try {
+            const userId = req.user.id;
+            const postId = req.params.postId;
+
+            const updatePost = this.system.updateLike(postId, userId);
+
+            res.json(simplePostDTO(updatePost));
+        } catch (e) {
+            res.status(404).json({ error: e.message });
+        }
+    };
+
+    addComment = (req, res) => {
+        try {
+            const { body} = req.body;
+            const userId = req.user.id;
+            const postId = req.params.postId;
+            const comment = draftComment(body);
+
+            const updatePost = this.system.addComment(postId, userId, comment);
+
+            res.json(simplePostDTO(updatePost));
         } catch (e) {
             res.status(404).json({ error: e.message });
         }

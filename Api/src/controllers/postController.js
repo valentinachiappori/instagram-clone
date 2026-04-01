@@ -8,9 +8,9 @@ class PostController {
 
     createPost = (req, res) => {
         try {
-            const { text, image} = req.body;
+            const { description, image} = req.body;
             const userId = req.user.id;
-            const postToCreate = draftPost(text, image);
+            const postToCreate = draftPost(description, image);
 
             const newPost = this.system.addPost(userId, postToCreate);
 

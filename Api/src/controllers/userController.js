@@ -33,6 +33,22 @@ class UserController {
             res.status(404).json({ error: e.message });
         }
     };
+
+    putFollow = (req, res) => {
+        try {
+            const friendId = req.params.userId;
+            const user_id = req.user.id;
+            const user_update = this.system.updateFollower(user_id, friendId);
+            const posts = this.system.getPostByUserId(user_id);
+            res.json({
+                ...userDTO(user_update),
+                posts: posts.map(simplePostDTO)
+            });
+        } catch (e){
+            res.status(404).json({ error: e.message });
+        }
+
+    }
 }
 
 export default UserController;

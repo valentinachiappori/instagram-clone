@@ -24,7 +24,7 @@ app.post("/register", tokenController.checkRole("public"), authController.regist
 // User routes
 app.get("/user", tokenController.checkRole("user"), userController.getUserTimeline);
 app.get("/user/:userId", tokenController.checkRole("public"), userController.getUser);
-
+app.put("/users/:userId/follow", tokenController.checkRole("user"), userController.putFollow);
 app.get("/search", searchController.search);
 
 app.listen(port, () => {

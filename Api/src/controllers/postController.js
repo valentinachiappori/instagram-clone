@@ -19,6 +19,19 @@ class PostController {
             res.status(404).json({ error: e.message });
         }
     };
+
+    updateLike = (req, res) => {
+        try {
+            const userId = req.user.id;
+            const postId = req.params.postId;
+
+            const updatePost = this.system.updateLike(postId, userId);
+
+            res.json(simplePostDTO(updatePost));
+        } catch (e) {
+            res.status(404).json({ error: e.message });
+        }
+    };
 }
 
 export default PostController;

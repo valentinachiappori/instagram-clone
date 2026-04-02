@@ -41,11 +41,10 @@ class UserController {
             if (user_id === friendId) {
                 return res.status(400).json({ error: "Can't add yourself as a friend" });
             }
-            this.system.updateFollower(user_id, friendId);
-            const loggedUser = this.system.getUser(user_id);
+            const user_update = this.system.updateFollower(user_id, friendId);
             const posts = this.system.getPostByUserId(user_id);
             res.json({
-                ...userDTO(loggedUser),
+                ...userDTO(user_update),
                 posts: posts.map(simplePostDTO)
             });
         } catch (e){

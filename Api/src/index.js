@@ -5,6 +5,7 @@ import AuthController from "./controllers/authController.js";
 import UserController from "./controllers/userController.js";
 import PostController from "./controllers/postController.js";
 import SearchController from "./controllers/searchController.js";
+import { validate } from "./middleware/auth_middleware.js";
 
 export const system = getInstagramSystem();
 
@@ -20,8 +21,8 @@ const postController = new PostController(system);
 const searchController = new SearchController(system);
 
 // Auth routes
-app.post("/login", tokenController.checkRole("public"), authController.login);
-app.post("/register", tokenController.checkRole("public"), authController.register);
+app.post("/login", validate("LOGIN"),tokenController.checkRole("public"), authController.login);
+app.post("/register",validate("REGISTER") ,tokenController.checkRole("public"), authController.register);
 
 // Post routes
 app.post("/posts", tokenController.checkRole("user"), postController.createPost);

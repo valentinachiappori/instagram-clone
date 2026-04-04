@@ -13,3 +13,8 @@ export const login_schema = object({
     email: string().required("El email es obligatorio").email("El email no tiene un formato válido"),
     password : string().required().max(32, "La contraseña supera los 32 caracteres").min(8,"la contraseña tiene menos de 8 caracteres"),    
 })
+
+export const update_post_schema = object({
+    description: string(),
+    image: string().url("La imagen debe ser una URL válida")
+});

@@ -1,4 +1,4 @@
-import { register_schema, login_schema } from "../schemas/validations.js";
+import { register_schema, login_schema, update_post_schema } from "../schemas/validations.js";
 
 export const validate = (schema_name) => async (req, res, next) => {
     try {
@@ -14,5 +14,5 @@ export const validate = (schema_name) => async (req, res, next) => {
 const schemas_mapper = {
     "REGISTER": register_schema,
     "LOGIN": login_schema,
-
+    "UPDATE_POST": update_post_schema
 };

@@ -28,6 +28,9 @@ app.post("/register",validate("REGISTER") ,tokenController.checkRole("public"), 
 app.post("/posts", tokenController.checkRole("user"), postController.createPost);
 app.put("/posts/:postId/like", tokenController.checkRole("user"), postController.updateLike);
 app.post("/posts/:postId/comment", tokenController.checkRole("user"), postController.addComment);
+app.get("/posts/:postId", tokenController.checkRole("public"), postController.getPost);
+app.put("/posts/:postId", tokenController.checkRole("user"), validate("UPDATE_POST"), postController.updatePost);
+app.delete("/posts/:postId", tokenController.checkRole("user"), postController.deletePost);
 
 // User routes
 app.get("/user", tokenController.checkRole("user"), userController.getUserTimeline);

@@ -1,6 +1,7 @@
 import { draftPost, draftComment } from "../schemas/draft.js";
 import { simplePostDTO } from "../schemas/dtos.js";
 
+
 class PostController {
     constructor(system) {
         this.system = system;
@@ -47,6 +48,42 @@ class PostController {
             res.status(404).json({ error: e.message });
         }
     };
+
+    getPost = (req, res) => {
+        try {
+            const postId = req.params.postId;
+            const post = this.system.getPost(postId);
+            
+            res.json(simplePostDTO(post));
+        } catch (e) {
+            res.status(404).json({ error: e.message });
+        }
+    };
+
+    updatePost = (req, res) => {
+        try {
+            const postId = req.params.postId;
+            const updatedData = req.body; 
+            
+            const updatedPost = this.system.editPost(postId, updatedData);
+            
+            res.json(simplePostDTO(updatedPost));
+        } catch (e) {
+            res.status(404).json({ error: e.message });
+        }
+    };
+
+    deletePost = (req, res) => {
+        try {
+            const postId = req.params.postId;
+            this.system.deletePost(postId);
+            
+            res.status(204).send();
+        } catch (e) {
+            res.status(404).json({ error: e.message });
+        }
+    };
+
 }
 
 export default PostController;

@@ -40,7 +40,6 @@ app.put("/users/:userId/follow", tokenController.checkRole("user"), userControll
 // Search routes
 app.get("/search", tokenController.checkRole("public"), searchController.search);
 
-
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });

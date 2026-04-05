@@ -21,13 +21,13 @@ const postController = new PostController(system);
 const searchController = new SearchController(system);
 
 // Auth routes
-app.post("/login", validate("LOGIN"),tokenController.checkRole("public"), authController.login);
-app.post("/register",validate("REGISTER") ,tokenController.checkRole("public"), authController.register);
+app.post("/login", validate("LOGIN"), tokenController.checkRole("public"), authController.login);
+app.post("/register", validate("REGISTER"), tokenController.checkRole("public"), authController.register);
 
 // Post routes
-app.post("/posts", tokenController.checkRole("user"), postController.createPost);
+app.post("/posts", tokenController.checkRole("user"), validate("CREATE_POST"), postController.createPost);
 app.put("/posts/:postId/like", tokenController.checkRole("user"), postController.updateLike);
-app.post("/posts/:postId/comment", tokenController.checkRole("user"), postController.addComment);
+app.post("/posts/:postId/comment", tokenController.checkRole("user"), validate("COMMENT"), postController.addComment);
 app.get("/posts/:postId", tokenController.checkRole("public"), postController.getPost);
 app.put("/posts/:postId", tokenController.checkRole("user"), validate("UPDATE_POST"), postController.updatePost);
 app.delete("/posts/:postId", tokenController.checkRole("user"), postController.deletePost);
@@ -39,6 +39,7 @@ app.put("/users/:userId/follow", tokenController.checkRole("user"), userControll
 
 // Search routes
 app.get("/search", tokenController.checkRole("public"), searchController.search);
+
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);

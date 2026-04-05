@@ -1,4 +1,4 @@
-import { userDTO, simplePostDTO } from "../schemas/dtos.js";
+import { userDTO, userTimelineDTO } from "../schemas/dtos.js";
 
 class UserController {
     constructor(system) {
@@ -10,10 +10,7 @@ class UserController {
             const user = req.user;
             const timeline = this.system.timeline(user.id);
 
-            res.json({
-                ...userDTO(user),
-                timeline: timeline.map(simplePostDTO)
-            });
+            res.json(userTimelineDTO(user, timeline));
         } catch (e) {
             res.status(401).json({ error: e.message });
         }
@@ -25,10 +22,7 @@ class UserController {
             const user = this.system.getUser(userId);
             const posts = this.system.getPostByUserId(user.id);
 
-            res.json({
-                ...userDTO(user),
-                posts: posts.map(simplePostDTO)
-            });
+            res.json(userDTO(user, posts));
         } catch (e) {
             res.status(404).json({ error: e.message });
         }
@@ -43,10 +37,7 @@ class UserController {
             }
             const user_update = this.system.updateFollower(user_id, friendId);
             const posts = this.system.getPostByUserId(user_id);
-            res.json({
-                ...userDTO(user_update),
-                posts: posts.map(simplePostDTO)
-            });
+            res.json(userDTO(user_update, posts));
         } catch (e){
             res.status(404).json({ error: e.message });
         }

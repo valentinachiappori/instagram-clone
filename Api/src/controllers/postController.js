@@ -17,7 +17,7 @@ class PostController {
 
             res.json(simplePostDTO(newPost));
         } catch (e) {
-            res.status(404).json({ error: e.message });
+            res.status(401).json({ error: e.message });
         }
     };
 
@@ -63,6 +63,11 @@ class PostController {
     updatePost = (req, res) => {
         try {
             const postId = req.params.postId;
+            const userId = req.user.id;
+            const post = this.system.getPost(postId);
+            if (post.user.id !== userId) {
+                return res.status(403).json({ error: "User is not the owner of the post" });
+            }
             const updatedData = req.body; 
             
             const updatedPost = this.system.editPost(postId, updatedData);
@@ -76,6 +81,11 @@ class PostController {
     deletePost = (req, res) => {
         try {
             const postId = req.params.postId;
+            const userId = req.user.id;
+            const post = this.system.getPost(postId);
+            if (post.user.id !== userId) {
+                return res.status(403).json({ error: "User is not the owner of the post" });
+            }
             this.system.deletePost(postId);
             
             res.status(204).send();

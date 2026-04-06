@@ -1,4 +1,4 @@
-import { userDTO, simplePostDTO } from "../schemas/dtos.js";
+import { userDTO } from "../schemas/dtos.js";
 import { draftUser } from "../schemas/draft.js";
 import { HEADER } from "../constants.js";
 
@@ -18,10 +18,7 @@ class AuthController {
 
             res
                 .header(HEADER, token)
-                .json({
-                    ...userDTO(user),
-                    posts: posts.map(simplePostDTO)
-                });
+                .json(userDTO(user, posts));
 
         } catch (e) {
             res.status(400).json({ error: e.message });
@@ -36,7 +33,7 @@ class AuthController {
 
             return res
                 .header(HEADER, token)
-                .json({ ...userDTO(newUser), posts: [] });
+                .json(userDTO(newUser, []));
         } catch (e) {
             res.status(400).json({ error: e.message });
         }

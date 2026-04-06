@@ -26,13 +26,14 @@ export const simplePostDTO = (post) => {
     };
 }
 
-export const userDTO = (user) => {
+export const userDTO = (user, posts) => {
     return {
         id: user.id,
         email: user.email,
         name: user.name,
         image: user.image,
         followers: user.followers.map(simpleUserDTO),
+        posts: posts.map(simplePostDTO),
     };
 }
 

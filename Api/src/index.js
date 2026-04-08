@@ -5,7 +5,7 @@ import AuthController from "./controllers/authController.js";
 import UserController from "./controllers/userController.js";
 import PostController from "./controllers/postController.js";
 import SearchController from "./controllers/searchController.js";
-import { validate } from "./middleware/auth_middleware.js";
+import { validate } from "./middleware/middleware.js";
 
 export const system = getInstagramSystem();
 

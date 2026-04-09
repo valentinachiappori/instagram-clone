@@ -1,6 +1,6 @@
 import express from "express";
 import getInstagramSystem from "@unq-ui/instagram-model-js";
-import TokenController from "./controllers/TokenController.js";
+import TokenController from "./controllers/tokenController.js";
 import AuthController from "./controllers/authController.js";
 import UserController from "./controllers/userController.js";
 import PostController from "./controllers/postController.js";

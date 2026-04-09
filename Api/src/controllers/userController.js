@@ -31,13 +31,13 @@ class UserController {
     putFollow = (req, res) => {
         try {
             const friendId = req.params.userId;
-            const user_id = req.user.id;
-            if (user_id === friendId) {
+            const userId = req.user.id;
+            if (userId === friendId) {
                 return res.status(400).json({ error: "Can't add yourself as a friend" });
             }
-            const user_update = this.system.updateFollower(user_id, friendId);
-            const posts = this.system.getPostByUserId(user_id);
-            res.json(userDTO(user_update, posts));
+            const userUpdate = this.system.updateFollower(userId, friendId);
+            const posts = this.system.getPostByUserId(userId);
+            res.json(userDTO(userUpdate, posts));
         } catch (e){
             res.status(404).json({ error: e.message });
         }

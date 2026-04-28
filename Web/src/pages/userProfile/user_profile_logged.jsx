@@ -1,30 +1,21 @@
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getUser } from '../../services/userService'
+import UserProfileHeader from '../../components/userProfile/UserProfileHeader'
+import UserProfileBody from '../../components/userProfile/UserProfileBody'
 
 const UserProfileLogged = ({ userId }) => {
-    const [user, setUser] = useState(null);
-    
+    const [user, setUser] = useState(null)
 
     useEffect(() => {
-        getUser(userId).then(data => {setUser(data)})
-        
-
+        getUser(userId).then(data => setUser(data))
     }, [userId])
 
     if (!user) return <p>Cargando...</p>
 
     return (
         <div>
-            <img src={user.image} alt={user.name} />
-            <h2>{user.name}</h2>
-            <h2>{user.followers.length}</h2>
-            <h2>{user.posts.length}</h2>
-
-            <div>
-            {user.posts.map(post => (
-                <img key={post.id} src={post.image} alt={post.id} />
-            ))}
-            </div>
+            <UserProfileHeader user={user} isOwner={true} />
+            <UserProfileBody posts={user.posts} />
         </div>
     )
 } 

@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import UserProfileLogged from './pages/userProfile/user_profile_logged'
 import './App.css'
 
 
 const Home = () => <h1>Timeline (En construcción)</h1>
 const Login = () => <h1>Login (En construcción)</h1>
-const Profile = () => <h1>Perfil de Usuario (En construcción)</h1>
+const Profile = () => UserProfileLogged
 
 function App() {
   const [user, setUser] = useState({ id: 'user_1', name: 'Lucre' }); //usuario de prueba!!!!!!
@@ -38,6 +39,10 @@ function App() {
             />
 
             <Route path="*" element={<Navigate to="/" />} />
+            <Route 
+              path="/my-profile" 
+              element={user ? <UserProfileLogged userId={user.id} /> : <Navigate to="/login" />} 
+            />
           </Routes>
         </div>
       </div>

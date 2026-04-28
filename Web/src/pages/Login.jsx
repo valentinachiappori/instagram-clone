@@ -23,54 +23,40 @@ const Login = () => {
     };
 
     return (
-        <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light overflow-hidden">
-            <div className="d-flex align-items-center gap-2" style={{ width: "984px" }}>
+        <div className="login-page">
+            <div className="login-wrapper">
 
-                {/* Collage — oculto en móvil */}
-                <div className="d-none d-md-flex login-collage" style={{ width: "700px", minWidth: "700px", height: "100vh" }}>
+                <div className="login-collage">
                     <img src={loginImage} alt="login" />
                 </div>
 
-                {/* Panel de login */}
-                <div
-                    className="d-flex flex-column align-items-center justify-content-center gap-2 px-5"
-                    style={{ width: "528px", minWidth: "528px", minHeight: "100vh" }}
-                >
-                    <h1 className="login-logo text-center mb-2">Instagram</h1>
-
-                    {error && (
-                        <div className="alert alert-danger py-2 px-3 text-center" style={{ fontSize: "13px", maxWidth: "300px", width: "100%" }}>
-                            {error}
-                        </div>
-                    )}
-
-                    <form onSubmit={handleSubmit} className="d-flex flex-column gap-2" style={{ width: "300px" }}>
+                <div className="login-panel">
+                    <h1 className="login-logo">Instagram</h1>
+                    {error && <div className="login-error">{error}</div>}
+                    <form className="login-form" onSubmit={handleSubmit}>
                         <input
                             type="email"
-                            className="form-control login-input"
+                            className="login-input"
                             placeholder="Correo electrónico"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
                         <input
                             type="password"
-                            className="form-control login-input"
+                            className="login-input"
                             placeholder="Contraseña"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <button type="submit" className="btn login-btn text-white w-100">
+                        <button type="submit" className="login-btn">
                             Iniciar sesión
                         </button>
                     </form>
-
-                    <hr className="w-100" style={{ maxWidth: "300px", borderColor: "#ccc" }} />
-
-                    <p className="login-register mb-0 text-center">
+                    <div className="login-divider" />
+                    <p className="login-register">
                         ¿No tenés cuenta? <Link to="/register">Registrate</Link>
                     </p>
                 </div>
-
             </div>
         </div>
     );

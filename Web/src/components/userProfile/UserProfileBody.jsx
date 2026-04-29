@@ -1,8 +1,11 @@
+import '../../styles/components/userProfile/UserProfileBody.css'
+
+
 const UserProfileBody = ({ posts }) => {
     return (
-        <div >
+        <div className="grid" >
             {posts.map(post => (
-                <img key={post.id} src={post.image} alt={post.description} />
+                <img className="grid-item" key={post.id} src={post.image} alt={post.description} />
             ))}
         </div>
     )

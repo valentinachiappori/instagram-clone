@@ -5,7 +5,6 @@ import UserProfileBody from '../../components/userProfile/UserProfileBody'
 
 const UserProfileLogged = ({ userId }) => {
     const [user, setUser] = useState(null)
-
     useEffect(() => {
         getUser(userId).then(data => setUser(data))
     }, [userId])

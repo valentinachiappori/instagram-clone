@@ -4,7 +4,7 @@ import { login } from "../api/auth";
 import loginImage from "../assets/login.png";
 import "../styles/Login.css";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
@@ -16,12 +16,14 @@ const Login = () => {
             const response = await login(email, password);
             localStorage.setItem("token", response.headers["authorization"]);
             localStorage.setItem("user", JSON.stringify(response.data));
+            onLogin(response.data);
             navigate("/");
         } catch (err) {
             setError(err.response?.data?.error || "Error al iniciar sesión");
         }
     };
 
+    
     return (
         <div className="login-page">
             <div className="login-wrapper">

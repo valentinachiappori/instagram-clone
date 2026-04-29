@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import getInstagramSystem from "@unq-ui/instagram-model-js";
 import TokenController from "./controllers/tokenController.js";
 import AuthController from "./controllers/authController.js";
@@ -10,6 +11,9 @@ import { validate } from "./middleware/middleware.js";
 export const system = getInstagramSystem();
 
 const app = express();
+app.use(cors({
+    exposedHeaders: ["Authorization"]
+}));
 const port = 3000;
 
 app.use(express.json());

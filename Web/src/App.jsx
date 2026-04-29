@@ -10,14 +10,20 @@ const isAuthenticated = () => !!localStorage.getItem("token");
 const PrivateRoute = ({ children }) => {
   return isAuthenticated() ? children : <Navigate to="/login" />;
 };
-const Home = () => <h1>Timeline (En construcción)</h1>
+
+const Home = () => <h1>Timeline (En construcción)</h1>;
 const Profile = () => UserProfileLogged
 
 function App() {
-  const [user, setUser] = useState({ id: 'user_1', name: 'Lucre' }); //usuario de prueba!!!!!!
-
+  
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || null
+    
+  );
   const handleLogout = () => {
-    setUser(null); //hasta que el login esté listo!!!!!!
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
   };
 
   return (
@@ -28,18 +34,14 @@ function App() {
         <div className="main-content">
           <Routes>
             <Route path="/login" element={<Login />} />
-
-
             <Route 
               path="/" 
               element={<PrivateRoute> <Home /> </PrivateRoute>} 
             />
-            
             <Route 
               path="/profile/:id" 
               element={<PrivateRoute> <Profile /> </PrivateRoute>} 
             />
-
             <Route path="*" element={<Navigate to="/" />} />
             <Route 
               path="/my-profile" 

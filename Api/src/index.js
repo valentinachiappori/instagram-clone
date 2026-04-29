@@ -11,6 +11,9 @@ import { validate } from "./middleware/middleware.js";
 export const system = getInstagramSystem();
 
 const app = express();
+app.use(cors({
+    exposedHeaders: ["Authorization"]
+}));
 const port = 3000;
 
 app.use(cors());
@@ -35,7 +38,7 @@ app.put("/posts/:postId", tokenController.checkRole("user"), validate("UPDATE_PO
 app.delete("/posts/:postId", tokenController.checkRole("user"), postController.deletePost);
 
 // User routes
-app.get("/user", tokenController.checkRole("public"), userController.getUserTimeline);
+app.get("/user", tokenController.checkRole("user"), userController.getUserTimeline);
 app.get("/user/:userId", tokenController.checkRole("public"), userController.getUser);
 app.put("/users/:userId/follow", tokenController.checkRole("user"), userController.putFollow);
 

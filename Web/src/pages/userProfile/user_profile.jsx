@@ -14,7 +14,7 @@ const UserProfileLogged = ({ userId }) => {
 
     return (
         <div>
-            <UserProfileHeader user={user} isOwner={true} />
+            <UserProfileHeader user={user} isOwner={false} />
             <UserProfileBody posts={user.posts} />
         </div>
     )

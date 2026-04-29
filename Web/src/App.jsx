@@ -1,12 +1,16 @@
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import UserProfileLogged from './pages/userProfile/user_profile_logged'
 import './App.css'
 
+const isAuthenticated = () => !!localStorage.getItem("token");
 
+const PrivateRoute = ({ children }) => {
+  return isAuthenticated() ? children : <Navigate to="/login" />;
+};
 const Home = () => <h1>Timeline (En construcción)</h1>
-const Login = () => <h1>Login (En construcción)</h1>
 const Profile = () => UserProfileLogged
 
 function App() {
@@ -23,19 +27,17 @@ function App() {
 
         <div className="main-content">
           <Routes>
-            <Route 
-              path="/login" 
-              element={!user ? <Login /> : <Navigate to="/" />} 
-            />
+            <Route path="/login" element={<Login />} />
+
 
             <Route 
               path="/" 
-              element={user ? <Home /> : <Navigate to="/login" />} 
+              element={<PrivateRoute> <Home /> </PrivateRoute>} 
             />
             
             <Route 
               path="/profile/:id" 
-              element={user ? <Profile /> : <Navigate to="/login" />} 
+              element={<PrivateRoute> <Profile /> </PrivateRoute>} 
             />
 
             <Route path="*" element={<Navigate to="/" />} />
@@ -49,5 +51,4 @@ function App() {
     </BrowserRouter>
   )
 }
-
 export default App

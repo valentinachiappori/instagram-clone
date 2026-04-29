@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.login-page {
+    min-height: 100vh;
+    background-color: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+}
+
+.login-wrapper {
+    display: flex;
+    align-items: center;
+    width: 984px;
+    height: 100vh;
+    gap: 10px;
+}
+
+.login-panel {
+    width: 528px;
+    min-width: 528px;
+    flex-shrink: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px;
+    gap: 12px;
+}
+
+.login-logo {
+    width: 200px;
+    height: 60px;
+    font-family: 'Grand Hotel', cursive;
+    font-size: 42px;
+    color: #262626;
+    text-align: center;
+    align-self: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 133px;
+    padding: 12px 64px;
+    gap: 8px;
+}
+
+.login-input {
+    width: 100%;
+    max-width: 300px;
+    height: 31px;
+    background: #fafafa;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #262626;
+    outline: none;
+}
+
+.login-input::placeholder {
+    color: #8e8e8e;
+}
+
+.login-btn {
+    width: 100%;
+    max-width: 300px;
+    height: 31px;
+    background: #495DF9B2;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.2s;
+}
+
+.login-btn:hover {
+    opacity: 0.85;
+}
+
+.login-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.login-divider {
+    width: 400px;
+    height: 0;
+    border: 1px solid #cccccc;
+    margin: 0 auto;
+}
+
+.login-register {
+    width: 194px;
+    height: 15px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 100%;
+    color: #4E4E4E;
+    text-align: center;
+}
+
+.login-register a {
+    color: #495DF9;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+.login-register a:hover {
+    text-decoration: underline;
+}
+
+.login-error {
+    width: 272px;
+    max-width: 300px;
+    background: #fff3f3;
+    border: 1px solid #f5c6cb;
+    color: #c0392b;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.login-collage {
+    width: 700px;
+    min-width: 700px;
+    flex-shrink: 0;
+    height: 100%;
+}
+
+.login-collage img {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+}
+
+@media (max-width: 700px) {
+    .login-collage {
+        display: none;
+    }
+
+    .login-wrapper {
+        justify-content: center;
+        padding: 24px;
+    }
+}

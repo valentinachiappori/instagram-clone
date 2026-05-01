@@ -42,7 +42,7 @@ function App() {
 
         <Route path="/profile/:id" element={
           <PrivateRoute user={user} onLogout={handleLogout}>
-            <UserProfileLogged userId={user?.id} />
+            <UserProfileLogged userIdViewer={user?.id} />
           </PrivateRoute>
         } />
 

@@ -31,21 +31,51 @@ const Post = ({ post, user, isOwner, onNavigate }) => {
                 <div className="separator"></div>
 
                 <div className="comment-section">
-                    <div className="main-comment">
-                        <img 
-                            src={post.user.image} 
-                            alt={post.user.name} 
-                            className="user-profile" 
-                        />
-                    <p className="post-description">
-                        <strong>{post.user.name}</strong> {post.description}
-                    </p>
-                    </div>
+                    {post.description && (
+                        <div className="main-comment">
+                            <img src={post.user.image} alt={post.user.name} className="user-profile" />
+                            <p className="post-description">
+                                <strong>{post.user.name}</strong> {post.description}
+                            </p>
+                        </div>
+                    )}
 
                     <div className="placeholder-comments">
-                        Comentarios
+                        {post.comments && post.comments.map((comment) => (
+                            <div key={comment.id} className="comment-item">
+                                <Link to={`/profile/${comment.user.id}`}>
+                                    <img src={comment.user.image} className="user-profile" alt={comment.user.name} />
+                                </Link>
+                                <p className="post-description">
+                                    <Link to={`/profile/${comment.user.id}`}>
+                                        <strong>{comment.user.name}</strong> 
+                                    </Link>
+                                    {" "}{comment.text}
+                                </p>
+                            </div>
+                        ))}
                     </div>
                 </div>
+
+                <div className="post-actions">
+                        <div className="action-item">
+                            <i className="bi bi-heart action-icon"></i>
+                            <span className="action-text">{post.likes.length} Me gusta</span>
+                        </div>
+                        <div className="action-item">
+                            <i className="bi bi-chat-left-text action-icon"></i>
+                            <span className="action-text">{post.comments.length} Comentarios</span>
+                        </div>
+                </div>
+
+                <div className="comment-input-container">
+                    <textarea 
+                        placeholder="Agregá un comentario..." 
+                        className="comment-input"
+                        rows="1"
+                    ></textarea>
+                </div>
+                <button className="publish-button">Publicar</button>
             </div>
         </article>
     );

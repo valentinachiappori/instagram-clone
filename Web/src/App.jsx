@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from 'react';
 import Login from "./pages/Login";
-import UserProfileLogged from "./pages/userProfile/user_profile_logged";
+import UserProfileLogged from "./pages/userProfile/user_profile";
 import Layout from './components/Layout';
+import Post from "./pages/post";
 import './App.css';
 
 const isAuthenticated = () => !!localStorage.getItem("token");
@@ -37,6 +38,12 @@ function App() {
         <Route path="/" element={
           <PrivateRoute user={user} onLogout={handleLogout}>
             <Home />
+          </PrivateRoute>
+        } />
+
+        <Route path="/post/:postId" element={
+          <PrivateRoute user={user} onLogout={handleLogout}>
+            <Post user={user} />
           </PrivateRoute>
         } />
 

@@ -1,7 +1,18 @@
 import '../styles/Post.css';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
-const Post = ({ post, user, isOwner, onNavigate }) => {
+const PostDetail = ({ post, user, isOwner, onAddComment}) => {
+
+    const [commentBody, setCommentBody] = useState('');
+
+    const handlePublish = () => {
+        if (commentBody.trim()) {
+            onAddComment(post.id, commentBody);
+            setCommentBody('');
+        }
+    };
+
     return (
         <article className="post-container">
             <div className="post-image">
@@ -50,7 +61,7 @@ const Post = ({ post, user, isOwner, onNavigate }) => {
                                     <Link to={`/profile/${comment.user.id}`}>
                                         <strong>{comment.user.name}</strong> 
                                     </Link>
-                                    {" "}{comment.text}
+                                    {" "}{comment.body}
                                 </p>
                             </div>
                         ))}
@@ -73,12 +84,20 @@ const Post = ({ post, user, isOwner, onNavigate }) => {
                         placeholder="Agregá un comentario..." 
                         className="comment-input"
                         rows="1"
+                        value={commentBody}
+                        onChange={(e) => setCommentBody(e.target.value)}
                     ></textarea>
                 </div>
-                <button className="publish-button">Publicar</button>
+                <button 
+                    className="publish-button"
+                    onClick={handlePublish}
+                    disabled={!commentBody.trim()}
+                >
+                    Publicar
+                </button>
             </div>
         </article>
     );
 };
 
-export default Post;
+export default PostDetail;

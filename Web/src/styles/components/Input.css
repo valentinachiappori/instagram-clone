@@ -1,0 +1,23 @@
+.app-input {
+    height: auto;
+    min-height: 31px;
+    background: #fafafa;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 0 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #262626;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.app-input::placeholder {
+    color: #8e8e8e;
+}
+
+.app-input:focus {
+    border-color: #a8a8a8;
+    background: #fff;
+}

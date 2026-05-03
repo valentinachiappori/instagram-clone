@@ -1,0 +1,25 @@
+.app-btn {
+    height: auto;
+    min-height: 31px;
+    padding: 8px 10px;
+    background: #495DF9B2;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: 0%;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.app-btn:hover {
+    opacity: 0.85;
+}
+
+.app-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+}

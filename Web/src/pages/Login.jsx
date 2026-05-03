@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { login } from "../api/auth";
 import loginImage from "../assets/login.png";
+import Button from "../components/Button";
+import Input from "../components/Input";
+import ErrorMessage from "../components/ErrorMessage";
 import "../styles/Login.css";
 
 const Login = ({ onLogin }) => {
@@ -23,7 +26,6 @@ const Login = ({ onLogin }) => {
         }
     };
 
-    
     return (
         <div className="login-page">
             <div className="login-wrapper">
@@ -34,29 +36,30 @@ const Login = ({ onLogin }) => {
 
                 <div className="login-panel">
                     <h1 className="login-logo">Instagram</h1>
-                    {error && <div className="login-error">{error}</div>}
+                    <ErrorMessage message={error} />
                     <form className="login-form" onSubmit={handleSubmit}>
-                        <input
+                        <Input
                             type="email"
-                            className="login-input"
                             placeholder="Correo electrónico"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            className="w-100"
                         />
-                        <input
+                        <Input
                             type="password"
-                            className="login-input"
                             placeholder="Contraseña"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            className="w-100"
                         />
-                        <button type="submit" className="login-btn">
+                        <Button type="submit" className="w-100">
                             Iniciar sesión
-                        </button>
+                        </Button>
                     </form>
                     <div className="login-divider" />
                     <p className="login-register">
-                        ¿No tenés cuenta? <Link to="/register">Registrate</Link>
+                        ¿No tenés cuenta? <br />
+                        <Link to="/register">Registrate</Link>
                     </p>
                 </div>
             </div>

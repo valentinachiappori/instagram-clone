@@ -2,23 +2,26 @@ import { useEffect, useState } from 'react'
 import { getUser } from '../../api/userService'
 import UserProfileHeader from '../../components/userProfile/UserProfileHeader'
 import UserProfileBody from '../../components/userProfile/UserProfileBody'
+import { useParams } from 'react-router-dom';
 
-const UserProfileLogged = ({ userId }) => {
+const UserProfile = ({ userIdViewer = false }) => {
+
     const [user, setUser] = useState(null)
+    const { id } = useParams();
 
     useEffect(() => {
-        getUser(userId).then(data => setUser(data))
-    }, [userId])
+        getUser(id).then(data => setUser(data))
+    }, [id])
 
     if (!user) return <p>Cargando...</p>
 
     return (
         <div>
-            <UserProfileHeader user={user} isOwner={false} />
+            <UserProfileHeader user={user} isOwner={id == userIdViewer} />
             <UserProfileBody posts={user.posts} />
         </div>
     )
 } 
 
 
-export default UserProfileLogged;
+export default UserProfile;

@@ -1,9 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from 'react';
 import Login from "./pages/Login";
-import UserProfileLogged from "./pages/userProfile/user_profile";
 import Layout from './components/Layout';
 import Post from "./pages/post";
+import UserProfile from "./pages/userProfile/user_profile";
+import Search from "./pages/search";
+import Register from "./pages/Register";
 import './App.css';
 
 const isAuthenticated = () => !!localStorage.getItem("token");
@@ -35,6 +37,8 @@ function App() {
       <Routes>
         <Route path="/login" element={isAuthenticated() ? <Navigate to="/" /> : <Login onLogin={setUser} />} />
 
+        <Route path="/register" element={isAuthenticated() ? <Navigate to="/" /> : <Register onLogin={setUser} />} />
+        
         <Route path="/" element={
           <PrivateRoute user={user} onLogout={handleLogout}>
             <Home />
@@ -49,11 +53,20 @@ function App() {
 
         <Route path="/profile/:id" element={
           <PrivateRoute user={user} onLogout={handleLogout}>
-            <UserProfileLogged userIdViewer={user?.id} />
+            <UserProfile userIdViewer={user?.id} />
+          </PrivateRoute>
+        } />
+
+        <Route path="/search" element={
+          <PrivateRoute user={user} onLogout={handleLogout}>
+            <Search />
           </PrivateRoute>
         } />
 
         <Route path="*" element={<Navigate to="/" />} />
+
+
+
       </Routes>
     </BrowserRouter>
   );

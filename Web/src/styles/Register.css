@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+.register-page {
+    min-height: 100vh;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+}
+
+.register-panel {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.register-logo {
+    font-family: 'Grand Hotel', cursive;
+    font-size: 42px;
+    color: #262626;
+    text-align: center;
+}
+
+.register-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    color: #737373;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+}
+
+.register-divider {
+    width: 100%;
+    height: 0;
+    border: 1px solid #cccccc;
+}
+
+.register-terms,
+.register-login {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #4E4E4E;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.register-terms a,
+.register-login a {
+    color: #495DF9;
+    text-decoration: none;
+}
+
+.register-terms a:hover,
+.register-login a:hover {
+    text-decoration: underline;
+}

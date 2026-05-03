@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from 'react';
 import Login from "./pages/Login";
-import UserProfileLogged from "./pages/userProfile/user_profile_logged";
+import UserProfile from "./pages/userProfile/user_profile";
+import Search from "./pages/search";
 import Layout from './components/Layout';
 import './App.css';
 
@@ -42,11 +43,20 @@ function App() {
 
         <Route path="/profile/:id" element={
           <PrivateRoute user={user} onLogout={handleLogout}>
-            <UserProfileLogged userId={user?.id} />
+            <UserProfile userIdViewer={user?.id} />
+          </PrivateRoute>
+        } />
+
+        <Route path="/search" element={
+          <PrivateRoute user={user} onLogout={handleLogout}>
+            <Search />
           </PrivateRoute>
         } />
 
         <Route path="*" element={<Navigate to="/" />} />
+
+
+
       </Routes>
     </BrowserRouter>
   );

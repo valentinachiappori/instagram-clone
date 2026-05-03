@@ -1,0 +1,23 @@
+.search-posts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  padding: 40px;
+}
+.search-posts img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.search-users {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 40px;
+}
+.user-avatar img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 2px solid #dbdbdb;
+}

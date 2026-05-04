@@ -7,3 +7,7 @@ export const getPost = (postId) => {
 export const addComment = (postId, text) => {
     return api.post(`/posts/${postId}/comment`, { body: text }).then(res => res.data)
 }
+
+export const updateLike = (postId) => {
+    return api.put(`/posts/${postId}/like`).then(res => res.data)
+}

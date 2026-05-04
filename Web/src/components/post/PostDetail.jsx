@@ -1,8 +1,11 @@
-import '../styles/Post.css';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import "../../styles/PostDetail.css";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import Button from "../Button";
+import PostHeader from "./PostHeader";
+import PostActions from "./PostActions";
 
-const PostDetail = ({ post, user, isOwner, onAddComment}) => {
+const PostDetail = ({ post, user, isOwner, onAddComment, onUpdateLike }) => {
 
     const [commentBody, setCommentBody] = useState('');
 
@@ -20,24 +23,7 @@ const PostDetail = ({ post, user, isOwner, onAddComment}) => {
             </div>
 
             <div className="post-details">
-                <header className="post-header">
-                    <Link to={`/profile/${post.user.id}`} className="user-info">
-                        <img src={post.user.image} alt={post.user.name} className="user-profile" />
-                        <div className="user-text">
-                            <span className="username">{post.user.name}</span>
-                            <span className="date">
-                                {new Date(post.date).toLocaleString('es-AR', { 
-                                    year: 'numeric', 
-                                    month: '2-digit', 
-                                    day: '2-digit',
-                                    hour: '2-digit', 
-                                    minute: '2-digit',
-                                    hour12: false
-                                }).replace(',', ' -')}
-                            </span>
-                        </div>
-                    </Link>
-                </header>
+                <PostHeader postUser={post.user} date={post.date} className="post-page-header"/>
 
                 <div className="separator"></div>
 
@@ -68,16 +54,7 @@ const PostDetail = ({ post, user, isOwner, onAddComment}) => {
                     </div>
                 </div>
 
-                <div className="post-actions">
-                        <div className="action-item">
-                            <i className="bi bi-heart action-icon"></i>
-                            <span className="action-text">{post.likes.length} Me gusta</span>
-                        </div>
-                        <div className="action-item">
-                            <i className="bi bi-chat-left-text action-icon"></i>
-                            <span className="action-text">{post.comments.length} Comentarios</span>
-                        </div>
-                </div>
+                <PostActions post={post} user={user} onUpdateLike={onUpdateLike} className="post-page-actions" />
 
                 <div className="comment-input-container">
                     <textarea 
@@ -88,13 +65,13 @@ const PostDetail = ({ post, user, isOwner, onAddComment}) => {
                         onChange={(e) => setCommentBody(e.target.value)}
                     ></textarea>
                 </div>
-                <button 
+                <Button 
                     className="publish-button"
                     onClick={handlePublish}
                     disabled={!commentBody.trim()}
                 >
                     Publicar
-                </button>
+                </Button>
             </div>
         </article>
     );

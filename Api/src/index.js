@@ -14,6 +14,7 @@ const app = express();
 app.use(cors({
     exposedHeaders: ["Authorization"]
 }));
+app.use(express.json());
 const port = 3000;
 
 const tokenController = new TokenController(system);

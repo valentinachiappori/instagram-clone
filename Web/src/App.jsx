@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from 'react';
 import Login from "./pages/Login";
+import Layout from './components/Layout';
+import Post from "./pages/post";
 import UserProfile from "./pages/userProfile/user_profile";
 import Search from "./pages/search";
-import Layout from './components/Layout';
 import Register from "./pages/Register";
 import './App.css';
 
@@ -41,6 +42,12 @@ function App() {
         <Route path="/" element={
           <PrivateRoute user={user} onLogout={handleLogout}>
             <Home />
+          </PrivateRoute>
+        } />
+
+        <Route path="/post/:postId" element={
+          <PrivateRoute user={user} onLogout={handleLogout}>
+            <Post user={user} />
           </PrivateRoute>
         } />
 

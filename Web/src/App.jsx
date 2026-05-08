@@ -6,6 +6,7 @@ import Post from "./pages/post";
 import UserProfile from "./pages/userProfile/user_profile";
 import Search from "./pages/search";
 import Register from "./pages/Register";
+import Home from './pages/Home';
 import './App.css';
 
 const isAuthenticated = () => !!localStorage.getItem("token");
@@ -18,8 +19,6 @@ const PrivateRoute = ({ user, onLogout, children }) => {
     </Layout>
   );
 };
-
-const Home = () => <h1>Timeline (En construcción)</h1>;
 
 function App() {
   const [user, setUser] = useState(

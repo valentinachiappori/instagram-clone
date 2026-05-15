@@ -8,10 +8,8 @@ import Search from "./pages/search";
 import Register from "./pages/Register";
 import './App.css';
 
-const isAuthenticated = () => !!localStorage.getItem("token");
-
 const PrivateRoute = ({ user, onLogout, children }) => {
-  if (!isAuthenticated()) return <Navigate to="/login" />;
+  if (!user) return <Navigate to="/login" />;
   return (
     <Layout user={user} onLogout={onLogout}>
       {children}
@@ -35,9 +33,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={isAuthenticated() ? <Navigate to="/" /> : <Login onLogin={setUser} />} />
+        <Route path="/login" element={user ? <Navigate to="/" /> : <Login onLogin={setUser} />} />
 
-        <Route path="/register" element={isAuthenticated() ? <Navigate to="/" /> : <Register onLogin={setUser} />} />
+        <Route path="/register" element={user ? <Navigate to="/" /> : <Register onLogin={setUser} />} />
         
         <Route path="/" element={
           <PrivateRoute user={user} onLogout={handleLogout}>

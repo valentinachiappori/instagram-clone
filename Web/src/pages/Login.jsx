@@ -17,7 +17,9 @@ const Login = ({ onLogin }) => {
         e.preventDefault();
         try {
             const response = await login(email, password);
-            localStorage.setItem("token", response.headers["authorization"]);
+            const authHeader = response.headers["authorization"] || "";
+            const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : authHeader;
+            localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(response.data));
             onLogin(response.data);
             navigate("/");

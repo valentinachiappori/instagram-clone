@@ -63,6 +63,12 @@ function App() {
           </PrivateRoute>
         } />
 
+        <Route path="/add-post" element={
+          <PrivateRoute user={user} onLogout={handleLogout}>
+            <h1>Agregar post (En construcción)</h1>
+          </PrivateRoute>
+        } />
+
         <Route path="*" element={<Navigate to="/" />} />
 
 

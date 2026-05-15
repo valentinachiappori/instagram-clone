@@ -17,8 +17,7 @@ const Search = () => {
   useEffect(() => {
     const query = searchParams.get("query");
     if (!query) return;
-    setSearched(false);
-    setLoading(true);
+    setLoading(true); // eslint-disable-line
     search(query)
         .then(data => { 
             setUsers(data.users); 
@@ -33,7 +32,7 @@ const Search = () => {
     <div>       
       <h1>{searchParams.get("query")}</h1>
         {loading && <p>Buscando...</p>}
-        {searched && users.length === 0 && posts.length === 0 ? (
+        {!loading && searched && users.length === 0 && posts.length === 0 ? (
           <ErrorMessage message="No se encontraron resultados" />
         ) : (
           <>

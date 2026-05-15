@@ -43,8 +43,8 @@ const Login = ({ onLogin }) => {
 
                 <div className="login-panel">
                     <h1 className="login-logo">Instagram</h1>
-                    <ErrorMessage message={error} />
                     <form className="login-form" onSubmit={handleSubmit}>
+                        <ErrorMessage message={error} reserveSpace />
                         <Input
                             type="email"
                             placeholder="Correo electrónico"

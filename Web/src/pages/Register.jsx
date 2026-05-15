@@ -41,8 +41,8 @@ const Register = ({ onLogin }) => {
                 <p className="register-subtitle">
                     Regístrate para ver fotos y videos de tus amigos.
                 </p>
-                <ErrorMessage message={error} />
                 <form className="register-form" onSubmit={handleSubmit}>
+                    <ErrorMessage message={error} reserveSpace />
                     <Input
                         type="text"
                         placeholder="Nombre"

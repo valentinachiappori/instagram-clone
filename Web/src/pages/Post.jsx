@@ -10,7 +10,12 @@ const Post = ({ user }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        getPost(postId).then(data => setPost(data));
+        getPost(postId)
+            .then(data => setPost(data))
+            .catch(err => {
+                console.log("catch fired", err);
+                setError(err.response?.data?.error || "Post no encontrado");
+            });
     }, [postId]);
 
     const handleUpdateLike = async (postId) => {
@@ -33,6 +38,7 @@ const Post = ({ user }) => {
     }
 };
 
+    if (error && !post) return <ErrorMessage message={error} />;
     if (!post) return <p>Cargando...</p>;
 
     return (

@@ -27,7 +27,7 @@ const Login = ({ onLogin }) => {
             onLogin(response.data);
             navigate("/");
         } catch (err) {
-            setError(err.response?.data?.error || "Error al iniciar sesión");
+            setError(err.response?.data?.errors?.[0] || "Credenciales incorrectas");
         } finally {
             setLoading(false);
         }

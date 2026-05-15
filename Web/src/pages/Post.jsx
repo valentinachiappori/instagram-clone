@@ -12,9 +12,8 @@ const Post = ({ user }) => {
     useEffect(() => {
         getPost(postId)
             .then(data => setPost(data))
-            .catch(err => {
-                console.log("catch fired", err);
-                setError(err.response?.data?.error || "Post no encontrado");
+            .catch(() => {
+                setError("Post no encontrado");
             });
     }, [postId]);
 
@@ -23,8 +22,8 @@ const Post = ({ user }) => {
             const updatedPost = await updateLike(postId);
             setPost(updatedPost);
             setError(null);
-        } catch (err) {
-            setError(err.response?.data?.error || "No se pudo dar like");
+        } catch {
+            setError("No se pudo dar like");
         }
     };
 
@@ -33,8 +32,8 @@ const Post = ({ user }) => {
         const updatedPost = await addComment(id, text);
         setPost(updatedPost);
         setError(null);
-    } catch (err) {
-        setError(err.response?.data?.error || "Error al añadir comentario");
+    } catch {
+        setError("Error al añadir comentario");
     }
 };
 

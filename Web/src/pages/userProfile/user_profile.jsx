@@ -14,7 +14,7 @@ const UserProfile = ({ userIdViewer = false }) => {
     useEffect(() => {
         getUser(id)
             .then(data => setUser(data))
-            .catch(err => setError(err.response?.data?.error || 'Usuario no encontrado'))
+            .catch(() => setError('Usuario no encontrado'))
     }, [id])
 
     if (error && !user) return <ErrorMessage message={error} />

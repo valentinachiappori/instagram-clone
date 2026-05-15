@@ -28,7 +28,7 @@ const Register = ({ onLogin }) => {
             onLogin(response.data);
             navigate("/");
         } catch (err) {
-            setError(err.response?.data?.error || "Error al registrarse");
+            setError(err.response?.data?.errors?.[0] || "El email ya está registrado");
         } finally {
             setLoading(false);
         }

@@ -11,24 +11,28 @@ const Search = () => {
   const [users, setUsers] = useState([])
   const [posts, setPosts] = useState([])
   const [searched, setSearched] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const query = searchParams.get("query");
     if (!query) return;
     setSearched(false);
+    setLoading(true);
     search(query)
         .then(data => { 
             setUsers(data.users); 
             setPosts(data.posts);
             setSearched(true);
         })
+        .finally(() => setLoading(false))
         
 }, [searchParams])
   
   return (
     <div>       
       <h1>{searchParams.get("query")}</h1>
+        {loading && <p>Buscando...</p>}
         {searched && users.length === 0 && posts.length === 0 ? (
           <ErrorMessage message="No se encontraron resultados" />
         ) : (

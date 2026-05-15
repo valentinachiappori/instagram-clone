@@ -11,10 +11,13 @@ const Login = ({ onLogin }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError(null);
         try {
             const response = await login(email, password);
             const authHeader = response.headers["authorization"] || "";
@@ -25,6 +28,8 @@ const Login = ({ onLogin }) => {
             navigate("/");
         } catch (err) {
             setError(err.response?.data?.error || "Error al iniciar sesión");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -54,8 +59,8 @@ const Login = ({ onLogin }) => {
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-100"
                         />
-                        <Button type="submit" className="w-100">
-                            Iniciar sesión
+                        <Button type="submit" className="w-100" disabled={loading}>
+                            {loading ? "Ingresando..." : "Iniciar sesión"}
                         </Button>
                     </form>
                     <div className="login-divider" />

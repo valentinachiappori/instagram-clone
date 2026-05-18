@@ -10,9 +10,16 @@ const Post = ({ user }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        setError(null);
+        setPost(null);
+
         getPost(postId)
-            .then(data => setPost(data))
+            .then(data => {
+                setPost(data);
+                setError(null);
+            })
             .catch(() => {
+                setPost(null);
                 setError("Post no encontrado");
             });
     }, [postId]);

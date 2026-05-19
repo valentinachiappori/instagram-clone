@@ -19,26 +19,28 @@ const Search = () => {
     const query = searchParams.get("query");
     if (!query) return;
     let cancelled = false;
-    setLoading(true); // eslint-disable-line react-hooks/set-state-in-effect
-    setError(null);
-    search(query)
-        .then(data => {
+
+    (async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await search(query);
             if (cancelled) return;
             setUsers(data.users);
             setPosts(data.posts);
             setSearched(true);
-        })
-        .catch(() => {
+        } catch {
             if (cancelled) return;
             setUsers([]);
             setPosts([]);
             setError("Error al realizar la búsqueda");
-        })
-        .finally(() => {
+        } finally {
             if (!cancelled) setLoading(false);
-        });
+        }
+    })();
+
     return () => { cancelled = true; };
-}, [searchParams])
+  }, [searchParams])
   
   return (
     <div>       

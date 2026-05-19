@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getPost, addComment, updateLike } from "../api/postService";
 import PostDetail from "../components/post/PostDetail";
 import ErrorMessage from "../components/ErrorMessage";
@@ -10,9 +10,6 @@ const Post = ({ user }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        setError(null);
-        setPost(null);
-
         getPost(postId)
             .then(data => {
                 setPost(data);

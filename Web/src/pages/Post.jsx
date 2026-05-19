@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getPost, addComment, updateLike } from "../api/postService";
 import PostDetail from "../components/post/PostDetail";
 import ErrorMessage from "../components/ErrorMessage";
@@ -10,7 +10,15 @@ const Post = ({ user }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        getPost(postId).then(data => setPost(data));
+        getPost(postId)
+            .then(data => {
+                setPost(data);
+                setError(null);
+            })
+            .catch(() => {
+                setPost(null);
+                setError("Post no encontrado");
+            });
     }, [postId]);
 
     const handleUpdateLike = async (postId) => {
@@ -18,8 +26,8 @@ const Post = ({ user }) => {
             const updatedPost = await updateLike(postId);
             setPost(updatedPost);
             setError(null);
-        } catch (err) {
-            setError(err.response?.data?.error || "No se pudo dar like");
+        } catch {
+            setError("No se pudo dar like");
         }
     };
 
@@ -28,11 +36,12 @@ const Post = ({ user }) => {
         const updatedPost = await addComment(id, text);
         setPost(updatedPost);
         setError(null);
-    } catch (err) {
-        setError(err.response?.data?.error || "Error al añadir comentario");
+    } catch {
+        setError("Error al añadir comentario");
     }
 };
 
+    if (error && !post) return <ErrorMessage message={error} />;
     if (!post) return <p>Cargando...</p>;
 
     return (

@@ -12,18 +12,29 @@ const Register = ({ onLogin }) => {
     const [password, setPassword] = useState("");
     const [image, setImage] = useState("");
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError(null);
         try {
             const response = await register(name, email, password, image);
-            localStorage.setItem("token", response.headers["authorization"]);
+            const authHeader = response.headers["authorization"] || "";
+            const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : authHeader;
+            localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(response.data));
             onLogin(response.data);
             navigate("/");
         } catch (err) {
-            setError(err.response?.data?.error || "Error al registrarse");
+            setError(
+                err.response?.data?.error ||
+                    err.response?.data?.errors?.[0] ||
+                    "No se pudo completar el registro"
+            );
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -34,8 +45,8 @@ const Register = ({ onLogin }) => {
                 <p className="register-subtitle">
                     Regístrate para ver fotos y videos de tus amigos.
                 </p>
-                <ErrorMessage message={error} />
                 <form className="register-form" onSubmit={handleSubmit}>
+                    <ErrorMessage message={error} reserveSpace />
                     <Input
                         type="text"
                         placeholder="Nombre"
@@ -64,8 +75,8 @@ const Register = ({ onLogin }) => {
                         onChange={(e) => setImage(e.target.value)}
                         className="w-100"
                     />
-                    <Button type="submit" className="w-100">
-                        Registrate
+                    <Button type="submit" className="w-100" disabled={loading}>
+                        {loading ? "Registrando..." : "Registrate"}
                     </Button>
                 </form>
                 <p className="register-terms">

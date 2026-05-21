@@ -14,6 +14,9 @@ const UserProfile = ({ userIdViewer = false }) => {
     useEffect(() => {
         let cancelled = false;
 
+        setUser(null);
+        setError(null);
+
         getUser(id)
             .then(data => {
                 if (cancelled) return;

@@ -18,8 +18,11 @@ const EditPost = ({ user }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        let cancelled = false;
+
         getPost(postId)
             .then(data => {
+                if (cancelled) return;
                 if (data.user.id !== user?.id) {
                     navigate(`/post/${postId}`);
                     return;
@@ -29,9 +32,12 @@ const EditPost = ({ user }) => {
                 setLoading(false);
             })
             .catch((err) => {
+                if (cancelled) return;
                 setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
                 setLoading(false);
             });
+
+        return () => { cancelled = true; };
     }, [postId, user, navigate]);
 
     const handleSubmit = async (e) => {
@@ -56,7 +62,7 @@ const EditPost = ({ user }) => {
     return (
         <article className="post-container">
 
-            <div className="post-image">
+            <div className="post-image edit-post-image">
                 <p className="edit-post-preview-label">Preview</p>
                 {image
                     ? <img src={image} alt="preview" className="main-image" />
@@ -95,7 +101,7 @@ const EditPost = ({ user }) => {
                         <Button
                             type="submit"
                             className="publish-button"
-                            disabled={saving || !image}
+                            disabled={saving}
                         >
                             {saving ? "Guardando..." : "Guardar cambios"}
                         </Button>

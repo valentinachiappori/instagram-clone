@@ -24,13 +24,13 @@
     cursor: default;
 }
 
-.btn-secondary {
+.app-btn.btn-secondary {
     background: #ffffff;
     color: #262626;
     border: 1px solid #dbdbdb;
 }
 
-.btn-secondary:hover:not(:disabled) {
+.app-btn.btn-secondary:hover:not(:disabled) {
     background: #f0f0f0;
     opacity: 1;
 }

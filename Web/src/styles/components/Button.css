@@ -23,3 +23,14 @@
     opacity: 0.6;
     cursor: default;
 }
+
+.btn-secondary {
+    background: #ffffff;
+    color: #262626;
+    border: 1px solid #dbdbdb;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: #f0f0f0;
+    opacity: 1;
+}

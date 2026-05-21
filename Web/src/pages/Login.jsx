@@ -29,7 +29,8 @@ const Login = ({ onLogin }) => {
         } catch (err) {
             setError(
                 err.response?.data?.errors?.[0] ||
-                    "Credenciales incorrectas"
+                err.response?.data?.error ||
+                err.message
             );
         } finally {
             setLoading(false);

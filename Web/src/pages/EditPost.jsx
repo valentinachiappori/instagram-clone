@@ -2,15 +2,14 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getPost, editPost } from "../api/postService";
 import Button from "../components/Button";
-import Input from "../components/Input";
 import ErrorMessage from "../components/ErrorMessage";
+import "../styles/PostDetail.css";
 import "../styles/EditPost.css";
 
 const EditPost = ({ user }) => {
     const { postId } = useParams();
     const navigate = useNavigate();
 
-    const [post, setPost] = useState(null);
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
     const [loading, setLoading] = useState(true);
@@ -24,13 +23,12 @@ const EditPost = ({ user }) => {
                     navigate(`/post/${postId}`);
                     return;
                 }
-                setPost(data);
                 setDescription(data.description || "");
                 setImage(data.image || "");
                 setLoading(false);
             })
-            .catch(() => {
-                setError("No se pudo cargar el post");
+            .catch((err) => {
+                setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
                 setLoading(false);
             });
     }, [postId, user, navigate]);
@@ -46,7 +44,7 @@ const EditPost = ({ user }) => {
             setError(
                 err.response?.data?.errors?.[0] ||
                 err.response?.data?.error ||
-                "No se pudo guardar el post"
+                err.message
             );
             setSaving(false);
         }
@@ -69,12 +67,12 @@ const EditPost = ({ user }) => {
                 <form className="edit-post-form" onSubmit={handleSubmit}>
                     <ErrorMessage message={error} reserveSpace />
 
-                    <Input
+                    <input
                         type="url"
                         placeholder="URL de la imagen"
                         value={image}
                         onChange={(e) => setImage(e.target.value)}
-                        className="w-100"
+                        className="app-input w-100"
                     />
 
                     <textarea

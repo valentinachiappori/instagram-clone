@@ -1,5 +1,5 @@
 import "../../styles/PostDetail.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Button from "../Button";
 import PostHeader from "./PostHeader";
@@ -8,6 +8,7 @@ import PostActions from "./PostActions";
 const PostDetail = ({ post, user, isOwner, onAddComment, onUpdateLike }) => {
 
     const [commentBody, setCommentBody] = useState('');
+    const navigate = useNavigate();
 
     const handlePublish = () => {
         if (commentBody.trim()) {
@@ -24,6 +25,14 @@ const PostDetail = ({ post, user, isOwner, onAddComment, onUpdateLike }) => {
 
             <div className="post-details">
                 <PostHeader postUser={post.user} date={post.date} className="post-page-header"/>
+
+                {isOwner && (
+                    <div className="post-owner-actions">
+                        <Button onClick={() => navigate(`/edit-post/${post.id}`)}>
+                            Editar
+                        </Button>
+                    </div>
+                )}
 
                 <div className="separator"></div>
 

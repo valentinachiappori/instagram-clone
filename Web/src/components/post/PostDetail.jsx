@@ -33,28 +33,10 @@ const PostDetail = ({ post, user, isOwner, onAddComment, onUpdateLike, onDeleteP
                 <PostHeader 
                     postUser={post.user} 
                     date={post.date} 
-                    isOwner={isOwner} 
-                    postId={post.id} 
+                    isOwner={isOwner}
                     onEditClick={() => navigate(`/edit-post/${post.id}`)}
                     onDeleteClick={() => setIsModalOpen(true)}
                     className="post-page-header"/>
-
-                {isModalOpen && (
-                    <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
-                        <div className="modal-card" onClick={(e) => e.stopPropagation()}>
-                            <h3 className="modal-title">Eliminar Posteo</h3>
-                            <p className="modal-text">Estas seguro que quieres eliminar el post?</p>
-                            <div className="modal-buttons-container">
-                                <button className="btn-modal-cancel" onClick={() => setIsModalOpen(false)}>
-                                    Cancelar
-                                </button>
-                                <button className="btn-modal-delete" onClick={handleDelete}>
-                                    Borrar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
 
                 <div className="separator"></div>
 
@@ -104,6 +86,24 @@ const PostDetail = ({ post, user, isOwner, onAddComment, onUpdateLike, onDeleteP
                     Publicar
                 </Button>
             </div>
+
+            {isModalOpen && (
+                    <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+                        <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+                            <h3 className="modal-title">Eliminar Posteo</h3>
+                            <p className="modal-text">Estas seguro que quieres eliminar el post?</p>
+                            <div className="modal-buttons-container">
+                                <button className="btn-modal-cancel" onClick={() => setIsModalOpen(false)}>
+                                    Cancelar
+                                </button>
+                                <button className="btn-modal-delete" onClick={handleDelete}>
+                                    Borrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+            )}         
+
         </article>
     );
 };

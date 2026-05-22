@@ -1,7 +1,7 @@
 import "../../styles/components/PostHeader.css";
 import { Link } from "react-router-dom";
 
-const PostHeader = ({ postUser, date, isOwner, postId, onEditClick, onDeleteClick, className = ""}) => {
+const PostHeader = ({ postUser, date, isOwner, onEditClick, onDeleteClick, className = ""}) => {
     
     return (
         <header className={`post-header ${className}`}>

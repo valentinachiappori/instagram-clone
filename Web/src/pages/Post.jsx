@@ -22,9 +22,9 @@ const Post = ({ user }) => {
             });
     }, [postId]);
 
-    const handleUpdateLike = async (postId) => {
+    const handleUpdateLike = async (id) => {
         try {
-            const updatedPost = await updateLike(postId);
+            const updatedPost = await updateLike(id);
             setPost(updatedPost);
             setError(null);
         } catch (err) {

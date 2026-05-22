@@ -1,7 +1,7 @@
 import "../../styles/components/PostHeader.css";
 import { Link } from "react-router-dom";
 
-const PostHeader = ({ postUser, date, isOwner, postId, onEditClick, className = ""}) => {
+const PostHeader = ({ postUser, date, isOwner, postId, onEditClick, onDeleteClick, className = ""}) => {
     
     return (
         <header className={`post-header ${className}`}>
@@ -23,6 +23,10 @@ const PostHeader = ({ postUser, date, isOwner, postId, onEditClick, className = 
                     </Link>
                     {isOwner && (
                         <div className="header-actions">
+                            <i  className="bi bi-trash-fill header-icon-delete"
+                                onClick={onDeleteClick}
+                                title="Eliminar publicación"
+                            ></i>
                             <i  className="bi bi-pencil-fill header-icon-edit" 
                                 onClick={onEditClick}
                                 title="Editar publicación"

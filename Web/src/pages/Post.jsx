@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getPost, addComment, updateLike } from "../api/postService";
+import { useParams, useNavigate } from "react-router-dom";
+import { getPost, addComment, updateLike, deletePost } from "../api/postService";
 import PostDetail from "../components/post/PostDetail";
 import ErrorMessage from "../components/ErrorMessage";
 
 const Post = ({ user }) => {
     const { postId } = useParams();
+    const navigate = useNavigate();
     const [post, setPost] = useState(null);
     const [error, setError] = useState(null);
 
@@ -32,14 +33,24 @@ const Post = ({ user }) => {
     };
 
     const handleAddComment = async (id, text) => {
-    try {
-        const updatedPost = await addComment(id, text);
-        setPost(updatedPost);
-        setError(null);
-    } catch (err) {
-        setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
-    }
-};
+        try {
+            const updatedPost = await addComment(id, text);
+            setPost(updatedPost);
+            setError(null);
+        } catch (err) {
+            setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
+        }
+    };
+
+    const handleDeletePost = async (id) => {
+        try {
+            await deletePost(id);
+            setError(null);
+            navigate("/");
+        } catch (err) {
+            setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
+        }
+    };
 
     if (error && !post) return <ErrorMessage message={error} />;
     if (!post) return <p>Cargando...</p>;
@@ -53,6 +64,7 @@ const Post = ({ user }) => {
             isOwner={user?.id === post.user.id} 
             onAddComment={handleAddComment}
             onUpdateLike={handleUpdateLike}
+            onDeletePost={handleDeletePost}
         />
         </div>
     );

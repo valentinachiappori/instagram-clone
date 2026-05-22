@@ -12,18 +12,24 @@ const UserProfile = ({ userIdViewer = false }) => {
     const { id } = useParams();
 
     useEffect(() => {
-        setUser(null)
-        setError(null)
+        let cancelled = false;
+
+        setUser(null);
+        setError(null);
 
         getUser(id)
             .then(data => {
-                setUser(data)
-                setError(null)
+                if (cancelled) return;
+                setUser(data);
+                setError(null);
             })
-            .catch(() => {
-                setUser(null)
-                setError('Usuario no encontrado')
-            })
+            .catch((err) => {
+                if (cancelled) return;
+                setUser(null);
+                setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
+            });
+
+        return () => { cancelled = true; };
     }, [id])
 
     if (error && !user) return <ErrorMessage message={error} />

@@ -30,8 +30,8 @@ const Register = ({ onLogin }) => {
         } catch (err) {
             setError(
                 err.response?.data?.error ||
-                    err.response?.data?.errors?.[0] ||
-                    "No se pudo completar el registro"
+                err.response?.data?.errors?.[0] ||
+                err.message
             );
         } finally {
             setLoading(false);

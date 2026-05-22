@@ -29,11 +29,11 @@ const Search = () => {
             setUsers(data.users);
             setPosts(data.posts);
             setSearched(true);
-        } catch {
+        } catch (err) {
             if (cancelled) return;
             setUsers([]);
             setPosts([]);
-            setError("Error al realizar la búsqueda");
+            setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
         } finally {
             if (!cancelled) setLoading(false);
         }

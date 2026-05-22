@@ -15,9 +15,9 @@ const Post = ({ user }) => {
                 setPost(data);
                 setError(null);
             })
-            .catch(() => {
+            .catch((err) => {
                 setPost(null);
-                setError("Post no encontrado");
+                setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
             });
     }, [postId]);
 
@@ -26,8 +26,8 @@ const Post = ({ user }) => {
             const updatedPost = await updateLike(postId);
             setPost(updatedPost);
             setError(null);
-        } catch {
-            setError("No se pudo dar like");
+        } catch (err) {
+            setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
         }
     };
 
@@ -36,8 +36,8 @@ const Post = ({ user }) => {
         const updatedPost = await addComment(id, text);
         setPost(updatedPost);
         setError(null);
-    } catch {
-        setError("Error al añadir comentario");
+    } catch (err) {
+        setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
     }
 };
 

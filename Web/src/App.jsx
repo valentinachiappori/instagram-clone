@@ -2,10 +2,11 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from 'react';
 import Login from "./pages/Login";
 import Layout from './components/Layout';
-import Post from "./pages/post";
+import Post from "./pages/Post";
 import UserProfile from "./pages/userProfile/user_profile";
-import Search from "./pages/search";
+import Search from "./pages/Search";
 import Register from "./pages/Register";
+import EditPost from "./pages/EditPost";
 import './App.css';
 
 const PrivateRoute = ({ user, onLogout, children }) => {
@@ -64,6 +65,12 @@ function App() {
         <Route path="/add-post" element={
           <PrivateRoute user={user} onLogout={handleLogout}>
             <h1>Agregar post (En construcción)</h1>
+          </PrivateRoute>
+        } />
+
+        <Route path="/edit-post/:postId" element={
+          <PrivateRoute user={user} onLogout={handleLogout}>
+            <EditPost user={user} />
           </PrivateRoute>
         } />
 

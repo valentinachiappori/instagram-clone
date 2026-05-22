@@ -56,3 +56,21 @@
     text-align: center;        
     color: #737373;
 }
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.header-icon-edit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: #323232; 
+    font-size: 18px; 
+    cursor: pointer;
+    background: transparent;
+}

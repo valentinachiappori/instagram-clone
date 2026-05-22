@@ -24,15 +24,7 @@ const PostDetail = ({ post, user, isOwner, onAddComment, onUpdateLike }) => {
             </div>
 
             <div className="post-details">
-                <PostHeader postUser={post.user} date={post.date} className="post-page-header"/>
-
-                {isOwner && (
-                    <div className="post-owner-actions">
-                        <Button onClick={() => navigate(`/edit-post/${post.id}`)}>
-                            Editar
-                        </Button>
-                    </div>
-                )}
+                <PostHeader postUser={post.user} date={post.date} isOwner={isOwner} postId={post.id} onEditClick={() => navigate(`/edit-post/${post.id}`)} className="post-page-header"/>
 
                 <div className="separator"></div>
 

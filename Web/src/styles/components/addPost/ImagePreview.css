@@ -1,0 +1,43 @@
+.addpost-preview-section {
+    flex: 1;
+}
+
+.addpost-preview-label {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #262626;
+}
+
+.addpost-preview-box {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #d9d9d9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.addpost-preview-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: #262626;
+}
+
+.addpost-preview-placeholder svg {
+    width: 72px;
+    height: 72px;
+}
+
+.addpost-preview-placeholder span {
+    font-size: 20px;
+}
+
+.addpost-preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

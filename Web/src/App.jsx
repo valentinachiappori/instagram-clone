@@ -6,6 +6,7 @@ import Post from "./pages/post";
 import UserProfile from "./pages/userProfile/user_profile";
 import Search from "./pages/search";
 import Register from "./pages/Register";
+import AddPost from "./pages/AddPost";
 import './App.css';
 
 const PrivateRoute = ({ user, onLogout, children }) => {
@@ -63,7 +64,7 @@ function App() {
 
         <Route path="/add-post" element={
           <PrivateRoute user={user} onLogout={handleLogout}>
-            <h1>Agregar post (En construcción)</h1>
+            <AddPost />
           </PrivateRoute>
         } />
 

@@ -1,0 +1,42 @@
+.addpost-form {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.addpost-textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 10px 12px;
+    border: 1px solid #dbdbdb;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+    outline: none;
+}
+
+.addpost-textarea:focus {
+    border-color: #7c6cf5;
+}
+
+.addpost-submit {
+    background-color: #7c6cf5;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.addpost-submit:hover:not(:disabled) {
+    background-color: #6a59e8;
+}
+
+.addpost-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

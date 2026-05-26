@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/navBar.css';
-import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({ user, onLogout }) => {
   const [searchText, setSearchText] = useState('');
   const navigate = useNavigate();
-
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -15,7 +13,6 @@ const Navbar = ({ user, onLogout }) => {
       setSearchText('');
     }
   };
-
 
   return (
     <nav className="navbar">
@@ -31,20 +28,23 @@ const Navbar = ({ user, onLogout }) => {
           onChange={(e) => setSearchText(e.target.value)}
           className="search-input"
         />
+        <i className="bi bi-search search-icon"></i>
       </form>
 
       <div className="nav-links">
         <Link to="/" className="nav-item">
+          <i className="bi bi-house-door-fill"></i>
           <span>Inicio</span>
         </Link>
 
         <Link to="/add-post" className="nav-item">
+          <i className="bi bi-plus-square"></i>
           <span>Crear publicación</span>
         </Link>
 
-        <Link to={`/profile/${user.id}`} className="nav-item">
+        <Link to={`/profile/${user?.id}`} className="nav-item">
           <img 
-            src={user.image} 
+            src={user?.image} 
             alt="Perfil" 
             className="profile-pic-small"
           />
@@ -53,6 +53,7 @@ const Navbar = ({ user, onLogout }) => {
       </div>
 
       <button onClick={onLogout} className="nav-item logout">
+        <i className="bi bi-box-arrow-right"></i>
         <span>Salir</span>
       </button>
     </nav>

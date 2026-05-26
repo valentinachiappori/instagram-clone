@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from 'react';
+import Home from './pages/Home';
 import Login from "./pages/Login";
 import Layout from './components/Layout';
 import Post from "./pages/Post";
@@ -18,8 +19,6 @@ const PrivateRoute = ({ user, onLogout, children }) => {
     </Layout>
   );
 };
-
-const Home = () => <h1>Timeline (En construcción)</h1>;
 
 function App() {
   const [user, setUser] = useState(

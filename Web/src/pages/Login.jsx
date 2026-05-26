@@ -10,8 +10,8 @@ import "../styles/Login.css";
 const Login = ({ onLogin }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -48,7 +48,7 @@ const Login = ({ onLogin }) => {
                 <div className="login-panel">
                     <h1 className="login-logo">Instagram</h1>
                     <form className="login-form" onSubmit={handleSubmit}>
-                        <ErrorMessage message={error} reserveSpace />
+                        {error && <ErrorMessage message={error} />}
                         <Input
                             type="email"
                             placeholder="Correo electrónico"

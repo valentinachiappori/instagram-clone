@@ -11,8 +11,8 @@ const Register = ({ onLogin }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [image, setImage] = useState("");
-    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -46,7 +46,7 @@ const Register = ({ onLogin }) => {
                     Regístrate para ver fotos y videos de tus amigos.
                 </p>
                 <form className="register-form" onSubmit={handleSubmit}>
-                    <ErrorMessage message={error} reserveSpace />
+                    {error && <ErrorMessage message={error} />}
                     <Input
                         type="text"
                         placeholder="Nombre"

@@ -8,36 +8,38 @@ import ErrorMessage from '../../components/ErrorMessage';
 const UserProfile = ({ userIdViewer = false }) => {
 
     const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const { id } = useParams();
 
     useEffect(() => {
         let cancelled = false;
 
-        setUser(null);
-        setError(null);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setLoading(true);
 
         getUser(id)
             .then(data => {
                 if (cancelled) return;
                 setUser(data);
-                setError(null);
+                setLoading(false);
             })
             .catch((err) => {
                 if (cancelled) return;
-                setUser(null);
                 setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
+                setLoading(false);
             });
 
         return () => { cancelled = true; };
     }, [id])
 
-    if (error && !user) return <ErrorMessage message={error} />
-    if (!user) return <p>Cargando...</p>
+    if (loading) return <p>Cargando...</p>
+    if (error) return <ErrorMessage message={error} />
+    if (!user) return <p>No se encontró el usuario.</p>
 
     return (
         <div>
-            <UserProfileHeader user={user} isOwner={id === userIdViewer} />
+            <UserProfileHeader user={user} isOwner={String(id) === String(userIdViewer)} />
             <UserProfileBody posts={user.posts} />
         </div>
     )

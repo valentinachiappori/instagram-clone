@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from 'react';
+import Home from './pages/Home';
 import Login from "./pages/Login";
 import Layout from './components/Layout';
 import Post from "./pages/Post";

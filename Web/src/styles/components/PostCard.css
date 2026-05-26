@@ -1,8 +1,7 @@
 .post-card {
-  max-width: 470px;
-  margin: 0 auto 32px auto;
   border-bottom: 1px solid #efefef;
   padding-bottom: 16px;
+  flex: 1;
 }
 
 .post-header {
@@ -38,13 +37,12 @@
   width: 100%;
   border-radius: 4px;
   border: 1px solid #efefef;
-  overflow: hidden;
   margin: 8px 0;
 }
 
 .post-image {
   width: 100%;
-  aspect-ratio: 4 / 5; 
+  aspect-ratio: 4 / 5;
   object-fit: cover; 
   display: block;
 }
@@ -71,4 +69,22 @@
 .post-description {
   font-size: 14px;
   line-height: 1.4;
+}
+
+.post-image-link, .action-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.action-item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-item.liked .action-icon {
+  color: #ed4956;
+  animation: heart-burst 0.3s ease-in-out;
 }

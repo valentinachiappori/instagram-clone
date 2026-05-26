@@ -1,25 +1,61 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/components/PostCard.css';
 import PostHeader from '../components/post/PostHeader';
 
 const PostCard = ({ post }) => {
+  const [isLiked, setIsLiked] = useState(() => {
+    const currentUser = JSON.parse(localStorage.getItem('user'));
+    if (!currentUser || !post.likes) return false;
+    
+    return post.likes.some(likeUser => likeUser.id === currentUser.id);
+  });
+
+  const [likesCount, setLikesCount] = useState(post.likes?.length || 0);
+
+  const handleLike = async () => {
+    const previousIsLiked = isLiked;
+    const previousLikesCount = likesCount;
+
+    setIsLiked(!previousIsLiked);
+    setLikesCount(previousIsLiked ? previousLikesCount - 1 : previousLikesCount + 1);
+
+    try {
+      const token = localStorage.getItem('token');
+      const authHeader = token.startsWith('Bearer') ? token : `Bearer ${token}`;
+
+      await axios.put(`http://localhost:3000/posts/${post.id}/like`, {}, {
+        headers: { Authorization: authHeader }
+      });
+
+    } catch (error) {
+      console.error("Error al dar like:", error);
+      setIsLiked(previousIsLiked);
+      setLikesCount(previousLikesCount);
+    }
+  };
+
   return (
     <article className="post-card">
-      
       <PostHeader postUser={post.user} date={post.date} />
 
-      <div className="post-image-container">
-        <img src={post.image} alt="Publicación" className="post-image" />
-      </div>
+      <Link to={`/post/${post.id}`} className="post-image-link">
+        <div className="post-image-container">
+          <img src={post.image} alt="Publicación" className="post-image" />
+        </div>
+      </Link>
 
       <div className="post-actions">
-        <div className="action-item">
-          <i className="bi bi-heart action-icon"></i>
-          <span>{post.likes?.length || 0} Me gusta</span>
+        <div className={`action-item ${isLiked ? 'liked' : ''}`} onClick={handleLike}>
+          <i className={`bi ${isLiked ? 'bi-heart-fill' : 'bi-heart'} action-icon`}></i>
+          <span>{likesCount} Me gusta</span>
         </div>
-        <div className="action-item">
+
+        <Link to={`/post/${post.id}`} className="action-item action-link">
           <i className="bi bi-chat action-icon"></i>
           <span>{post.comments?.length || 0} Comentarios</span>
-        </div>
+        </Link>
       </div>
 
       <div className="post-description">
@@ -28,7 +64,6 @@ const PostCard = ({ post }) => {
           {post.description}
         </p>
       </div>
-
     </article>
   );
 };

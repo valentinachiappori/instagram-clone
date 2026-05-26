@@ -11,18 +11,29 @@ const Login = ({ onLogin }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError(null);
         try {
             const response = await login(email, password);
-            localStorage.setItem("token", response.headers["authorization"]);
+            const authHeader = response.headers["authorization"] || "";
+            const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : authHeader;
+            localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(response.data));
             onLogin(response.data);
             navigate("/");
         } catch (err) {
-            setError(err.response?.data?.error || "Error al iniciar sesión");
+            setError(
+                err.response?.data?.errors?.[0] ||
+                err.response?.data?.error ||
+                err.message
+            );
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -36,8 +47,8 @@ const Login = ({ onLogin }) => {
 
                 <div className="login-panel">
                     <h1 className="login-logo">Instagram</h1>
-                    <ErrorMessage message={error} />
                     <form className="login-form" onSubmit={handleSubmit}>
+                        <ErrorMessage message={error} reserveSpace />
                         <Input
                             type="email"
                             placeholder="Correo electrónico"
@@ -52,8 +63,8 @@ const Login = ({ onLogin }) => {
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-100"
                         />
-                        <Button type="submit" className="w-100">
-                            Iniciar sesión
+                        <Button type="submit" className="w-100" disabled={loading}>
+                            {loading ? "Ingresando..." : "Iniciar sesión"}
                         </Button>
                     </form>
                     <div className="login-divider" />

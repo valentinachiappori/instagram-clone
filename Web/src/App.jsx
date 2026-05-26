@@ -2,17 +2,15 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from 'react';
 import Login from "./pages/Login";
 import Layout from './components/Layout';
-import Post from "./pages/post";
+import Post from "./pages/Post";
 import UserProfile from "./pages/userProfile/user_profile";
-import Search from "./pages/search";
+import Search from "./pages/Search";
 import Register from "./pages/Register";
-import Home from './pages/Home';
+import EditPost from "./pages/EditPost";
 import './App.css';
 
-const isAuthenticated = () => !!localStorage.getItem("token");
-
 const PrivateRoute = ({ user, onLogout, children }) => {
-  if (!isAuthenticated()) return <Navigate to="/login" />;
+  if (!user) return <Navigate to="/login" />;
   return (
     <Layout user={user} onLogout={onLogout}>
       {children}
@@ -34,9 +32,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={isAuthenticated() ? <Navigate to="/" /> : <Login onLogin={setUser} />} />
+        <Route path="/login" element={user ? <Navigate to="/" /> : <Login onLogin={setUser} />} />
 
-        <Route path="/register" element={isAuthenticated() ? <Navigate to="/" /> : <Register onLogin={setUser} />} />
+        <Route path="/register" element={user ? <Navigate to="/" /> : <Register onLogin={setUser} />} />
         
         <Route path="/" element={
           <PrivateRoute user={user} onLogout={handleLogout}>
@@ -59,6 +57,18 @@ function App() {
         <Route path="/search" element={
           <PrivateRoute user={user} onLogout={handleLogout}>
             <Search />
+          </PrivateRoute>
+        } />
+
+        <Route path="/add-post" element={
+          <PrivateRoute user={user} onLogout={handleLogout}>
+            <h1>Agregar post (En construcción)</h1>
+          </PrivateRoute>
+        } />
+
+        <Route path="/edit-post/:postId" element={
+          <PrivateRoute user={user} onLogout={handleLogout}>
+            <EditPost user={user} />
           </PrivateRoute>
         } />
 

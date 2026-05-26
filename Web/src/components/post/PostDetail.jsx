@@ -1,13 +1,20 @@
 import "../../styles/PostDetail.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Button from "../Button";
 import PostHeader from "./PostHeader";
 import PostActions from "./PostActions";
 
-const PostDetail = ({ post, user, isOwner, onAddComment, onUpdateLike }) => {
+const PostDetail = ({ post, user, isOwner, onAddComment, onUpdateLike, onDeletePost }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [commentBody, setCommentBody] = useState('');
+    const navigate = useNavigate();
+
+    const handleDelete = () => {
+        onDeletePost(post.id);
+        setIsModalOpen(false);
+    }; 
 
     const handlePublish = () => {
         if (commentBody.trim()) {
@@ -23,7 +30,13 @@ const PostDetail = ({ post, user, isOwner, onAddComment, onUpdateLike }) => {
             </div>
 
             <div className="post-details">
-                <PostHeader postUser={post.user} date={post.date} className="post-page-header"/>
+                <PostHeader 
+                    postUser={post.user} 
+                    date={post.date} 
+                    isOwner={isOwner}
+                    onEditClick={() => navigate(`/edit-post/${post.id}`)}
+                    onDeleteClick={() => setIsModalOpen(true)}
+                    className="post-page-header"/>
 
                 <div className="separator"></div>
 
@@ -73,6 +86,24 @@ const PostDetail = ({ post, user, isOwner, onAddComment, onUpdateLike }) => {
                     Publicar
                 </Button>
             </div>
+
+            {isModalOpen && (
+                    <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+                        <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+                            <h3 className="modal-title">Eliminar Posteo</h3>
+                            <p className="modal-text">Estas seguro que quieres eliminar el post?</p>
+                            <div className="modal-buttons-container">
+                                <button className="btn-modal-cancel" onClick={() => setIsModalOpen(false)}>
+                                    Cancelar
+                                </button>
+                                <button className="btn-modal-delete" onClick={handleDelete}>
+                                    Borrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+            )}         
+
         </article>
     );
 };

@@ -2,13 +2,13 @@ import { useState } from 'react'
 import '../../styles/components/userProfile/UserProfileHeader.css'
 import Button from '../Button'
 import { followUser } from '../../api/userService'
-import { useToast } from '../ToastProvider'
+import ErrorMessage from '../ErrorMessage'
 
 const UserProfileHeader = ({ user, isOwner }) => {
     const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
     const initiallyFollowing = (currentUser.followers || []).some(f => f.id === user.id)
     const [isFollowing, setIsFollowing] = useState(initiallyFollowing)
-    const { showToast } = useToast()
+    const [error, setError] = useState(null)
 
     const handleFollow = async () => {
         try {
@@ -16,7 +16,7 @@ const UserProfileHeader = ({ user, isOwner }) => {
             localStorage.setItem('user', JSON.stringify(updatedMe))
             setIsFollowing(!isFollowing)
         } catch (err) {
-            showToast(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message)
+            setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message)
         }
     }
 
@@ -34,6 +34,7 @@ const UserProfileHeader = ({ user, isOwner }) => {
                         </Button>
                     )}
                 </div>
+                {error && <ErrorMessage message={error} />}
                 <div className="header-stats">
                     <span>{user.followers.length} Seguidos</span>
                     <span>{user.posts.length} publicaciones</span>

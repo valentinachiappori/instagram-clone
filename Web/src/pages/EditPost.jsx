@@ -3,19 +3,19 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getPost, editPost } from "../api/postService";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { useToast } from "../components/ToastProvider";
+import ErrorMessage from "../components/ErrorMessage";
 import "../styles/PostDetail.css";
 import "../styles/EditPost.css";
 
 const EditPost = ({ user }) => {
     const { postId } = useParams();
     const navigate = useNavigate();
-    const { showToast } = useToast();
 
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         let cancelled = false;
@@ -33,17 +33,17 @@ const EditPost = ({ user }) => {
             })
             .catch((err) => {
                 if (cancelled) return;
-                showToast(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
+                setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
                 setLoading(false);
             });
 
         return () => { cancelled = true; };
-    }, [postId, user, navigate, showToast]);
+    }, [postId, user, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!image.trim() || !URL.canParse(image)) {
-            showToast("La imagen debe ser una URL válida");
+            setError("La imagen debe ser una URL v\u00e1lida");
             return;
         }
         setSaving(true);
@@ -51,7 +51,7 @@ const EditPost = ({ user }) => {
             await editPost(postId, description, image);
             navigate(`/post/${postId}`);
         } catch (err) {
-            showToast(
+            setError(
                 err.response?.data?.errors?.[0] ||
                 err.response?.data?.error ||
                 err.message
@@ -75,7 +75,7 @@ const EditPost = ({ user }) => {
 
             <div className="post-details">
                 <form className="edit-post-form" onSubmit={handleSubmit} noValidate>
-
+                    {error && <ErrorMessage message={error} />}
                     <Input
                         type="url"
                         placeholder="URL de la imagen"

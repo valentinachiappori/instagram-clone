@@ -2,24 +2,25 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getPost, addComment, updateLike, deletePost } from "../api/postService";
 import PostDetail from "../components/post/PostDetail";
-import { useToast } from "../components/ToastProvider";
+import ErrorMessage from "../components/ErrorMessage";
 
 const Post = ({ user }) => {
     const { postId } = useParams();
     const navigate = useNavigate();
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
-    const { showToast } = useToast();
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         setLoading(true);
+        setError(null);
         getPost(postId)
             .then(data => {
                 setPost(data);
                 setLoading(false);
             })
             .catch((err) => {
-                showToast(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
+                setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
                 setLoading(false);
             });
     }, [postId]);
@@ -29,7 +30,7 @@ const Post = ({ user }) => {
             const updatedPost = await updateLike(id);
             setPost(updatedPost);
         } catch (err) {
-            showToast(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
+            setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
         }
     };
 
@@ -38,7 +39,7 @@ const Post = ({ user }) => {
             const updatedPost = await addComment(id, text);
             setPost(updatedPost);
         } catch (err) {
-            showToast(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
+            setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
         }
     };
 
@@ -47,7 +48,7 @@ const Post = ({ user }) => {
             await deletePost(id);
             navigate("/");
         } catch (err) {
-            showToast(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
+            setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
         }
     };
 
@@ -55,14 +56,17 @@ const Post = ({ user }) => {
     if (!post) return <p>No se pudo cargar el post.</p>;
 
     return (
-        <PostDetail
-            post={post} 
-            user={user} 
-            isOwner={user?.id === post.user.id} 
-            onAddComment={handleAddComment}
-            onUpdateLike={handleUpdateLike}
-            onDeletePost={handleDeletePost}
-        />
+        <>
+            {error && <ErrorMessage message={error} />}
+            <PostDetail
+                post={post} 
+                user={user} 
+                isOwner={user?.id === post.user.id} 
+                onAddComment={handleAddComment}
+                onUpdateLike={handleUpdateLike}
+                onDeletePost={handleDeletePost}
+            />
+        </>
     );
 }
 

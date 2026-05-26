@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { register } from "../api/auth";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { useToast } from "../components/ToastProvider";
+import ErrorMessage from "../components/ErrorMessage";
 import "../styles/Register.css";
 
 const Register = ({ onLogin }) => {
@@ -12,12 +12,13 @@ const Register = ({ onLogin }) => {
     const [password, setPassword] = useState("");
     const [image, setImage] = useState("");
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
-    const { showToast } = useToast();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+        setError(null);
         try {
             const response = await register(name, email, password, image);
             const authHeader = response.headers["authorization"] || "";
@@ -27,7 +28,7 @@ const Register = ({ onLogin }) => {
             onLogin(response.data);
             navigate("/");
         } catch (err) {
-            showToast(
+            setError(
                 err.response?.data?.error ||
                 err.response?.data?.errors?.[0] ||
                 err.message
@@ -45,6 +46,7 @@ const Register = ({ onLogin }) => {
                     Regístrate para ver fotos y videos de tus amigos.
                 </p>
                 <form className="register-form" onSubmit={handleSubmit}>
+                    {error && <ErrorMessage message={error} />}
                     <Input
                         type="text"
                         placeholder="Nombre"

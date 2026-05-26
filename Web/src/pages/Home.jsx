@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PostCard from '../components/PostCard';
-import { useToast } from '../components/ToastProvider';
+import ErrorMessage from '../components/ErrorMessage';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { showToast } = useToast();
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -23,7 +23,7 @@ const Home = () => {
         setPosts(response.data.timeline || []);
 
       } catch (error) {
-        showToast(error.response?.data?.error || error.response?.data?.errors?.[0] || error.message);
+        setError(error.response?.data?.error || error.response?.data?.errors?.[0] || error.message);
       } finally {
         setLoading(false);
       }
@@ -36,6 +36,7 @@ const Home = () => {
 
   return (
     <div style={{ width: '100%', maxWidth: '600px', margin: '0 auto', paddingTop: '30px' }}>
+      {error && <ErrorMessage message={error} />}
       {posts.length > 0 ? (
         posts.map((post) => (
           <PostCard key={post.id} post={post} />

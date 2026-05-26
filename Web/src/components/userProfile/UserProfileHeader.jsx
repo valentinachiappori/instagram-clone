@@ -2,11 +2,13 @@ import { useState } from 'react'
 import '../../styles/components/userProfile/UserProfileHeader.css'
 import Button from '../Button'
 import { followUser } from '../../api/userService'
+import { useToast } from '../ToastProvider'
 
 const UserProfileHeader = ({ user, isOwner }) => {
     const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
     const initiallyFollowing = (currentUser.followers || []).some(f => f.id === user.id)
     const [isFollowing, setIsFollowing] = useState(initiallyFollowing)
+    const { showToast } = useToast()
 
     const handleFollow = async () => {
         try {
@@ -14,7 +16,7 @@ const UserProfileHeader = ({ user, isOwner }) => {
             localStorage.setItem('user', JSON.stringify(updatedMe))
             setIsFollowing(!isFollowing)
         } catch (err) {
-            console.error(err)
+            showToast(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message)
         }
     }
 

@@ -8,6 +8,7 @@ import UserProfile from "./pages/userProfile/user_profile";
 import Search from "./pages/Search";
 import Register from "./pages/Register";
 import EditPost from "./pages/EditPost";
+import { ToastProvider } from './components/ToastProvider';
 import './App.css';
 
 const PrivateRoute = ({ user, onLogout, children }) => {
@@ -31,6 +32,7 @@ function App() {
   };
 
   return (
+    <ToastProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login onLogin={setUser} />} />
@@ -79,6 +81,7 @@ function App() {
 
       </Routes>
     </BrowserRouter>
+    </ToastProvider>
   );
 }
 

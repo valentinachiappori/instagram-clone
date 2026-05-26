@@ -3,19 +3,19 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getPost, editPost } from "../api/postService";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import ErrorMessage from "../components/ErrorMessage";
+import { useToast } from "../components/ToastProvider";
 import "../styles/PostDetail.css";
 import "../styles/EditPost.css";
 
 const EditPost = ({ user }) => {
     const { postId } = useParams();
     const navigate = useNavigate();
+    const { showToast } = useToast();
 
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         let cancelled = false;
@@ -33,22 +33,21 @@ const EditPost = ({ user }) => {
             })
             .catch((err) => {
                 if (cancelled) return;
-                setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
+                showToast(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
                 setLoading(false);
             });
 
         return () => { cancelled = true; };
-    }, [postId, user, navigate]);
+    }, [postId, user, navigate, showToast]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSaving(true);
-        setError(null);
         try {
             await editPost(postId, description, image);
             navigate(`/post/${postId}`);
         } catch (err) {
-            setError(
+            showToast(
                 err.response?.data?.errors?.[0] ||
                 err.response?.data?.error ||
                 err.message
@@ -72,7 +71,6 @@ const EditPost = ({ user }) => {
 
             <div className="post-details">
                 <form className="edit-post-form" onSubmit={handleSubmit}>
-                    <ErrorMessage message={error} reserveSpace />
 
                     <Input
                         type="url"

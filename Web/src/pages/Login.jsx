@@ -4,20 +4,19 @@ import { login } from "../api/auth";
 import loginImage from "../assets/login.png";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import ErrorMessage from "../components/ErrorMessage";
+import { useToast } from "../components/ToastProvider";
 import "../styles/Login.css";
 
 const Login = ({ onLogin }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { showToast } = useToast();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError(null);
         try {
             const response = await login(email, password);
             const authHeader = response.headers["authorization"] || "";
@@ -27,7 +26,7 @@ const Login = ({ onLogin }) => {
             onLogin(response.data);
             navigate("/");
         } catch (err) {
-            setError(
+            showToast(
                 err.response?.data?.errors?.[0] ||
                 err.response?.data?.error ||
                 err.message
@@ -48,7 +47,6 @@ const Login = ({ onLogin }) => {
                 <div className="login-panel">
                     <h1 className="login-logo">Instagram</h1>
                     <form className="login-form" onSubmit={handleSubmit}>
-                        <ErrorMessage message={error} reserveSpace />
                         <Input
                             type="email"
                             placeholder="Correo electrónico"

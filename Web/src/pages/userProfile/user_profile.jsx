@@ -3,37 +3,38 @@ import { getUser } from '../../api/userService'
 import UserProfileHeader from '../../components/userProfile/UserProfileHeader'
 import UserProfileBody from '../../components/userProfile/UserProfileBody'
 import { useParams } from 'react-router-dom';
-import ErrorMessage from '../../components/ErrorMessage';
+import { useToast } from '../../components/ToastProvider';
 
 const UserProfile = ({ userIdViewer = false }) => {
 
     const [user, setUser] = useState(null)
-    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(true)
     const { id } = useParams();
+    const { showToast } = useToast();
 
     useEffect(() => {
         let cancelled = false;
 
         setUser(null);
-        setError(null);
+        setLoading(true);
 
         getUser(id)
             .then(data => {
                 if (cancelled) return;
                 setUser(data);
-                setError(null);
+                setLoading(false);
             })
             .catch((err) => {
                 if (cancelled) return;
-                setUser(null);
-                setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
+                showToast(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
+                setLoading(false);
             });
 
         return () => { cancelled = true; };
     }, [id])
 
-    if (error && !user) return <ErrorMessage message={error} />
-    if (!user) return <p>Cargando...</p>
+    if (loading) return <p>Cargando...</p>
+    if (!user) return <p>No se encontró el usuario.</p>
 
     return (
         <div>

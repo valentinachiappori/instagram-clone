@@ -1,25 +1,25 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ImagePreview from "../components/addPost/ImagePreview";
-import AddPostForm from "../components/addPost/AddPostForm";
+import PostForm from "../components/PostForm";
+import Button from "../components/Button";
 import { createPost } from "../api/postService";
-import "../styles/AddPost.css";
 
 const AddPost = () => {
     const [imageUrl, setImageUrl] = useState("");
+    const [description, setDescription] = useState("");
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = async (url, description) => {
+    const handleSubmit = async () => {
         setError(null);
-        if (!url.trim()) {
-            setError("Ingresá la URL de la imagen");
+        if (!imageUrl.trim() || !URL.canParse(imageUrl)) {
+            setError("Ingresá una URL de imagen válida");
             return;
         }
         setLoading(true);
         try {
-            const post = await createPost(url, description);
+            const post = await createPost(imageUrl, description);
             navigate(`/post/${post.id}`);
         } catch (err) {
             setError(err.response?.data?.errors?.[0] || "No se pudo publicar");
@@ -29,18 +29,18 @@ const AddPost = () => {
     };
 
     return (
-        <div className="addpost-page">
-            <div className="addpost-container">
-                <ImagePreview url={imageUrl} />
-                <AddPostForm
-                    imageUrl={imageUrl}
-                    onImageUrlChange={setImageUrl}
-                    onSubmit={handleSubmit}
-                    loading={loading}
-                    error={error}
-                />
-            </div>
-        </div>
+        <PostForm
+            imageUrl={imageUrl}
+            onImageUrlChange={setImageUrl}
+            description={description}
+            onDescriptionChange={setDescription}
+            onSubmit={handleSubmit}
+            error={error}
+        >
+            <Button type="submit" className="publish-button" disabled={loading}>
+                {loading ? "Publicando..." : "Publicar"}
+            </Button>
+        </PostForm>
     );
 };
 

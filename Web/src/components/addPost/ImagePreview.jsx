@@ -1,12 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../../styles/components/addPost/ImagePreview.css";
 
 const ImagePreview = ({ url }) => {
     const [previewOk, setPreviewOk] = useState(false);
-
-    useEffect(() => {
-        setPreviewOk(false);
-    }, [url]);
 
     const showPreview = url.trim() !== "" && previewOk;
 

@@ -1,5 +1,7 @@
 .edit-post-image {
     background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
 }
 
 .edit-post-description-input {
@@ -18,15 +20,25 @@
 }
 
 .edit-post-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     color: #737373;
     font-size: 14px;
     font-family: 'Inter', sans-serif;
+    width: 100%;
+    flex: 1;
+    background-color: #d9d9d9;
+    border-radius: 4px;
 }
 
 .edit-post-form {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    padding-top: 24px;
 }
 
 .edit-post-actions {

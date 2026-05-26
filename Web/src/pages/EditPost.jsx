@@ -42,6 +42,10 @@ const EditPost = ({ user }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!image.trim() || !URL.canParse(image)) {
+            showToast("La imagen debe ser una URL válida");
+            return;
+        }
         setSaving(true);
         try {
             await editPost(postId, description, image);
@@ -70,7 +74,7 @@ const EditPost = ({ user }) => {
             </div>
 
             <div className="post-details">
-                <form className="edit-post-form" onSubmit={handleSubmit}>
+                <form className="edit-post-form" onSubmit={handleSubmit} noValidate>
 
                     <Input
                         type="url"

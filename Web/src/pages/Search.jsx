@@ -12,27 +12,42 @@ const Search = () => {
   const [posts, setPosts] = useState([])
   const [searched, setSearched] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const query = searchParams.get("query");
     if (!query) return;
-    setLoading(true); // eslint-disable-line
-    search(query)
-        .then(data => { 
-            setUsers(data.users); 
+    let cancelled = false;
+
+    (async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await search(query);
+            if (cancelled) return;
+            setUsers(data.users);
             setPosts(data.posts);
             setSearched(true);
-        })
-        .finally(() => setLoading(false))
-        
-}, [searchParams])
+        } catch (err) {
+            if (cancelled) return;
+            setUsers([]);
+            setPosts([]);
+            setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
+        } finally {
+            if (!cancelled) setLoading(false);
+        }
+    })();
+
+    return () => { cancelled = true; };
+  }, [searchParams])
   
   return (
     <div>       
       <h1>{searchParams.get("query")}</h1>
         {loading && <p>Buscando...</p>}
-        {!loading && searched && users.length === 0 && posts.length === 0 ? (
+        {error && <ErrorMessage message={error} />}
+        {!loading && !error && searched && users.length === 0 && posts.length === 0 ? (
           <ErrorMessage message="No se encontraron resultados" />
         ) : (
           <>

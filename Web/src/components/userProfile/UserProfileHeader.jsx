@@ -1,4 +1,5 @@
 import '../../styles/components/userProfile/UserProfileHeader.css'
+import Button from '../Button'
 
 const UserProfileHeader = ({ user, isOwner }) => {
     return (
@@ -9,7 +10,7 @@ const UserProfileHeader = ({ user, isOwner }) => {
             <div className="header-info">
                 <div className="header-top">
                     <h3>{user.name}</h3>
-                    {!isOwner && <button>Seguir</button>}
+                    {!isOwner && <Button type="button">Seguir</Button>}
                 </div>
                 <div className="header-stats">
                     <span>{user.followers.length} Seguidores</span>

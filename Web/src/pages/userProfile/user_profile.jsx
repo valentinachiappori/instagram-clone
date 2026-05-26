@@ -37,7 +37,7 @@ const UserProfile = ({ userIdViewer = false }) => {
 
     return (
         <div>
-            <UserProfileHeader user={user} isOwner={Number(id) === Number(userIdViewer)} />
+            <UserProfileHeader user={user} isOwner={String(id) === String(userIdViewer)} />
             <UserProfileBody posts={user.posts} />
         </div>
     )

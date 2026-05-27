@@ -7,6 +7,7 @@ import Post from "./pages/Post";
 import UserProfile from "./pages/userProfile/user_profile";
 import Search from "./pages/Search";
 import Register from "./pages/Register";
+import AddPost from "./pages/AddPost";
 import EditPost from "./pages/EditPost";
 import './App.css';
 
@@ -63,7 +64,7 @@ function App() {
 
         <Route path="/add-post" element={
           <PrivateRoute user={user} onLogout={handleLogout}>
-            <h1>Agregar post (En construcción)</h1>
+            <AddPost />
           </PrivateRoute>
         } />
 

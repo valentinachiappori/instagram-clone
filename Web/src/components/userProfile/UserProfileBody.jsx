@@ -5,7 +5,7 @@ import '../../styles/components/userProfile/UserProfileBody.css'
 const UserProfileBody = ({ posts }) => {
     return (
         <div className="grid" >
-            {posts.map(post => (
+            {posts.slice().reverse().map(post => (
                 <Link to={`/post/${post.id}`} key={post.id}>
                     <img className="grid-item" src={post.image} alt={post.description} />
                 </Link>

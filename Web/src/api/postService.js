@@ -12,6 +12,10 @@ export const updateLike = (postId) => {
     return api.put(`/posts/${postId}/like`).then(res => res.data)
 }
 
+export const createPost = (image, description) => {
+    return api.post('/posts', { image, description }).then(res => res.data)
+}
+
 export const editPost = (postId, description, image) => {
     return api.put(`/posts/${postId}`, { description, image }).then(res => res.data)
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PostCard from '../components/PostCard';
 import PostHeader from '../components/post/PostHeader';
-import '../components/Home.css';
+import '../styles/Home.css';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);

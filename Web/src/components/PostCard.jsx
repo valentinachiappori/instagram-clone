@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/components/PostCard.css';
 import PostHeader from '../components/post/PostHeader';
+import PostActions from './post/PostActions';
+import "../styles/components/PostCard.css";
 
 const PostCard = ({ post }) => {
+  const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(() => {
     const currentUser = JSON.parse(localStorage.getItem('user'));
     if (!currentUser || !post.likes) return false;
@@ -41,22 +43,19 @@ const PostCard = ({ post }) => {
       <PostHeader postUser={post.user} date={post.date} />
 
       <Link to={`/post/${post.id}`} className="post-image-link">
-        <div className="post-image-container">
-          <img src={post.image} alt="Publicación" className="post-image" />
-        </div>
+        <img src={post.image} alt="Publicación" className="post-image" />
       </Link>
 
-      <div className="post-actions">
-        <div className={`action-item ${isLiked ? 'liked' : ''}`} onClick={handleLike}>
-          <i className={`bi ${isLiked ? 'bi-heart-fill' : 'bi-heart'} action-icon`}></i>
-          <span>{likesCount} Me gusta</span>
-        </div>
+      
+        <PostActions
+          post={post}
+          user={post.user}
+          onUpdateLike={handleLike}
+          onCommentsClick={() => navigate(`/post/${post.id}`)}
+        />
 
-        <Link to={`/post/${post.id}`} className="action-item action-link">
-          <i className="bi bi-chat action-icon"></i>
-          <span>{post.comments?.length || 0} Comentarios</span>
-        </Link>
-      </div>
+
+      
 
       <div className="post-description">
         <p>

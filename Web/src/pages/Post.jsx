@@ -8,17 +8,20 @@ const Post = ({ user }) => {
     const { postId } = useParams();
     const navigate = useNavigate();
     const [post, setPost] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        setLoading(true);
+        setError(null);
         getPost(postId)
             .then(data => {
                 setPost(data);
-                setError(null);
+                setLoading(false);
             })
             .catch((err) => {
-                setPost(null);
                 setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
+                setLoading(false);
             });
     }, [postId]);
 
@@ -26,7 +29,6 @@ const Post = ({ user }) => {
         try {
             const updatedPost = await updateLike(id);
             setPost(updatedPost);
-            setError(null);
         } catch (err) {
             setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
         }
@@ -36,7 +38,6 @@ const Post = ({ user }) => {
         try {
             const updatedPost = await addComment(id, text);
             setPost(updatedPost);
-            setError(null);
         } catch (err) {
             setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
         }
@@ -45,28 +46,27 @@ const Post = ({ user }) => {
     const handleDeletePost = async (id) => {
         try {
             await deletePost(id);
-            setError(null);
             navigate("/");
         } catch (err) {
             setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
         }
     };
 
-    if (error && !post) return <ErrorMessage message={error} />;
-    if (!post) return <p>Cargando...</p>;
+    if (loading) return <p>Cargando...</p>;
+    if (!post) return <p>No se pudo cargar el post.</p>;
 
     return (
-        <div>
-        <ErrorMessage message={error} />
-        <PostDetail
-            post={post} 
-            user={user} 
-            isOwner={user?.id === post.user.id} 
-            onAddComment={handleAddComment}
-            onUpdateLike={handleUpdateLike}
-            onDeletePost={handleDeletePost}
-        />
-        </div>
+        <>
+            {error && <ErrorMessage message={error} />}
+            <PostDetail
+                post={post} 
+                user={user} 
+                isOwner={user?.id === post.user.id} 
+                onAddComment={handleAddComment}
+                onUpdateLike={handleUpdateLike}
+                onDeletePost={handleDeletePost}
+            />
+        </>
     );
 }
 

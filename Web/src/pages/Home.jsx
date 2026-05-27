@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PostCard from '../components/PostCard';
-import PostHeader from '../components/post/PostHeader';
+import ErrorMessage from '../components/ErrorMessage';
 import '../styles/Home.css';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const token = localStorage.getItem('token');
-        const authHeader = token.startsWith('Bearer') ? token : `Bearer ${token}`;
+        const authHeader = token ? (token.startsWith('Bearer') ? token : `Bearer ${token}`) : '';
 
         const response = await axios.get('http://localhost:3000/user', {
           headers: {
@@ -23,7 +24,7 @@ const Home = () => {
         setPosts(response.data.timeline || []);
 
       } catch (error) {
-        console.error("Error al obtener las publicaciones:", error);
+        setError(error.response?.data?.error || error.response?.data?.errors?.[0] || error.message);
       } finally {
         setLoading(false);
       }
@@ -36,6 +37,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
+      {error && <ErrorMessage message={error} />}
       {posts.length > 0 ? (
         posts.map((post) => (
           <PostCard key={post.id} post={post} />

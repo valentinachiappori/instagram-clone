@@ -6,13 +6,13 @@
   width: 100%;
 }
 
-.post-header {
+.post-card .post-header {
   display: flex;
   align-items: center;
   padding: 8px 0;
 }
 
-.post-avatar {
+.post-card .post-avatar {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -20,73 +20,62 @@
   object-fit: cover;
 }
 
-.post-header-info {
+.post-card .post-header-info {
   display: flex;
   flex-direction: column;
 }
 
-.post-author {
+.post-card .post-author {
   font-weight: 600;
   font-size: 14px;
 }
 
-.post-date {
+.post-card .post-date {
   font-size: 12px;
   color: #8e8e8e;
 }
 
-.post-image-container {
-  width: 100%;
-  border-radius: 4px;
-  border: 1px solid #efefef;
-  margin: 8px 0;
-}
-
-.post-image {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover; 
+.post-card .post-image {
+  width: auto;
+  max-width: 400px;
+  max-height: 500px;
+  object-fit: contain;
   display: block;
+  margin: 0 auto;
 }
 
-.post-actions {
+.post-card .post-image-link {
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.post-card .post-actions {
   display: flex;
   gap: 16px;
   padding: 8px 0;
 }
 
-.action-item {
+.post-card .action-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  cursor: pointer;
   font-size: 14px;
   font-weight: 600;
 }
 
-.action-icon {
+.post-card .action-icon {
   font-size: 22px;
   cursor: pointer;
 }
 
-.post-description {
+.post-card .post-description {
   font-size: 14px;
   line-height: 1.4;
 }
 
-.post-image-link, .action-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
-
-.action-item {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.action-item.liked .action-icon {
+.post-card .action-item.liked .action-icon {
   color: #ed4956;
-  animation: heart-burst 0.3s ease-in-out;
 }

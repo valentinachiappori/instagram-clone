@@ -10,7 +10,7 @@ const PostActions = ({ post, user, onUpdateLike, className = "" }) => {
                 <span className="action-text">{post.likes.length} Me gusta</span>
             </div>
             <div className="action-item">
-                <i className="bi bi-chat-left-text action-icon"></i>
+                <i className="bi bi-chat-right-text action-icon"></i>
                 <span className="action-text">{post.comments.length} Comentarios</span>
             </div>
         </div>

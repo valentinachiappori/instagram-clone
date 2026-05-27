@@ -4,6 +4,7 @@
     flex-direction: row; 
     align-items: center;
     border-bottom: none;
+    position: relative
 }
 
 .user-info {
@@ -12,7 +13,7 @@
     gap: 12px; 
     text-decoration: none;
     color: inherit;
-    width: 100%;         
+    width: auto;         
     height: 100%;
 }
 
@@ -58,6 +59,8 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    position: absolute;
+    right: 0px;
 }
 
 .header-icon-edit {

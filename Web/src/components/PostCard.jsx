@@ -50,8 +50,6 @@ const PostCard = ({ post }) => {
         />
 
 
-      
-
       <div className="post-description">
         <p>
           <span style={{ fontWeight: '600', marginRight: '8px' }}>{post.user?.name}</span>

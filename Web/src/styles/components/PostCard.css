@@ -1,0 +1,90 @@
+.post-card {
+  border-bottom: 1px solid #efefef;
+  padding-bottom: 16px;
+  flex: 1;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.post-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 12px;
+  object-fit: cover;
+}
+
+.post-header-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-author {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.post-date {
+  font-size: 12px;
+  color: #8e8e8e;
+}
+
+.post-image-container {
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid #efefef;
+  margin: 8px 0;
+}
+
+.post-image {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover; 
+  display: block;
+}
+
+.post-actions {
+  display: flex;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.action-icon {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.post-description {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.post-image-link, .action-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.action-item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-item.liked .action-icon {
+  color: #ed4956;
+  animation: heart-burst 0.3s ease-in-out;
+}

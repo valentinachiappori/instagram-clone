@@ -42,8 +42,11 @@ const EditPost = ({ user }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!image.trim() || !URL.canParse(image)) {
+            setError("La imagen debe ser una URL v\u00e1lida");
+            return;
+        }
         setSaving(true);
-        setError(null);
         try {
             await editPost(postId, description, image);
             navigate(`/post/${postId}`);
@@ -71,9 +74,8 @@ const EditPost = ({ user }) => {
             </div>
 
             <div className="post-details">
-                <form className="edit-post-form" onSubmit={handleSubmit}>
-                    <ErrorMessage message={error} reserveSpace />
-
+                <form className="edit-post-form" onSubmit={handleSubmit} noValidate>
+                    {error && <ErrorMessage message={error} />}
                     <Input
                         type="url"
                         placeholder="URL de la imagen"

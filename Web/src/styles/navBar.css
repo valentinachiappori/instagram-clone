@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+
 .navbar {
   width: 250px;
   height: 100vh;
@@ -11,13 +13,12 @@
 }
 
 .navbar-logo {
-  font-family: 'Brush Script MT', cursive;
-  font-size: 32px;
-  font-weight: bold;
-  margin-bottom: 30px;
-  margin-left: 10px;
-  color: black;
+  font-family: 'Grand Hotel', cursive;
+  font-size: 38px;      
+  color: #000000;       
   text-decoration: none;
+  display: block;
+  margin-bottom: 20px;
 }
 
 .search-form {

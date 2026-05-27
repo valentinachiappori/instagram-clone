@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { updateLike } from "../api/postService";
 import PostHeader from '../components/post/PostHeader';
 import PostActions from './post/PostActions';
 import "../styles/components/PostCard.css";
@@ -24,13 +24,7 @@ const PostCard = ({ post }) => {
     setLikesCount(previousIsLiked ? previousLikesCount - 1 : previousLikesCount + 1);
 
     try {
-      const token = localStorage.getItem('token');
-      const authHeader = token.startsWith('Bearer') ? token : `Bearer ${token}`;
-
-      await axios.put(`http://localhost:3000/posts/${post.id}/like`, {}, {
-        headers: { Authorization: authHeader }
-      });
-
+      await updateLike(post.id);
     } catch (error) {
       console.error("Error al dar like:", error);
       setIsLiked(previousIsLiked);

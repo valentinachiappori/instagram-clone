@@ -67,6 +67,8 @@ const PostDetail = ({ post, user, isOwner, onAddComment, onUpdateLike, onDeleteP
                     </div>
                 </div>
 
+                <div className="separator"></div>
+
                 <PostActions post={post} user={user} onUpdateLike={onUpdateLike} className="post-page-actions" />
 
                 <div className="comment-input-container">

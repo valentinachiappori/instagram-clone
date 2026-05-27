@@ -47,7 +47,7 @@ const PostCard = ({ post }) => {
         </div>
 
         <Link to={`/post/${post.id}`} className="action-item action-link">
-          <i className="bi bi-chat action-icon"></i>
+          <i className="bi bi-chat-right-text action-icon"></i>
           <span>{post.comments?.length || 0} Comentarios</span>
         </Link>
       </div>

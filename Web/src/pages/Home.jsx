@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import PostCard from '../components/PostCard';
 import ErrorMessage from '../components/ErrorMessage';
+import { getTimeline } from '../api/userService';
 import '../styles/Home.css';
 
 const Home = () => {
@@ -12,17 +12,8 @@ const Home = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const authHeader = token ? (token.startsWith('Bearer') ? token : `Bearer ${token}`) : '';
-
-        const response = await axios.get('http://localhost:3000/user', {
-          headers: {
-            Authorization: authHeader
-          }
-        });
-
-        setPosts(response.data.timeline || []);
-
+        const data = await getTimeline();
+        setPosts(data.timeline || []);
       } catch (error) {
         setError(error.response?.data?.error || error.response?.data?.errors?.[0] || error.message);
       } finally {

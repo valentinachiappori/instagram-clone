@@ -22,7 +22,7 @@ const AddPost = () => {
             const post = await createPost(imageUrl, description);
             navigate(`/post/${post.id}`);
         } catch (err) {
-            setError(err.response?.data?.errors?.[0] || "No se pudo publicar");
+            setError(err.response?.data?.errors?.[0] || err.response?.data?.error || err.message);
         } finally {
             setLoading(false);
         }

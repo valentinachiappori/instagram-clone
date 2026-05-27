@@ -47,7 +47,7 @@ const Login = ({ onLogin }) => {
 
                 <div className="login-panel">
                     <h1 className="login-logo">Instagram</h1>
-                    <form className="login-form" onSubmit={handleSubmit}>
+                    <form className="login-form" onSubmit={handleSubmit} noValidate>
                         {error && <ErrorMessage message={error} />}
                         <Input
                             type="email"

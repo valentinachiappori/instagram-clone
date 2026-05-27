@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { updateLike } from "../api/postService";
 import '../styles/components/PostCard.css';
 import PostHeader from '../components/post/PostHeader';
+import ErrorMessage from './ErrorMessage';
 
 const PostCard = ({ post }) => {
   const [isLiked, setIsLiked] = useState(() => {
@@ -13,6 +14,7 @@ const PostCard = ({ post }) => {
   });
 
   const [likesCount, setLikesCount] = useState(post.likes?.length || 0);
+  const [likeError, setLikeError] = useState(null);
 
   const handleLike = async () => {
     const previousIsLiked = isLiked;
@@ -20,19 +22,21 @@ const PostCard = ({ post }) => {
 
     setIsLiked(!previousIsLiked);
     setLikesCount(previousIsLiked ? previousLikesCount - 1 : previousLikesCount + 1);
+    setLikeError(null);
 
     try {
       await updateLike(post.id);
     } catch (error) {
-      console.error("Error al dar like:", error);
       setIsLiked(previousIsLiked);
       setLikesCount(previousLikesCount);
+      setLikeError(error.response?.data?.error || error.response?.data?.errors?.[0] || error.message);
     }
   };
 
   return (
     <article className="post-card">
       <PostHeader postUser={post.user} date={post.date} />
+      {likeError && <ErrorMessage message={likeError} />}
 
       <Link to={`/post/${post.id}`} className="post-image-link">
         <div className="post-image-container">

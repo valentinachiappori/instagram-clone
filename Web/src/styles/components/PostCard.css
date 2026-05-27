@@ -33,13 +33,6 @@
   color: #8e8e8e;
 }
 
-.post-card .post-image-container {
-  width: 100%;
-  border-radius: 4px;
-  border: 1px solid #efefef;
-  margin: 8px 0;
-}
-
 .post-card .post-image {
   width: auto;
   max-width: 400px;
@@ -52,6 +45,8 @@
 .post-card .post-image-link {
   display: flex;
   justify-content: center;
+  text-decoration: none;
+  color: inherit;
 }
 
 .post-card .post-actions {
@@ -79,18 +74,6 @@
   line-height: 1.4;
 }
 
-.post-card .action-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
-
-.post-card .post-image-link {
-  text-decoration: none;
-  color: inherit;
-}
-
 .post-card .action-item.liked .action-icon {
   color: #ed4956;
-  animation: heart-burst 0.3s ease-in-out;
 }

@@ -43,7 +43,8 @@ const PostCard = ({ post }) => {
       
         <PostActions
           post={post}
-          user={post.user}
+          isLiked={isLiked}
+          likesCount={likesCount}
           onUpdateLike={handleLike}
           onCommentsClick={() => navigate(`/post/${post.id}`)}
         />

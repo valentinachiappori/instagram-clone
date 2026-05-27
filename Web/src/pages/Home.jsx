@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import api from '../api/axios';
 import PostCard from '../components/PostCard';
 import ErrorMessage from '../components/ErrorMessage';
+import { getTimeline } from '../api/userService';
+import '../styles/Home.css';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -11,8 +12,8 @@ const Home = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await api.get('/user');
-        setPosts(response.data.timeline || []);
+        const data = await getTimeline();
+        setPosts(data.timeline || []);
       } catch (error) {
         setError(error.response?.data?.error || error.response?.data?.errors?.[0] || error.message);
       } finally {
@@ -23,17 +24,17 @@ const Home = () => {
     fetchPosts();
   }, []);
 
-  if (loading) return <div style={{ textAlign: 'center', marginTop: '50px' }}>Cargando timeline...</div>;
+  if (loading) return <div className="home-loading">Cargando timeline...</div>;
 
   return (
-    <div style={{ width: '100%', maxWidth: '600px', margin: '0 auto', paddingTop: '30px' }}>
+    <div className="home-container">
       {error && <ErrorMessage message={error} />}
       {posts.length > 0 ? (
         posts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))
       ) : (
-        <p style={{ textAlign: 'center' }}>No hay publicaciones para mostrar.</p>
+        <p className="home-empty">No hay publicaciones para mostrar.</p>
       )}
     </div>
   );

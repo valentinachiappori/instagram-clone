@@ -45,7 +45,7 @@ const Register = ({ onLogin }) => {
                 <p className="register-subtitle">
                     Regístrate para ver fotos y videos de tus amigos.
                 </p>
-                <form className="register-form" onSubmit={handleSubmit}>
+                <form className="register-form" onSubmit={handleSubmit} noValidate>
                     {error && <ErrorMessage message={error} />}
                     <Input
                         type="text"

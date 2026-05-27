@@ -10,7 +10,7 @@
     align-items: flex-start;
 }
 
-.post-image {
+.post-container .post-image {
     width: 700px;
     height: 918px;
     background-color: #fafafa;

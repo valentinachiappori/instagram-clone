@@ -41,10 +41,17 @@
 }
 
 .post-card .post-image {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
+  width: auto;
+  max-width: 400px;
+  max-height: 500px;
+  object-fit: contain;
   display: block;
+  margin: 0 auto;
+}
+
+.post-card .post-image-link {
+  display: flex;
+  justify-content: center;
 }
 
 .post-card .post-actions {
@@ -72,9 +79,13 @@
   line-height: 1.4;
 }
 
-.post-card .post-image-link,
 .post-card .action-link {
   display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.post-card .post-image-link {
   text-decoration: none;
   color: inherit;
 }

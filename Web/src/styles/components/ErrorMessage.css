@@ -1,0 +1,13 @@
+.error-message {
+    height: auto;
+    min-height: 31px;
+    width: 100%;
+    background: #fff3f3;
+    border: 1px solid #f5c6cb;
+    color: #c0392b;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    text-align: center;
+}

@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+.login-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.login-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 984px;
+    height: 100vh;
+    gap: 10px;
+}
+
+.login-panel {
+    flex: 0 0 auto;
+    width: 528px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px;
+    gap: 12px;
+}
+
+.login-logo {
+    width: 200px;
+    height: 60px;
+    font-family: 'Grand Hotel', cursive;
+    font-size: 42px;
+    color: #262626;
+    text-align: center;
+    align-self: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 64px;
+    gap: 8px;
+}
+
+.login-divider {
+    width: 100%;
+    max-width: 400px;
+    height: 0;
+    border: 1px solid #cccccc;
+    margin: 0 auto;
+}
+
+.login-register {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #4E4E4E;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.login-register a {
+    color: #495DF9;
+    text-decoration: none;
+}
+
+.login-register a:hover {
+    text-decoration: underline;
+}
+
+.login-collage {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-collage img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+@media (max-width: 900px) {
+    .login-collage {
+        display: none;
+    }
+
+    .login-wrapper {
+        justify-content: center;
+        padding: 24px;
+    }
+
+    .login-panel {
+        padding: 40px 24px;
+    }
+
+    .login-form {
+        padding: 12px 0;
+    }
+}

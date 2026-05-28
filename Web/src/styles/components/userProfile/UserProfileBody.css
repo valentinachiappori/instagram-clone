@@ -1,0 +1,12 @@
+.grid{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 3px;
+    margin-top: 20px;
+}
+
+.grid-item {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}

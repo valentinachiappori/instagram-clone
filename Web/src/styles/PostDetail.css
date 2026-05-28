@@ -1,0 +1,236 @@
+.post-container {
+    display: flex;
+    width: 1136px;
+    height: 950px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 16px;
+    gap: 10px;
+    box-sizing: border-box;
+    align-items: flex-start;
+}
+
+.post-container .post-image {
+    width: 700px;
+    height: 918px;
+    background-color: #fafafa;
+}
+
+.main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.post-details {
+    width: 394px;
+    height: 918px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.post-page-header {
+    width: 374px;
+    height: 50px;
+}
+
+.main-comment {
+    display: flex;
+    flex-direction: row; 
+    width: 374px; 
+    height: auto;
+    gap: 12px; 
+    align-items: flex-start;
+    margin-bottom: 0px; 
+}
+
+.separator {
+    width: 374px;       
+    height: 1px;         
+    background-color: #CCCCCC; 
+    margin: 0 auto;      
+    align-self: center;  
+}
+
+.user-text {
+    width: 312px;           
+    height: 42px;
+}
+
+.comment-section::-webkit-scrollbar {
+    display: none;
+}
+
+.comment-section {
+    padding: 10px;
+    height: 645px;
+    width: 374px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-sizing: border-box;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.post-description strong {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600; 
+    font-size: 16px;
+    line-height: 1;
+    color: #000000;
+}
+
+.post-description a {
+    text-decoration: none;
+    color: inherit; 
+}
+
+.post-description {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.2;
+    color: #323232; 
+    margin: 0;
+    width: 312px;
+    height: auto;  
+    min-height: 18px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    padding-right: 15px;
+    box-sizing: border-box;
+    text-align: left;
+    margin-top: 6px;
+}
+
+.placeholder-comments {
+    color: #8e8e8e;
+    margin-top: 10px;
+}
+
+.comment-item {
+    width: 100%;
+    height: auto;
+    gap: 12px;
+    flex-direction: row; 
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.post-owner-actions {
+    margin-left: 10px;
+}
+
+.post-page-actions{
+    width: 374px;
+}
+
+.comment-input-container {
+    width: 374px;
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    background-color: #FAFAFA; 
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    margin: 0;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    height: 64px;
+}
+
+.comment-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+    color: #000;
+}
+
+.publish-button {
+    width: 100%;
+    height: 31px;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-card {
+    background-color: #FFFFFF;
+    width: 400px;
+    border-radius: 8px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.modal-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000000;
+    margin: 0;
+    text-align: left;
+}
+
+.modal-text {
+    font-size: 12px;
+    color: #000000;
+    margin: 0;
+    text-align: left;
+    line-height: 1.4;
+}
+
+.modal-buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.btn-modal-cancel, .btn-modal-delete {
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-modal-cancel {
+    background: transparent;
+    color: #000000;
+}
+
+.btn-modal-delete {
+    background-color: #495DF9;
+    color: #FFFFFF;
+    border-radius: 10px;     
+    padding: 8px 10px;
+}

@@ -1,0 +1,48 @@
+.edit-post-image {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-post-description-input {
+    height: 64px !important;
+    resize: none;
+    vertical-align: top;
+    padding-top: 8px;
+}
+
+.edit-post-preview-label {
+    color: #000000;
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    margin: 0 0 8px 0;
+    text-align: left;
+}
+
+.edit-post-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #737373;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    flex: 1;
+    background-color: #d9d9d9;
+    border-radius: 4px;
+}
+
+.edit-post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 24px;
+}
+
+.edit-post-actions {
+    display: flex;
+    gap: 8px;
+}
+

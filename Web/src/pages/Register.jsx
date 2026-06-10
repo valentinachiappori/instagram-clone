@@ -29,8 +29,8 @@ const Register = ({ onLogin }) => {
             const response = await register(name, email, password, image);
             const authHeader = response.headers["authorization"] || "";
             const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : authHeader;
-            localStorage.setItem("token", token);
-            localStorage.setItem("user", JSON.stringify(response.data));
+            storageService.setToken(token);
+            storageService.setUser(response.data);
             onLogin(response.data);
             navigate("/");
         } catch (err) {

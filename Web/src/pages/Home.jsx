@@ -3,7 +3,7 @@ import axios from 'axios';
 import PostCard from '../components/PostCard';
 import ErrorMessage from '../components/ErrorMessage';
 
-const Home = () => {
+const Home = ({ user }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -39,7 +39,7 @@ const Home = () => {
       {error && <ErrorMessage message={error} />}
       {posts.length > 0 ? (
         posts.map((post) => (
-          <PostCard key={post.id} post={post} />
+          <PostCard key={post.id} post={post} currentUser={user} />
         ))
       ) : (
         <p style={{ textAlign: 'center' }}>No hay publicaciones para mostrar.</p>

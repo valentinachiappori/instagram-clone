@@ -31,6 +31,11 @@ function App() {
     setUser(null);
   };
 
+  const handleUpdateUser = (updatedUser) => {
+    setUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+  };
+
   return (
     <BrowserRouter>
       <Routes>
@@ -52,7 +57,11 @@ function App() {
 
         <Route path="/profile/:id" element={
           <PrivateRoute user={user} onLogout={handleLogout}>
-            <UserProfile userIdViewer={user?.id} />
+            <UserProfile 
+                userIdViewer={user?.id} 
+                currentUser={user} 
+                onUpdateUser={handleUpdateUser} 
+            />
           </PrivateRoute>
         } />
 

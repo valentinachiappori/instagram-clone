@@ -4,9 +4,9 @@ import { updateLike } from "../api/postService";
 import '../styles/components/PostCard.css';
 import PostHeader from '../components/post/PostHeader';
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, currentUser }) => {
+  
   const [isLiked, setIsLiked] = useState(() => {
-    const currentUser = JSON.parse(localStorage.getItem('user'));
     if (!currentUser || !post.likes) return false;
     
     return post.likes.some(likeUser => likeUser.id === currentUser.id);

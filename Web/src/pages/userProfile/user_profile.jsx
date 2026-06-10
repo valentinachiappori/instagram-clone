@@ -5,7 +5,7 @@ import UserProfileBody from '../../components/userProfile/UserProfileBody'
 import { useParams } from 'react-router-dom';
 import ErrorMessage from '../../components/ErrorMessage';
 
-const UserProfile = ({ userIdViewer = false }) => {
+const UserProfile = ({ userIdViewer = false, currentUser, onUpdateUser }) => {
 
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -39,11 +39,16 @@ const UserProfile = ({ userIdViewer = false }) => {
 
     return (
         <div>
-            <UserProfileHeader user={user} isOwner={String(id) === String(userIdViewer)} />
+            <UserProfileHeader 
+                user={user} 
+                isOwner={String(id) === String(userIdViewer)} 
+                currentUser={currentUser}
+                onUpdateUser={onUpdateUser}
+            />
             <UserProfileBody posts={user.posts} />
         </div>
     )
-} 
+}
 
 
 export default UserProfile;

@@ -17,6 +17,12 @@ const Register = ({ onLogin }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!name.trim() || !email.trim() || !password.trim() || !image.trim()) {
+            setError("Por favor, completá todos los campos para registrarte.");
+            return;
+        }
+
         setLoading(true);
         setError(null);
         try {

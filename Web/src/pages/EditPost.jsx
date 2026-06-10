@@ -38,10 +38,18 @@ const EditPost = ({ user }) => {
     }, [postId, user, navigate]);
 
     const handleSubmit = async () => {
+        setError(null);
+
         if (!image.trim() || !URL.canParse(image)) {
-            setError("La imagen debe ser una URL válida");
+            setError("La imagen debe ser una URL válida.");
             return;
         }
+        
+        if (!description.trim()) {
+            setError("La descripción no puede estar vacía.");
+            return;
+        }
+
         setSaving(true);
         try {
             await editPost(postId, description, image);
@@ -52,6 +60,7 @@ const EditPost = ({ user }) => {
                 err.response?.data?.error ||
                 err.message
             );
+        } finally {
             setSaving(false);
         }
     };

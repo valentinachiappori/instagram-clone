@@ -13,6 +13,12 @@ const AddPost = () => {
 
     const handleSubmit = async () => {
         setError(null);
+
+        if (!description.trim()) {
+            setError("La descripción no puede estar vacía.");
+            return;
+        }
+
         if (!imageUrl.trim() || !URL.canParse(imageUrl)) {
             setError("Ingresá una URL de imagen válida");
             return;

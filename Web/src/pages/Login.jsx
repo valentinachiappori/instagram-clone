@@ -16,6 +16,12 @@ const Login = ({ onLogin }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        if (!email.trim() || !password.trim()) {
+            setError("Por favor, completá todos los campos para iniciar sesión.");
+            return;
+        }
+
         setLoading(true);
         setError(null);
         try {

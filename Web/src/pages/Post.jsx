@@ -46,7 +46,7 @@ const Post = ({ user }) => {
     const handleDeletePost = async (id) => {
         try {
             await deletePost(id);
-            navigate("/");
+            navigate(`/profile/${user.id}`);
         } catch (err) {
             setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
         }

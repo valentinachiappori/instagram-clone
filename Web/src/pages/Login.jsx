@@ -6,6 +6,13 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import ErrorMessage from "../components/ErrorMessage";
 import "../styles/Login.css";
+import { storageService } from "../api/storageService"
+import { object, string } from "yup";
+
+const loginSchema = object({
+    email: string().required("El email es obligatorio").email("El email no tiene un formato válido"),
+    password: string().required("La contraseña es obligatoria"),
+});
 
 const Login = ({ onLogin }) => {
     const [email, setEmail] = useState("");
@@ -17,8 +24,10 @@ const Login = ({ onLogin }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        if (!email.trim() || !password.trim()) {
-            setError("Por favor, completá todos los campos para iniciar sesión.");
+        try {
+            loginSchema.validateSync({ email, password });
+        } catch (validationError) {
+            setError(validationError.message);
             return;
         }
 

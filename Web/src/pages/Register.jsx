@@ -5,6 +5,15 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import ErrorMessage from "../components/ErrorMessage";
 import "../styles/Register.css";
+import { storageService } from "../api/storageService"
+import { object, string } from "yup";
+
+const registerSchema = object({
+    name: string().required("El nombre es obligatorio"),
+    email: string().required("El email es obligatorio").email("El email no tiene un formato válido"),
+    password: string().required("La contraseña es obligatoria").min(5, "La contraseña tiene menos de 5 caracteres").max(32, "La contraseña supera los 32 caracteres"),
+    image: string().url("La imagen debe ser una URL válida"),
+});
 
 const Register = ({ onLogin }) => {
     const [name, setName] = useState("");
@@ -18,8 +27,10 @@ const Register = ({ onLogin }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!name.trim() || !email.trim() || !password.trim() || !image.trim()) {
-            setError("Por favor, completá todos los campos para registrarte.");
+        try {
+            registerSchema.validateSync({ name, email, password, image });
+        } catch (validationError) {
+            setError(validationError.message);
             return;
         }
 

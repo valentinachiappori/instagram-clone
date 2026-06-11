@@ -10,7 +10,7 @@ export const register_schema = object({
 
 export const login_schema = object({
     email: string().required("El email es obligatorio").email("El email no tiene un formato válido"),
-    password: string().required().max(32, "La contraseña supera los 32 caracteres").min(5, "la contraseña tiene menos de 5 caracteres"),
+    password: string().required(),
 })
 
 export const update_post_schema = object({

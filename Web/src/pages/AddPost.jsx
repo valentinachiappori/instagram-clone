@@ -3,6 +3,12 @@ import { useNavigate } from "react-router-dom";
 import PostForm from "../components/PostForm";
 import Button from "../components/Button";
 import { createPost } from "../api/postService";
+import { object, string } from "yup";
+
+const createPostSchema = object({
+    description: string().required("La descripción es obligatoria"),
+    imageUrl: string().required("La imagen es obligatoria").url("Ingresá una URL de imagen válida"),
+});
 
 const AddPost = () => {
     const [imageUrl, setImageUrl] = useState("");
@@ -14,13 +20,10 @@ const AddPost = () => {
     const handleSubmit = async () => {
         setError(null);
 
-        if (!description.trim()) {
-            setError("La descripción no puede estar vacía.");
-            return;
-        }
-
-        if (!imageUrl.trim() || !URL.canParse(imageUrl)) {
-            setError("Ingresá una URL de imagen válida");
+        try {
+            createPostSchema.validateSync({ description, imageUrl });
+        } catch (validationError) {
+            setError(validationError.message);
             return;
         }
         setLoading(true);

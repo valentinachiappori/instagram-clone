@@ -3,6 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getPost, editPost } from "../api/postService";
 import PostForm from "../components/PostForm";
 import Button from "../components/Button";
+import { object, string } from "yup";
+
+const editPostSchema = object({
+    description: string().required("La descripción es obligatoria"),
+    image: string().required("La imagen es obligatoria").url("La imagen debe ser una URL válida"),
+});
 
 const EditPost = ({ user }) => {
     const { postId } = useParams();
@@ -40,13 +46,10 @@ const EditPost = ({ user }) => {
     const handleSubmit = async () => {
         setError(null);
 
-        if (!image.trim() || !URL.canParse(image)) {
-            setError("La imagen debe ser una URL válida.");
-            return;
-        }
-        
-        if (!description.trim()) {
-            setError("La descripción no puede estar vacía.");
+        try {
+            editPostSchema.validateSync({ description, image });
+        } catch (validationError) {
+            setError(validationError.message);
             return;
         }
 

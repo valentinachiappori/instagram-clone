@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from 'react';
+import { storageService } from './api/storageService';
 import Home from './pages/Home';
 import Login from "./pages/Login";
 import Layout from './components/Layout';
@@ -21,27 +22,24 @@ const PrivateRoute = ({ user, onLogout, children }) => {
 };
 
 function App() {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || null
-  );
+  const [user, setUser] = useState(storageService.getUser());
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    storageService.clearAll();
     setUser(null);
   };
 
   const handleUpdateUser = (updatedUser) => {
     setUser(updatedUser);
-    localStorage.setItem("user", JSON.stringify(updatedUser));
+    storageService.setUser(updatedUser);
   };
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={user && localStorage.getItem("token") ? <Navigate to="/" /> : <Login onLogin={setUser} />} />
+        <Route path="/login" element={user && storageService.getToken() ? <Navigate to="/" /> : <Login onLogin={setUser} />} />
 
-        <Route path="/register" element={user && localStorage.getItem("token") ? <Navigate to="/" /> : <Register onLogin={setUser} />} />
+        <Route path="/register" element={user && storageService.getToken() ? <Navigate to="/" /> : <Register onLogin={setUser} />} />
         
         <Route path="/" element={
           <PrivateRoute user={user} onLogout={handleLogout}>

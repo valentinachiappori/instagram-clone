@@ -36,6 +36,7 @@ const EditPost = ({ user }) => {
             })
             .catch((err) => {
                 if (cancelled) return;
+                if (err.response?.status === 401) { navigate('/login'); return; }
                 setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
                 setLoading(false);
             });
@@ -58,6 +59,7 @@ const EditPost = ({ user }) => {
             await editPost(postId, description, image);
             navigate(`/post/${postId}`);
         } catch (err) {
+            if (err.response?.status === 401) { navigate('/login'); return; }
             setError(
                 err.response?.data?.errors?.[0] ||
                 err.response?.data?.error ||

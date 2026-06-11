@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import '../../styles/components/userProfile/UserProfileHeader.css'
 import Button from '../Button'
 import { followUser } from '../../api/userService'
@@ -9,6 +10,7 @@ const UserProfileHeader = ({ user, isOwner, currentUser, onUpdateUser }) => {
     const initiallyFollowing = (currentUser?.followers || []).some(f => f.id === user.id)
     const [isFollowing, setIsFollowing] = useState(initiallyFollowing)
     const [error, setError] = useState(null)
+    const navigate = useNavigate()
 
     const handleFollow = async () => {
         try {
@@ -17,6 +19,7 @@ const UserProfileHeader = ({ user, isOwner, currentUser, onUpdateUser }) => {
             onUpdateUser(updatedMe)
             setIsFollowing(!isFollowing)
         } catch (err) {
+            if (err.response?.status === 401) { navigate('/login'); return; }
             setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message)
         }
     }

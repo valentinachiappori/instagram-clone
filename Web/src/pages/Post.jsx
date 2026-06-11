@@ -20,6 +20,7 @@ const Post = ({ user }) => {
                 setLoading(false);
             })
             .catch((err) => {
+                if (err.response?.status === 401) { navigate('/login'); return; }
                 setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
                 setLoading(false);
             });
@@ -30,6 +31,7 @@ const Post = ({ user }) => {
             const updatedPost = await updateLike(id);
             setPost(updatedPost);
         } catch (err) {
+            if (err.response?.status === 401) { navigate('/login'); return; }
             setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
         }
     };
@@ -39,6 +41,7 @@ const Post = ({ user }) => {
             const updatedPost = await addComment(id, text);
             setPost(updatedPost);
         } catch (err) {
+            if (err.response?.status === 401) { navigate('/login'); return; }
             setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
         }
     };
@@ -48,6 +51,7 @@ const Post = ({ user }) => {
             await deletePost(id);
             navigate(`/profile/${user.id}`);
         } catch (err) {
+            if (err.response?.status === 401) { navigate('/login'); return; }
             setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
         }
     };

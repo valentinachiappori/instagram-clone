@@ -39,9 +39,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={user ? <Navigate to="/" /> : <Login onLogin={setUser} />} />
+        <Route path="/login" element={user && localStorage.getItem("token") ? <Navigate to="/" /> : <Login onLogin={setUser} />} />
 
-        <Route path="/register" element={user ? <Navigate to="/" /> : <Register onLogin={setUser} />} />
+        <Route path="/register" element={user && localStorage.getItem("token") ? <Navigate to="/" /> : <Register onLogin={setUser} />} />
         
         <Route path="/" element={
           <PrivateRoute user={user} onLogout={handleLogout}>

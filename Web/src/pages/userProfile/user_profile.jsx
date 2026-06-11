@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { getUser } from '../../api/userService'
 import UserProfileHeader from '../../components/userProfile/UserProfileHeader'
 import UserProfileBody from '../../components/userProfile/UserProfileBody'
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import ErrorMessage from '../../components/ErrorMessage';
 
 const UserProfile = ({ userIdViewer = false, currentUser, onUpdateUser }) => {
@@ -11,6 +11,7 @@ const UserProfile = ({ userIdViewer = false, currentUser, onUpdateUser }) => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         let cancelled = false;
@@ -26,12 +27,13 @@ const UserProfile = ({ userIdViewer = false, currentUser, onUpdateUser }) => {
             })
             .catch((err) => {
                 if (cancelled) return;
+                if (err.response?.status === 401) { navigate('/login'); return; }
                 setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
                 setLoading(false);
             });
 
         return () => { cancelled = true; };
-    }, [id])
+    }, [id, navigate])
 
     if (loading) return <p>Cargando...</p>
     if (error) return <ErrorMessage message={error} />

@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { search } from '../api/searchService';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import '../styles/Search.css';
-import { Link } from 'react-router-dom';
 import ErrorMessage from '../components/ErrorMessage';
 
 
@@ -14,6 +13,7 @@ const Search = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const query = searchParams.get("query");
@@ -33,6 +33,7 @@ const Search = () => {
             if (cancelled) return;
             setUsers([]);
             setPosts([]);
+            if (err.response?.status === 401) { navigate('/login'); return; }
             setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
         } finally {
             if (!cancelled) setLoading(false);
@@ -40,7 +41,7 @@ const Search = () => {
     })();
 
     return () => { cancelled = true; };
-  }, [searchParams])
+  }, [searchParams, navigate])
   
   return (
     <div>       

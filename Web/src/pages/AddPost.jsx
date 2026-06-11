@@ -31,6 +31,7 @@ const AddPost = () => {
             const post = await createPost(imageUrl, description);
             navigate(`/post/${post.id}`);
         } catch (err) {
+            if (err.response?.status === 401) { navigate('/login'); return; }
             setError(err.response?.data?.errors?.[0] || err.response?.data?.error || err.message);
         } finally {
             setLoading(false);

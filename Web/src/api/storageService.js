@@ -12,7 +12,18 @@ export const storageService = {
         const user = localStorage.getItem(STORAGE_KEYS.USER);
         return user ? JSON.parse(user) : null;
     },
-    setUser: (user) => localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user)),
+    
+    setUser: (user) => {
+        if (!user) return;
+        const safeUser = {
+            id: user.id,
+            name: user.name,
+            image: user.image,
+            email: user.email
+        };
+        localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(safeUser));
+    },
+    
     removeUser: () => localStorage.removeItem(STORAGE_KEYS.USER),
 
     clearAll: () => {

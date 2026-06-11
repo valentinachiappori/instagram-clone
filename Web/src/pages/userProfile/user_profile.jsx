@@ -37,8 +37,7 @@ const UserProfile = ({ userIdViewer = false, currentUser, onUpdateUser }) => {
     }, [id, navigate])
 
     if (loading) return <p>Cargando...</p>
-    if (error) return <ErrorMessage message={error} />
-    if (!user) return <p>No se encontró el usuario.</p>
+    if (error || !user) return <ErrorMessage message={error || "No se encontró el usuario."} />
 
     return (
         <div>

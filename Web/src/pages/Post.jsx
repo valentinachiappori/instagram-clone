@@ -57,7 +57,7 @@ const Post = ({ user }) => {
     };
 
     if (loading) return <p>Cargando...</p>;
-    if (!post) return <p>No se pudo cargar el post.</p>;
+    if (!post) return <ErrorMessage message={error || "No se pudo cargar el post."} />;
 
     return (
         <>

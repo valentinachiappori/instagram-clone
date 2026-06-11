@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { storageService } from './api/storageService';
+import { getTimeline } from './api/userService';
+import LoadingSpinner from './components/LoadingSpinner';
 import Home from './pages/Home';
 import Login from "./pages/Login";
 import Layout from './components/Layout';
@@ -23,6 +25,22 @@ const PrivateRoute = ({ user, onLogout, children }) => {
 
 function App() {
   const [user, setUser] = useState(storageService.getUser());
+  const [authLoading, setAuthLoading] = useState(!!storageService.getToken());
+
+  useEffect(() => {
+    if (!storageService.getToken()) return;
+
+    getTimeline()
+      .then(data => {
+        setUser(data);
+        storageService.setUser(data);
+      })
+      .catch(() => {
+        storageService.clearAll();
+        setUser(null);
+      })
+      .finally(() => setAuthLoading(false));
+  }, []);
 
   const handleLogout = () => {
     storageService.clearAll();
@@ -33,6 +51,8 @@ function App() {
     setUser(updatedUser);
     storageService.setUser(updatedUser);
   };
+
+  if (authLoading) return <LoadingSpinner />;
 
   return (
     <BrowserRouter>

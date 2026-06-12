@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "Mobile",
-    "slug": "Mobile",
+    "name": "Instagram Mobile",
+    "slug": "Instagram-Mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

@@ -1,7 +1,6 @@
-// context/AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { loginService } from '../services/authService';
+import { loginService, registerService } from '../services/authService';
 
 const AuthContext = createContext<any>(null);
 
@@ -14,6 +13,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const loadSession = async () => {
       try {
+        await new Promise(resolve => setTimeout(resolve, 2000)); //a ver si anda el splash
+
         const storedToken = await AsyncStorage.getItem('token');
         const storedUser = await AsyncStorage.getItem('user');
         if (storedToken && storedUser) {
@@ -29,11 +30,38 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     loadSession();
   }, []);
 
+  const signUp = async (email: string, fullName: string, username: string, password: string) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const data = await registerService(email, fullName, username, password); 
+
+      if (!data.token) {
+        throw new Error("El servidor no devolvió el token de sesión.");
+      }
+
+      setToken(data.token);
+      setUser(data.user);
+      await AsyncStorage.setItem('token', data.token);
+      await AsyncStorage.setItem('user', JSON.stringify(data.user));
+    } catch (err: any) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const signIn = async (email: string, password: string) => {
     setIsLoading(true);
     setError(null);
     try {
       const data = await loginService(email, password);
+
+      if (!data.token) {
+        throw new Error("El servidor no devolvió el token de sesión.");
+      }
+
       setToken(data.token);
       setUser(data.user);
       await AsyncStorage.setItem('token', data.token);
@@ -56,7 +84,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, isAuthenticated: !!token, isLoading, error, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, token, isAuthenticated: !!token, isLoading, error, signIn, signOut, signUp }}>
       {children}
     </AuthContext.Provider>
   );

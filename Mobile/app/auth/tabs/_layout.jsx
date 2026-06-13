@@ -1,7 +1,8 @@
 import { Tabs, Redirect } from 'expo-router';
-import { Image, ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { useAuth } from '../../../context/AuthContext';
+import Avatar from '../../../components/Avatar';
 import { styles, tabBarConfig } from './tabs.styles';
 
 const renderIcon = (name) => ({ focused, color }) => {
@@ -22,14 +23,12 @@ export default function TabLayout() {
   if (!isAuthenticated)
     return <Redirect href="/noauth/login" />;
 
-  const profileImage = user?.image
-    ? { uri: user.image }
-    : { uri: `https://ui-avatars.com/api/?name=${user?.name || 'U'}` };
-
   const renderProfileIcon = ({ focused }) => (
-    <Image
-      source={profileImage}
-      style={[styles.profileIcon, focused && styles.profileIconFocused]}
+    <Avatar
+      uri={user?.image}
+      name={user?.name}
+      size={26}
+      style={focused && styles.profileIconFocused}
     />
   );
 

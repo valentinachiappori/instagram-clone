@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, ActivityIndicator, RefreshControl, TouchableOpacity, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { useRouter } from 'expo-router';
 import { useAuth } from '../../../context/AuthContext';
 import { getTimelineService } from '../../../services/userService';
+import PostCard from '../../../components/PostCard';
 import ErrorMessage from '../../../components/ErrorMessage';
 import { styles } from './home.styles';
 
 export default function Home() {
-  const { token, signOut } = useAuth();
+  const { user, token, signOut } = useAuth();
+  const router = useRouter();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -35,36 +38,12 @@ export default function Home() {
   };
 
   const renderPost = ({ item }) => (
-    <View style={styles.postContainer}>
-      <View style={styles.postHeader}>
-        <Image
-          source={{ uri: item.user?.image || `https://ui-avatars.com/api/?name=${item.user?.name || 'U'}` }}
-          style={styles.avatar}
-        />
-        <Text style={styles.username}>{item.user?.name || 'usuario'}</Text>
-      </View>
-
-      <Image
-        source={{ uri: item.image || 'https://via.placeholder.com/400' }}
-        style={styles.postImage}
-        resizeMode="cover"
-      />
-
-      <View style={styles.postFooter}>
-        <View style={styles.actionIcons}>
-          <Text style={styles.iconPlaceholder}>♡</Text>
-          <Text style={styles.iconPlaceholder}>💬</Text>
-        </View>
-        <Text style={styles.likesText}>{item.likes?.length || 0} Me gusta</Text>
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionText}>
-            <Text style={styles.username}>{item.user?.name || 'usuario'} </Text>
-            {item.description}
-          </Text>
-        </View>
-        <Text style={styles.dateText}>HACE UN MOMENTO</Text>
-      </View>
-    </View>
+    <PostCard
+      post={item}
+      currentUser={user}
+      token={token}
+      onPress={() => router.push(`/auth/post/${item.id}`)}
+    />
   );
 
   if (isLoading) {

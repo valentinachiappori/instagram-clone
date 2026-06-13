@@ -19,11 +19,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  profileIcon: {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-  },
   profileIconFocused: {
     borderWidth: 2,
     borderColor: '#000',

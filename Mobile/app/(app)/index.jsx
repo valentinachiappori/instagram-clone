@@ -32,20 +32,20 @@ export default function Home() {
     fetchTimeline();
   };
 
-  const renderPost = ({ item }: { item: any }) => (
+  const renderPost = ({ item }) => (
     <View style={styles.postContainer}>
-      
+
       <View style={styles.postHeader}>
-        <Image 
-          source={{ uri: item.user?.image || 'https://ui-avatars.com/api/?name=' + (item.user?.username || 'U') }} 
-          style={styles.avatar} 
+        <Image
+          source={{ uri: item.user?.image || 'https://ui-avatars.com/api/?name=' + (item.user?.username || 'U') }}
+          style={styles.avatar}
         />
         <Text style={styles.username}>{item.user?.username || 'usuario_desconocido'}</Text>
       </View>
 
-      <Image 
-        source={{ uri: item.imageUrl || 'https://via.placeholder.com/400' }} 
-        style={styles.postImage} 
+      <Image
+        source={{ uri: item.imageUrl || 'https://via.placeholder.com/400' }}
+        style={styles.postImage}
         resizeMode="cover"
       />
 
@@ -54,18 +54,18 @@ export default function Home() {
           <Text style={styles.iconPlaceholder}>♡</Text>
           <Text style={styles.iconPlaceholder}>💬</Text>
         </View>
-        
+
         <Text style={styles.likesText}>
           {item.likes ? item.likes.length : 0} Me gusta
         </Text>
-        
+
         <View style={styles.descriptionContainer}>
           <Text style={styles.descriptionText}>
             <Text style={styles.username}>{item.user?.username || 'usuario'} </Text>
             {item.description}
           </Text>
         </View>
-        
+
         <Text style={styles.dateText}>HACE UN MOMENTO</Text>
       </View>
     </View>
@@ -80,15 +80,15 @@ export default function Home() {
   }
 
   return (
-    <SafeAreaView 
+    <SafeAreaView
       style={[
-        styles.container, 
+        styles.container,
         { paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 }
       ]}
     >
       <View style={styles.header}>
-        <Image 
-          source={require('../../assets/splash.png')} 
+        <Image
+          source={require('../../assets/splash.png')}
           style={styles.logoImage}
           resizeMode="contain"
         />

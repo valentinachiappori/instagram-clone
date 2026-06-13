@@ -11,13 +11,13 @@ export default function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [localError, setLocalError] = useState('');
-  
+
   const { signUp, isLoading } = useAuth();
   const router = useRouter();
 
   const handleRegister = async () => {
     setLocalError('');
-    
+
     if (!email || !fullName || !username || !password) {
       setLocalError('Por favor completá todos los campos.');
       return;
@@ -38,13 +38,13 @@ export default function Register() {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image 
-          source={require('../../assets/splash.png')} 
+        <Image
+          source={require('../../assets/splash.png')}
           style={styles.logoImage}
           resizeMode="contain"
         />
       </View>
-      
+
       <Text style={styles.subtitle}>
         Regístrate para ver fotos y videos de tus amigos.
       </Text>
@@ -83,8 +83,8 @@ export default function Register() {
         secureTextEntry
       />
 
-      <TouchableOpacity 
-        style={[styles.button, isLoading && styles.buttonDisabled]} 
+      <TouchableOpacity
+        style={[styles.button, isLoading && styles.buttonDisabled]}
         onPress={handleRegister}
         disabled={isLoading}
       >

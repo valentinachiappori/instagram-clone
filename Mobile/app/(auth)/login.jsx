@@ -9,17 +9,17 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [localError, setLocalError] = useState('');
-  
+
   const { signIn, isLoading } = useAuth();
   const router = useRouter();
 
   if (isLoading) {
     return <SplashScreen />;
   }
-  
+
   const handleLogin = async () => {
     setLocalError('');
-    
+
     if (!email || !password) {
       setLocalError('Por favor completá todos los campos.');
       return;
@@ -36,8 +36,8 @@ export default function Login() {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image 
-          source={require('../../assets/splash.png')} 
+        <Image
+          source={require('../../assets/splash.png')}
           style={styles.logoImage}
           resizeMode="contain"
         />
@@ -64,8 +64,8 @@ export default function Login() {
         secureTextEntry
       />
 
-      <TouchableOpacity 
-        style={[styles.button, isLoading && styles.buttonDisabled]} 
+      <TouchableOpacity
+        style={[styles.button, isLoading && styles.buttonDisabled]}
         onPress={handleLogin}
         disabled={isLoading}
       >

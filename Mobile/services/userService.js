@@ -1,6 +1,6 @@
 import { API_URL } from './authService';
 
-export const getTimelineService = async (token: string) => {
+export const getTimelineService = async (token) => {
   const formattedToken = token.startsWith('Bearer') ? token : `Bearer ${token}`;
 
   const response = await fetch(`${API_URL}/user`, {

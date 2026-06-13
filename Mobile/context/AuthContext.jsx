@@ -2,13 +2,13 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loginService, registerService } from '../services/authService';
 
-const AuthContext = createContext<any>(null);
+const AuthContext = createContext(null);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const loadSession = async () => {
@@ -30,11 +30,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     loadSession();
   }, []);
 
-  const signUp = async (email: string, fullName: string, username: string, password: string) => {
+  const signUp = async (email, fullName, username, password) => {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await registerService(email, fullName, username, password); 
+      const data = await registerService(email, fullName, username, password);
 
       if (!data.token) {
         throw new Error("El servidor no devolvió el token de sesión.");
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(data.user);
       await AsyncStorage.setItem('token', data.token);
       await AsyncStorage.setItem('user', JSON.stringify(data.user));
-    } catch (err: any) {
+    } catch (err) {
       setError(err.message);
       throw err;
     } finally {
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (email, password) => {
     setIsLoading(true);
     setError(null);
     try {
@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(data.user);
       await AsyncStorage.setItem('token', data.token);
       await AsyncStorage.setItem('user', JSON.stringify(data.user));
-    } catch (err: any) {
+    } catch (err) {
       setError(err.message);
       throw err;
     } finally {

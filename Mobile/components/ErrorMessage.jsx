@@ -1,5 +1,5 @@
 import { Text } from 'react-native';
-import { styles } from '../styles/errorMessage.styles';
+import { styles } from './errorMessage.styles';
 
 const ErrorMessage = ({ message, reserveSpace = false }) => {
   if (!reserveSpace && !message) return null;

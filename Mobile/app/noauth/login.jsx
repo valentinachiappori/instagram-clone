@@ -6,7 +6,7 @@ import { SplashScreen } from '../../components/SplashScreen';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import ErrorMessage from '../../components/ErrorMessage';
-import { styles } from '../../styles/login.styles';
+import { styles } from './login.styles';
 
 export default function Login() {
   const [email, setEmail] = useState('');

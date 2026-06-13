@@ -1,5 +1,5 @@
 import { TouchableOpacity, Text, ActivityIndicator } from 'react-native';
-import { styles } from '../styles/button.styles';
+import { styles } from './button.styles';
 
 const Button = ({ children, onPress, disabled = false, loading = false }) => {
   return (

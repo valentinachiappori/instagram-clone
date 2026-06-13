@@ -1,5 +1,5 @@
 import { TextInput } from 'react-native';
-import { styles } from '../styles/input.styles';
+import { styles } from './input.styles';
 
 const Input = ({
   placeholder,

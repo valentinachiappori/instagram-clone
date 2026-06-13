@@ -1,9 +1,8 @@
-import { Tabs } from 'expo-router';
-import { Image } from 'react-native';
+import { Tabs, Redirect } from 'expo-router';
+import { Image, ActivityIndicator, View } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { useAuth } from '../../../context/AuthContext';
-import { ProtectedRoute } from '../../../components/ProtectedRoute';
-import { styles, tabBarConfig } from '../../../styles/tabs.styles';
+import { styles, tabBarConfig } from './tabs.styles';
 
 const renderIcon = (name) => ({ focused, color }) => {
   if (name === 'home')
@@ -14,8 +13,15 @@ const renderIcon = (name) => ({ focused, color }) => {
     return <Feather name="plus-square" size={26} color={color} />;
 };
 
-function TabNavigator() {
-  const { user } = useAuth();
+export default function TabLayout() {
+  const { user, isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading)
+    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator size="large" color="#0095F6" /></View>;
+
+  if (!isAuthenticated)
+    return <Redirect href="/noauth/login" />;
+
   const profileImage = user?.image
     ? { uri: user.image }
     : { uri: `https://ui-avatars.com/api/?name=${user?.name || 'U'}` };
@@ -29,18 +35,10 @@ function TabNavigator() {
 
   return (
     <Tabs screenOptions={{ ...tabBarConfig, tabBarStyle: styles.tabBar, tabBarItemStyle: styles.tabBarItem }}>
-      <Tabs.Screen name="index"   options={{ tabBarIcon: renderIcon('home') }} />
+      <Tabs.Screen name="home"    options={{ tabBarIcon: renderIcon('home') }} />
       <Tabs.Screen name="search"  options={{ tabBarIcon: renderIcon('search') }} />
       <Tabs.Screen name="create"  options={{ tabBarIcon: renderIcon('create') }} />
       <Tabs.Screen name="profile" options={{ tabBarIcon: renderProfileIcon }} />
     </Tabs>
-  );
-}
-
-export default function TabLayout() {
-  return (
-    <ProtectedRoute>
-      <TabNavigator />
-    </ProtectedRoute>
   );
 }

@@ -30,11 +30,11 @@ export const AuthProvider = ({ children }) => {
     loadSession();
   }, []);
 
-  const signUp = async (email, fullName, username, password) => {
+  const signUp = async (email, name, password, image) => {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await registerService(email, fullName, username, password);
+      const data = await registerService(email, name, password, image);
 
       if (!data.token) {
         throw new Error("El servidor no devolvió el token de sesión.");

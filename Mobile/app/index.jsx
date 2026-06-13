@@ -13,5 +13,5 @@ export default function Index() {
     );
   }
 
-  return <Redirect href={isAuthenticated ? '/auth/tabs' : '/noauth/login'} />;
+  return <Redirect href={isAuthenticated ? '/auth/tabs/home' : '/noauth/login'} />;
 }

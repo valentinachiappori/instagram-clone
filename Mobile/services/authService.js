@@ -12,11 +12,11 @@ export const loginService = async (email, password) => {
   return { token, user };
 };
 
-export const registerService = async (email, fullName, username, password) => {
+export const registerService = async (email, name, password, image) => {
   const response = await fetch(`${API_URL}/register`, {
     method: 'POST',
     headers: publicHeaders,
-    body: JSON.stringify({ email, fullName, username, password }),
+    body: JSON.stringify({ email, name, password, image }),
   });
   if (!response.ok) throw new Error('Error al registrarse');
   const token = response.headers.get('Authorization');

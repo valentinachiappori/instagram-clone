@@ -6,13 +6,13 @@ import { SplashScreen } from '../../components/SplashScreen';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import ErrorMessage from '../../components/ErrorMessage';
-import { styles } from '../../styles/register.styles';
+import { styles } from './register.styles';
 
 export default function Register() {
   const [email, setEmail] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [image, setImage] = useState('');
   const [localError, setLocalError] = useState('');
 
   const { signUp, isLoading } = useAuth();
@@ -22,12 +22,12 @@ export default function Register() {
 
   const handleRegister = async () => {
     setLocalError('');
-    if (!email || !fullName || !username || !password) {
+    if (!email || !name || !password || !image) {
       setLocalError('Por favor completá todos los campos.');
       return;
     }
     try {
-      await signUp(email, fullName, username, password);
+      await signUp(email, name, password, image);
       router.replace('/');
     } catch (err) {
       setLocalError('Error al crear la cuenta. Intentalo de nuevo.');
@@ -51,27 +51,29 @@ export default function Register() {
       <ErrorMessage message={localError} />
 
       <Input
-        placeholder="Número de celular o correo electrónico"
+        placeholder="Correo electrónico"
         value={email}
         onChangeText={setEmail}
+        keyboardType="email-address"
         autoCapitalize="none"
       />
       <Input
         placeholder="Nombre completo"
-        value={fullName}
-        onChangeText={setFullName}
-      />
-      <Input
-        placeholder="Nombre de usuario"
-        value={username}
-        onChangeText={setUsername}
-        autoCapitalize="none"
+        value={name}
+        onChangeText={setName}
       />
       <Input
         placeholder="Contraseña"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+      />
+      <Input
+        placeholder="Imagen (URL)"
+        value={image}
+        onChangeText={setImage}
+        keyboardType="url"
+        autoCapitalize="none"
       />
 
       <Button onPress={handleRegister} loading={isLoading}>

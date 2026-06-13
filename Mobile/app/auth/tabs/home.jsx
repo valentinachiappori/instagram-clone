@@ -2,20 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, ActivityIndicator, RefreshControl, TouchableOpacity, SafeAreaView, Platform, StatusBar } from 'react-native';
 import { useAuth } from '../../../context/AuthContext';
 import { getTimelineService } from '../../../services/userService';
-import { styles } from '../../../styles/home.styles';
+import ErrorMessage from '../../../components/ErrorMessage';
+import { styles } from './home.styles';
 
 export default function Home() {
   const { token, signOut } = useAuth();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState(null);
 
   const fetchTimeline = async () => {
+    setError(null);
     try {
       const data = await getTimelineService(token);
       setPosts(data.timeline || []);
     } catch (err) {
-      console.error('Error al traer posts:', err);
+      setError(err.message || 'Error al cargar el timeline.');
     } finally {
       setIsLoading(false);
       setRefreshing(false);
@@ -35,14 +38,14 @@ export default function Home() {
     <View style={styles.postContainer}>
       <View style={styles.postHeader}>
         <Image
-          source={{ uri: item.user?.image || `https://ui-avatars.com/api/?name=${item.user?.username || 'U'}` }}
+          source={{ uri: item.user?.image || `https://ui-avatars.com/api/?name=${item.user?.name || 'U'}` }}
           style={styles.avatar}
         />
-        <Text style={styles.username}>{item.user?.username || 'usuario_desconocido'}</Text>
+        <Text style={styles.username}>{item.user?.name || 'usuario'}</Text>
       </View>
 
       <Image
-        source={{ uri: item.imageUrl || 'https://via.placeholder.com/400' }}
+        source={{ uri: item.image || 'https://via.placeholder.com/400' }}
         style={styles.postImage}
         resizeMode="cover"
       />
@@ -55,7 +58,7 @@ export default function Home() {
         <Text style={styles.likesText}>{item.likes?.length || 0} Me gusta</Text>
         <View style={styles.descriptionContainer}>
           <Text style={styles.descriptionText}>
-            <Text style={styles.username}>{item.user?.username || 'usuario'} </Text>
+            <Text style={styles.username}>{item.user?.name || 'usuario'} </Text>
             {item.description}
           </Text>
         </View>
@@ -86,6 +89,8 @@ export default function Home() {
           <Text style={styles.logoutText}>Salir</Text>
         </TouchableOpacity>
       </View>
+
+      <ErrorMessage message={error} />
 
       <FlatList
         data={posts}

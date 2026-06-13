@@ -1,19 +1,13 @@
-import { API_URL } from './authService';
+import { API_URL, authHeaders, handleResponse } from './api';
 
-export const getTimelineService = async (token) => {
-  const formattedToken = token.startsWith('Bearer') ? token : `Bearer ${token}`;
+export const getTimelineService = (token) =>
+  fetch(`${API_URL}/user`, { method: 'GET', headers: authHeaders(token) })
+    .then(handleResponse);
 
-  const response = await fetch(`${API_URL}/user`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': formattedToken,
-    },
-  });
+export const getUser = (userId, token) =>
+  fetch(`${API_URL}/user/${userId}`, { method: 'GET', headers: authHeaders(token) })
+    .then(handleResponse);
 
-  if (!response.ok) {
-    throw new Error('Error al cargar el timeline');
-  }
-
-  return response.json();
-};
+export const followUser = (userId, token) =>
+  fetch(`${API_URL}/users/${userId}/follow`, { method: 'PUT', headers: authHeaders(token) })
+    .then(handleResponse);

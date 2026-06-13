@@ -3,37 +3,35 @@ import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, Image } fro
 import { useRouter, Link } from 'expo-router';
 import { useAuth } from '../../context/AuthContext';
 import { SplashScreen } from '../../components/SplashScreen';
-import { styles } from '../../styles/register.styles';
+import { styles } from '../../styles/login.styles';
 
-export default function Register() {
+export default function Login() {
   const [email, setEmail] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [localError, setLocalError] = useState('');
 
-  const { signUp, isLoading } = useAuth();
+  const { signIn, isLoading } = useAuth();
   const router = useRouter();
 
-  const handleRegister = async () => {
+  if (isLoading) {
+    return <SplashScreen />;
+  }
+
+  const handleLogin = async () => {
     setLocalError('');
 
-    if (!email || !fullName || !username || !password) {
+    if (!email || !password) {
       setLocalError('Por favor completá todos los campos.');
       return;
     }
 
     try {
-      await signUp(email, fullName, username, password);
+      await signIn(email, password);
       router.replace('/');
     } catch (err) {
-      setLocalError('Error al crear la cuenta. Intentalo de nuevo.');
+      setLocalError('Error al iniciar sesión. Revisá tus credenciales.');
     }
   };
-
-  if (isLoading) {
-    return <SplashScreen />;
-  }
 
   return (
     <View style={styles.container}>
@@ -45,35 +43,18 @@ export default function Register() {
         />
       </View>
 
-      <Text style={styles.subtitle}>
-        Regístrate para ver fotos y videos de tus amigos.
-      </Text>
-
       {localError ? <Text style={styles.errorText}>{localError}</Text> : null}
 
       <TextInput
         style={styles.input}
-        placeholder="Número de celular o correo electrónico"
+        placeholder="Teléfono, usuario o correo electrónico"
         placeholderTextColor="#8E8E8E"
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
+        keyboardType="email-address"
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Nombre completo"
-        placeholderTextColor="#8E8E8E"
-        value={fullName}
-        onChangeText={setFullName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Nombre de usuario"
-        placeholderTextColor="#8E8E8E"
-        value={username}
-        onChangeText={setUsername}
-        autoCapitalize="none"
-      />
+
       <TextInput
         style={styles.input}
         placeholder="Contraseña"
@@ -85,21 +66,21 @@ export default function Register() {
 
       <TouchableOpacity
         style={[styles.button, isLoading && styles.buttonDisabled]}
-        onPress={handleRegister}
+        onPress={handleLogin}
         disabled={isLoading}
       >
         {isLoading ? (
           <ActivityIndicator color="#FFFFFF" />
         ) : (
-          <Text style={styles.buttonText}>Registrarte</Text>
+          <Text style={styles.buttonText}>Iniciar sesión</Text>
         )}
       </TouchableOpacity>
 
       <View style={styles.footer}>
-        <Text style={styles.footerText}>¿Tienes una cuenta?</Text>
-        <Link href="/login" asChild>
+        <Text style={styles.footerText}>¿No tienes una cuenta?</Text>
+        <Link href="/noauth/register" asChild>
           <TouchableOpacity>
-            <Text style={styles.link}>Inicia sesión</Text>
+            <Text style={styles.link}>Regístrate</Text>
           </TouchableOpacity>
         </Link>
       </View>

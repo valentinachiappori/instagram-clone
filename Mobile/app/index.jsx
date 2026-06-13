@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, ActivityIndicator, RefreshControl, TouchableOpacity, SafeAreaView, Platform, StatusBar } from 'react-native';
-import { useAuth } from '../../context/AuthContext';
-import { getTimelineService } from '../../services/userService';
-import { styles } from '../../styles/home.styles';
+import { useAuth } from '../context/AuthContext';
+import { getTimelineService } from '../services/userService';
+import { ProtectedRoute } from '../components/ProtectedRoute';
+import { styles } from '../styles/home.styles';
 
-export default function Home() {
+function HomeScreen() {
   const { token, signOut } = useAuth();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -88,7 +89,7 @@ export default function Home() {
     >
       <View style={styles.header}>
         <Image
-          source={require('../../assets/splash.png')}
+          source={require('../assets/splash.png')}
           style={styles.logoImage}
           resizeMode="contain"
         />
@@ -113,5 +114,13 @@ export default function Home() {
         }
       />
     </SafeAreaView>
+  );
+}
+
+export default function Home() {
+  return (
+    <ProtectedRoute>
+      <HomeScreen />
+    </ProtectedRoute>
   );
 }

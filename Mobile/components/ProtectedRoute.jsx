@@ -14,7 +14,7 @@ export const ProtectedRoute = ({ children }) => {
   }
 
   if (!isAuthenticated) {
-    return <Redirect href="/login" />;
+    return <Redirect href="/noauth/login" />;
   }
 
   return <>{children}</>;

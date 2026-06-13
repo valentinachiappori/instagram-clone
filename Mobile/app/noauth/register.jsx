@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { useRouter, Link } from 'expo-router';
 import { useAuth } from '../../context/AuthContext';
 import { SplashScreen } from '../../components/SplashScreen';
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import ErrorMessage from '../../components/ErrorMessage';
 import { styles } from '../../styles/register.styles';
 
 export default function Register() {
@@ -15,14 +18,14 @@ export default function Register() {
   const { signUp, isLoading } = useAuth();
   const router = useRouter();
 
+  if (isLoading) return <SplashScreen />;
+
   const handleRegister = async () => {
     setLocalError('');
-
     if (!email || !fullName || !username || !password) {
       setLocalError('Por favor completá todos los campos.');
       return;
     }
-
     try {
       await signUp(email, fullName, username, password);
       router.replace('/');
@@ -30,10 +33,6 @@ export default function Register() {
       setLocalError('Error al crear la cuenta. Intentalo de nuevo.');
     }
   };
-
-  if (isLoading) {
-    return <SplashScreen />;
-  }
 
   return (
     <View style={styles.container}>
@@ -49,51 +48,35 @@ export default function Register() {
         Regístrate para ver fotos y videos de tus amigos.
       </Text>
 
-      {localError ? <Text style={styles.errorText}>{localError}</Text> : null}
+      <ErrorMessage message={localError} />
 
-      <TextInput
-        style={styles.input}
+      <Input
         placeholder="Número de celular o correo electrónico"
-        placeholderTextColor="#8E8E8E"
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
       />
-      <TextInput
-        style={styles.input}
+      <Input
         placeholder="Nombre completo"
-        placeholderTextColor="#8E8E8E"
         value={fullName}
         onChangeText={setFullName}
       />
-      <TextInput
-        style={styles.input}
+      <Input
         placeholder="Nombre de usuario"
-        placeholderTextColor="#8E8E8E"
         value={username}
         onChangeText={setUsername}
         autoCapitalize="none"
       />
-      <TextInput
-        style={styles.input}
+      <Input
         placeholder="Contraseña"
-        placeholderTextColor="#8E8E8E"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
 
-      <TouchableOpacity
-        style={[styles.button, isLoading && styles.buttonDisabled]}
-        onPress={handleRegister}
-        disabled={isLoading}
-      >
-        {isLoading ? (
-          <ActivityIndicator color="#FFFFFF" />
-        ) : (
-          <Text style={styles.buttonText}>Registrarte</Text>
-        )}
-      </TouchableOpacity>
+      <Button onPress={handleRegister} loading={isLoading}>
+        Registrarte
+      </Button>
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>¿Tienes una cuenta?</Text>

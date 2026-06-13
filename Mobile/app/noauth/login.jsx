@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { useRouter, Link } from 'expo-router';
 import { useAuth } from '../../context/AuthContext';
 import { SplashScreen } from '../../components/SplashScreen';
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import ErrorMessage from '../../components/ErrorMessage';
 import { styles } from '../../styles/login.styles';
 
 export default function Login() {
@@ -13,18 +16,14 @@ export default function Login() {
   const { signIn, isLoading } = useAuth();
   const router = useRouter();
 
-  if (isLoading) {
-    return <SplashScreen />;
-  }
+  if (isLoading) return <SplashScreen />;
 
   const handleLogin = async () => {
     setLocalError('');
-
     if (!email || !password) {
       setLocalError('Por favor completá todos los campos.');
       return;
     }
-
     try {
       await signIn(email, password);
       router.replace('/');
@@ -43,38 +42,25 @@ export default function Login() {
         />
       </View>
 
-      {localError ? <Text style={styles.errorText}>{localError}</Text> : null}
+      <ErrorMessage message={localError} />
 
-      <TextInput
-        style={styles.input}
+      <Input
         placeholder="Teléfono, usuario o correo electrónico"
-        placeholderTextColor="#8E8E8E"
         value={email}
         onChangeText={setEmail}
-        autoCapitalize="none"
         keyboardType="email-address"
+        autoCapitalize="none"
       />
-
-      <TextInput
-        style={styles.input}
+      <Input
         placeholder="Contraseña"
-        placeholderTextColor="#8E8E8E"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
 
-      <TouchableOpacity
-        style={[styles.button, isLoading && styles.buttonDisabled]}
-        onPress={handleLogin}
-        disabled={isLoading}
-      >
-        {isLoading ? (
-          <ActivityIndicator color="#FFFFFF" />
-        ) : (
-          <Text style={styles.buttonText}>Iniciar sesión</Text>
-        )}
-      </TouchableOpacity>
+      <Button onPress={handleLogin} loading={isLoading}>
+        Iniciar sesión
+      </Button>
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>¿No tienes una cuenta?</Text>

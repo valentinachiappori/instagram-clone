@@ -23,37 +23,6 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 20,
   },
-  input: {
-    backgroundColor: '#FAFAFA',
-    borderWidth: 1,
-    borderColor: '#DBDBDB',
-    borderRadius: 5,
-    padding: 15,
-    marginBottom: 15,
-    fontSize: 14,
-    color: '#262626',
-  },
-  button: {
-    backgroundColor: '#0095F6',
-    padding: 15,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  buttonDisabled: {
-    backgroundColor: '#B2DFFC',
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 14,
-  },
-  errorText: {
-    color: '#ED4956',
-    textAlign: 'center',
-    marginBottom: 15,
-    fontSize: 14,
-  },
   footer: {
     flexDirection: 'row',
     justifyContent: 'center',

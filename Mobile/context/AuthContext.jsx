@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const loadSession = async () => {
       try {
-        await new Promise(resolve => setTimeout(resolve, 2000)); //a ver si anda el splash
+        await new Promise(resolve => setTimeout(resolve, 2000)); // splash screen
 
         const storedToken = await AsyncStorage.getItem('token');
         const storedUser = await AsyncStorage.getItem('user');
@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
           setUser(JSON.parse(storedUser));
         }
       } catch (e) {
-        console.error("Error cargando sesión", e);
+        console.error('Error cargando sesión', e);
       } finally {
         setIsLoading(false);
       }
@@ -35,11 +35,7 @@ export const AuthProvider = ({ children }) => {
     setError(null);
     try {
       const data = await registerService(email, name, password, image);
-
-      if (!data.token) {
-        throw new Error("El servidor no devolvió el token de sesión.");
-      }
-
+      if (!data.token) throw new Error('El servidor no devolvió el token de sesión.');
       setToken(data.token);
       setUser(data.user);
       await AsyncStorage.setItem('token', data.token);
@@ -57,11 +53,7 @@ export const AuthProvider = ({ children }) => {
     setError(null);
     try {
       const data = await loginService(email, password);
-
-      if (!data.token) {
-        throw new Error("El servidor no devolvió el token de sesión.");
-      }
-
+      if (!data.token) throw new Error('El servidor no devolvió el token de sesión.');
       setToken(data.token);
       setUser(data.user);
       await AsyncStorage.setItem('token', data.token);
@@ -75,12 +67,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signOut = async () => {
-    setIsLoading(true);
     setToken(null);
     setUser(null);
     await AsyncStorage.removeItem('token');
     await AsyncStorage.removeItem('user');
-    setIsLoading(false);
   };
 
   return (

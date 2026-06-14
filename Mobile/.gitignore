@@ -33,9 +33,20 @@ yarn-error.*
 # local env files
 .env*.local
 
-# typescript
-*.tsbuildinfo
 
 # generated native folders
 /ios
 /android
+
+# Logs
+*.log
+
+# Environment
+.env
+
+# Windows
+Thumbs.db
+
+# React Native bundles
+*.jsbundle
+*.jsbundle.map

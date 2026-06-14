@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
-import { View, Text, FlatList, ActivityIndicator, SafeAreaView } from 'react-native';
+import { useState, useCallback } from 'react';
+import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { useFocusEffect } from 'expo-router';
 import { getUser, followUser } from '../services/userService';
 import Avatar from './Avatar';
 import Button from './Button';
@@ -14,28 +15,30 @@ const UserProfile = ({ userId, isOwner, token, currentUser, onPress, onSignOut }
   const [isFollowing, setIsFollowing] = useState(false);
   const [followError, setFollowError] = useState(null);
 
-  useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-    setError(null);
+  useFocusEffect(
+    useCallback(() => {
+      let cancelled = false;
+      setLoading(true);
+      setError(null);
 
-    getUser(userId, token)
-      .then((data) => {
-        if (cancelled) return;
-        setProfileUser(data);
-        setIsFollowing(
-          (currentUser?.followers || []).some((f) => f.id === data.id)
-        );
-        setLoading(false);
-      })
-      .catch((err) => {
-        if (cancelled) return;
-        setError(err.message);
-        setLoading(false);
-      });
+      getUser(userId, token)
+        .then((data) => {
+          if (cancelled) return;
+          setProfileUser(data);
+          setIsFollowing(
+            (data.followers || []).some((f) => f.id === currentUser?.id)
+          );
+          setLoading(false);
+        })
+        .catch((err) => {
+          if (cancelled) return;
+          setError(err.message);
+          setLoading(false);
+        });
 
-    return () => { cancelled = true; };
-  }, [userId]);
+      return () => { cancelled = true; };
+    }, [userId])
+  );
 
   const handleFollow = async () => {
     try {

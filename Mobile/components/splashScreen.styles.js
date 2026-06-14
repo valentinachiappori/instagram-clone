@@ -8,10 +8,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    fontSize: 45,
-    fontWeight: 'bold',
-    color: '#000000',
-    fontFamily: 'sans-serif',
+    width: 200,
+    height: 80,
   },
   fromText: {
     color: '#8E8E8E',

@@ -45,7 +45,7 @@ export default function Login() {
       <ErrorMessage message={localError} />
 
       <Input
-        placeholder="Teléfono, usuario o correo electrónico"
+        placeholder="Correo electrónico"
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"

@@ -44,6 +44,7 @@ export default function Home() {
       currentUser={user}
       token={token}
       onPress={() => router.push(`/auth/post/${item.id}`)}
+      onAvatarPress={() => router.push(`/auth/profile/${item.user?.id}`)}
     />
   );
 

@@ -6,7 +6,7 @@ import ErrorMessage from './ErrorMessage';
 import { updateLike } from '../services/postService';
 import { styles } from './postCard.styles';
 
-const PostCard = ({ post, currentUser, token, onPress }) => {
+const PostCard = ({ post, currentUser, token, onPress, onAvatarPress }) => {
   const [isLiked, setIsLiked] = useState(
     () => currentUser && post.likes?.some((u) => u.id === currentUser.id)
   );
@@ -30,10 +30,10 @@ const PostCard = ({ post, currentUser, token, onPress }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <TouchableOpacity style={styles.header} onPress={onAvatarPress} activeOpacity={0.8}>
         <Avatar uri={post.user?.image} name={post.user?.name} size={32} style={styles.avatar} />
         <Text style={styles.username}>{post.user?.name}</Text>
-      </View>
+      </TouchableOpacity>
 
       <ErrorMessage message={likeError} />
 

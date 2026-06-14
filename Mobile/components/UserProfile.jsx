@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, FlatList, ActivityIndicator } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { getUser, followUser } from '../services/userService';
-import Avatar from './Avatar';
+import ProfileHeader from './ProfileHeader';
 import Button from './Button';
 import PostGridItem from './PostGridItem';
 import ErrorMessage from './ErrorMessage';
@@ -63,31 +63,16 @@ const UserProfile = ({ userId, isOwner, token, currentUser, onPress, onSignOut }
 
   const posts = [...(profileUser.posts || [])].reverse();
 
+  const actionButton = isOwner
+    ? <Button onPress={onSignOut} style={styles.actionButton}>Salir</Button>
+    : <Button onPress={handleFollow} style={styles.actionButton}>
+        {isFollowing ? 'Dejar de seguir' : 'Seguir'}
+      </Button>;
+
   return (
     <View style={{ flex: 1 }}>
-      <View style={styles.header}>
-        <Avatar uri={profileUser.image} name={profileUser.name} size={80} />
-        <View style={styles.headerInfo}>
-          <View style={styles.nameRow}>
-            <Text style={styles.name}>{profileUser.name}</Text>
-            {isOwner && onSignOut && (
-              <Button onPress={onSignOut} style={styles.signOutButton}>Salir</Button>
-            )}
-          </View>
-          <View style={styles.stats}>
-            <Text style={styles.stat}>{profileUser.posts?.length || 0} publicaciones</Text>
-            <Text style={styles.stat}>{profileUser.followers?.length || 0} seguidos</Text>
-          </View>
-          {!isOwner && (
-            <>
-              <Button onPress={handleFollow}>
-                {isFollowing ? 'Dejar de seguir' : 'Seguir'}
-              </Button>
-              <ErrorMessage message={followError} />
-            </>
-          )}
-        </View>
-      </View>
+      <ProfileHeader user={profileUser} actionButton={actionButton} />
+      <ErrorMessage message={followError} />
 
       <FlatList
         data={posts}

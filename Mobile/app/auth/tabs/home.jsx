@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, ActivityIndicator, RefreshControl, TouchableOpacity, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, RefreshControl, SafeAreaView, Platform, StatusBar } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../../../context/AuthContext';
 import { getTimelineService } from '../../../services/userService';
 import PostCard from '../../../components/PostCard';
+import Header from '../../../components/Header';
 import ErrorMessage from '../../../components/ErrorMessage';
 import { styles } from './home.styles';
 
 export default function Home() {
-  const { user, token, signOut } = useAuth();
+  const { user, token } = useAuth();
   const router = useRouter();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -58,16 +59,7 @@ export default function Home() {
     <SafeAreaView
       style={[styles.container, { paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 }]}
     >
-      <View style={styles.header}>
-        <Image
-          source={require('../../../assets/splash.png')}
-          style={styles.logoImage}
-          resizeMode="contain"
-        />
-        <TouchableOpacity onPress={signOut}>
-          <Text style={styles.logoutText}>Salir</Text>
-        </TouchableOpacity>
-      </View>
+      <Header logo={require('../../../assets/splash.png')} />
 
       <ErrorMessage message={error} />
 

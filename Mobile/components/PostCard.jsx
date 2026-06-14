@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Avatar from './Avatar';
-import CommentItem from './CommentItem';
 import ErrorMessage from './ErrorMessage';
 import { updateLike } from '../services/postService';
 import { styles } from './postCard.styles';
@@ -58,16 +57,20 @@ const PostCard = ({ post, currentUser, token, onPress }) => {
 
         <Text style={styles.likesText}>{likesCount} Me gusta</Text>
 
+        {post.comments?.length > 0 && (
+          <TouchableOpacity onPress={onPress}>
+            <Text style={styles.commentsText}>
+              Ver los {post.comments.length} comentarios
+            </Text>
+          </TouchableOpacity>
+        )}
+
         <View style={styles.descriptionRow}>
           <Text style={styles.text}>
             <Text style={styles.bold}>{post.user?.name} </Text>
             {post.description}
           </Text>
         </View>
-
-        {post.comments?.slice(0, 2).map((comment) => (
-          <CommentItem key={comment.id} comment={comment} />
-        ))}
       </View>
     </View>
   );

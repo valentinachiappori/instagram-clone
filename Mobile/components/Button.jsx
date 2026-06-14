@@ -1,10 +1,10 @@
 import { TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 import { styles } from './button.styles';
 
-const Button = ({ children, onPress, disabled = false, loading = false }) => {
+const Button = ({ children, onPress, disabled = false, loading = false, style }) => {
   return (
     <TouchableOpacity
-      style={[styles.button, (disabled || loading) && styles.buttonDisabled]}
+      style={[styles.button, (disabled || loading) && styles.buttonDisabled, style]}
       onPress={onPress}
       disabled={disabled || loading}
     >

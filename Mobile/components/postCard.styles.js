@@ -39,6 +39,11 @@ export const styles = StyleSheet.create({
     color: '#262626',
     marginBottom: 4,
   },
+  commentsText: {
+    fontSize: 14,
+    color: '#8E8E8E',
+    marginBottom: 4,
+  },
   descriptionRow: {
     marginBottom: 4,
   },

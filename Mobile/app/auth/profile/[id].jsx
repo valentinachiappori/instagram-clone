@@ -1,10 +1,11 @@
 import { SafeAreaView, Platform, StatusBar } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAuth } from '../../../context/AuthContext';
 import UserProfile from '../../../components/UserProfile';
 
-export default function Profile() {
-  const { user, token, signOut } = useAuth();
+export default function UserProfileScreen() {
+  const { id } = useLocalSearchParams();
+  const { user, token } = useAuth();
   const router = useRouter();
 
   return (
@@ -12,12 +13,11 @@ export default function Profile() {
       style={{ flex: 1, backgroundColor: '#fff', paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 }}
     >
       <UserProfile
-        userId={user?.id}
-        isOwner={true}
+        userId={id}
+        isOwner={String(id) === String(user?.id)}
         token={token}
         currentUser={user}
         onPress={(postId) => router.push(`/auth/post/${postId}`)}
-        onSignOut={signOut}
       />
     </SafeAreaView>
   );

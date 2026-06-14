@@ -2,12 +2,18 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    marginBottom: 16,
+    marginBottom: 15,
+    backgroundColor: '#FFFFFF',
   },
   header: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
     padding: 10,
+  },
+  userInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   avatar: {
     marginRight: 10,
@@ -17,43 +23,50 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     color: '#262626',
   },
+  date: {
+    fontSize: 12,
+    color: '#8E8E8E',
+    marginTop: 2,
+  },
+  ownerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  actionIcon: {
+    marginLeft: 15,
+  },
   image: {
     width: '100%',
-    aspectRatio: 4 / 5,
+    height: 400,
     backgroundColor: '#FAFAFA',
   },
   footer: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    padding: 10,
   },
   actions: {
     flexDirection: 'row',
-    marginBottom: 6,
+    marginBottom: 10,
   },
   actionButton: {
-    marginRight: 14,
+    marginRight: 15,
   },
   likesText: {
     fontWeight: 'bold',
-    fontSize: 14,
-    color: '#262626',
-    marginBottom: 4,
+    marginBottom: 5,
   },
   commentsText: {
-    fontSize: 14,
     color: '#8E8E8E',
-    marginBottom: 4,
+    marginBottom: 5,
   },
   descriptionRow: {
-    marginBottom: 4,
-  },
-  bold: {
-    fontWeight: 'bold',
-    color: '#262626',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   text: {
     fontSize: 14,
     color: '#262626',
-    lineHeight: 20,
+  },
+  bold: {
+    fontWeight: 'bold',
   },
 });

@@ -6,7 +6,14 @@ import ErrorMessage from './ErrorMessage';
 import { updateLike } from '../services/postService';
 import { styles } from './postCard.styles';
 
-const PostCard = ({ post, currentUser, token, onPress, onAvatarPress }) => {
+const formatDate = (dateString) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  const pad = (n) => n.toString().padStart(2, '0');
+  return `${date.getFullYear()}/${pad(date.getMonth() + 1)}/${pad(date.getDate())} - ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+};
+
+const PostCard = ({ post, currentUser, token, onPress, onAvatarPress, onCommentPress, isOwner, onEdit, onDelete }) => {
   const [isLiked, setIsLiked] = useState(
     () => currentUser && post.likes?.some((u) => u.id === currentUser.id)
   );
@@ -30,10 +37,26 @@ const PostCard = ({ post, currentUser, token, onPress, onAvatarPress }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.header} onPress={onAvatarPress} activeOpacity={0.8}>
-        <Avatar uri={post.user?.image} name={post.user?.name} size={32} style={styles.avatar} />
-        <Text style={styles.username}>{post.user?.name}</Text>
-      </TouchableOpacity>
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.userInfo} onPress={onAvatarPress} activeOpacity={0.8}>
+          <Avatar uri={post.user?.image} name={post.user?.name} size={32} style={styles.avatar} />
+          <View>
+            <Text style={styles.username}>{post.user?.name}</Text>
+            <Text style={styles.date}>{formatDate(post.date)}</Text>
+          </View>
+        </TouchableOpacity>
+
+        {isOwner && (
+          <View style={styles.ownerActions}>
+            <TouchableOpacity onPress={onDelete} style={styles.actionIcon}>
+              <Ionicons name="trash-outline" size={22} color="#262626" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onEdit} style={styles.actionIcon}>
+              <Ionicons name="pencil-outline" size={22} color="#262626" />
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
 
       <ErrorMessage message={likeError} />
 
@@ -50,7 +73,7 @@ const PostCard = ({ post, currentUser, token, onPress, onAvatarPress }) => {
               color={isLiked ? '#ED4956' : '#262626'}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={onPress} style={styles.actionButton}>
+          <TouchableOpacity onPress={onCommentPress || onPress} style={styles.actionButton}>
             <Ionicons name="chatbubble-outline" size={24} color="#262626" />
           </TouchableOpacity>
         </View>
@@ -58,7 +81,7 @@ const PostCard = ({ post, currentUser, token, onPress, onAvatarPress }) => {
         <Text style={styles.likesText}>{likesCount} Me gusta</Text>
 
         {post.comments?.length > 0 && (
-          <TouchableOpacity onPress={onPress}>
+          <TouchableOpacity onPress={onCommentPress || onPress}>
             <Text style={styles.commentsText}>
               Ver los {post.comments.length} comentarios
             </Text>

@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 400,
+    aspectRatio: 4 / 5,
     backgroundColor: '#FAFAFA',
   },
   footer: {

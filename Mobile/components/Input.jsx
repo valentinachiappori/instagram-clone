@@ -8,10 +8,13 @@ const Input = ({
   secureTextEntry = false,
   keyboardType = 'default',
   autoCapitalize = 'sentences',
+  onSubmitEditing,
+  returnKeyType,
+  style,
 }) => {
   return (
     <TextInput
-      style={styles.input}
+      style={[styles.input, style]}
       placeholder={placeholder}
       placeholderTextColor="#8E8E8E"
       value={value}
@@ -19,6 +22,8 @@ const Input = ({
       secureTextEntry={secureTextEntry}
       keyboardType={keyboardType}
       autoCapitalize={autoCapitalize}
+      onSubmitEditing={onSubmitEditing}
+      returnKeyType={returnKeyType}
     />
   );
 };

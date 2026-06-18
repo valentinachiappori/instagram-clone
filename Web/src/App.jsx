@@ -1,5 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { storageService } from './api/storageService';
+import { getTimeline } from './api/userService';
+import LoadingSpinner from './components/LoadingSpinner';
 import Home from './pages/Home';
 import Login from "./pages/Login";
 import Layout from './components/Layout';
@@ -21,22 +24,42 @@ const PrivateRoute = ({ user, onLogout, children }) => {
 };
 
 function App() {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || null
-  );
+  const [user, setUser] = useState(storageService.getUser());
+  const [authLoading, setAuthLoading] = useState(!!storageService.getToken());
+
+  useEffect(() => {
+    if (!storageService.getToken()) return;
+
+    getTimeline()
+      .then(data => {
+        setUser(data);
+        storageService.setUser(data);
+      })
+      .catch(() => {
+        storageService.clearAll();
+        setUser(null);
+      })
+      .finally(() => setAuthLoading(false));
+  }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    storageService.clearAll();
     setUser(null);
   };
+
+  const handleUpdateUser = (updatedUser) => {
+    setUser(updatedUser);
+    storageService.setUser(updatedUser);
+  };
+
+  if (authLoading) return <LoadingSpinner />;
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={user ? <Navigate to="/" /> : <Login onLogin={setUser} />} />
+        <Route path="/login" element={user && storageService.getToken() ? <Navigate to="/" /> : <Login onLogin={setUser} />} />
 
-        <Route path="/register" element={user ? <Navigate to="/" /> : <Register onLogin={setUser} />} />
+        <Route path="/register" element={user && storageService.getToken() ? <Navigate to="/" /> : <Register onLogin={setUser} />} />
         
         <Route path="/" element={
           <PrivateRoute user={user} onLogout={handleLogout}>
@@ -52,7 +75,11 @@ function App() {
 
         <Route path="/profile/:id" element={
           <PrivateRoute user={user} onLogout={handleLogout}>
-            <UserProfile userIdViewer={user?.id} />
+            <UserProfile 
+                userIdViewer={user?.id} 
+                currentUser={user} 
+                onUpdateUser={handleUpdateUser} 
+            />
           </PrivateRoute>
         } />
 

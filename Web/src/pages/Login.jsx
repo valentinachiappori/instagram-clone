@@ -6,6 +6,13 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import ErrorMessage from "../components/ErrorMessage";
 import "../styles/Login.css";
+import { storageService } from "../api/storageService"
+import { object, string } from "yup";
+
+const loginSchema = object({
+    email: string().required("El email es obligatorio").email("El email no tiene un formato válido"),
+    password: string().required("La contraseña es obligatoria"),
+});
 
 const Login = ({ onLogin }) => {
     const [email, setEmail] = useState("");
@@ -16,14 +23,22 @@ const Login = ({ onLogin }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        try {
+            loginSchema.validateSync({ email, password });
+        } catch (validationError) {
+            setError(validationError.message);
+            return;
+        }
+
         setLoading(true);
         setError(null);
         try {
             const response = await login(email, password);
             const authHeader = response.headers["authorization"] || "";
             const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : authHeader;
-            localStorage.setItem("token", token);
-            localStorage.setItem("user", JSON.stringify(response.data));
+            storageService.setToken(token);
+            storageService.setUser(response.data);
             onLogin(response.data);
             navigate("/");
         } catch (err) {

@@ -5,6 +5,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { getPost, addComment, deletePost } from '../../../services/postService';
 import PostCard from '../../../components/PostCard';
 import CommentsModal from '../../../components/commentsModal';
+import DeleteModal from '../../../components/deleteModal';
 import { styles } from './postDetail.styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -20,6 +21,7 @@ export default function PostDetailScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [newComment, setNewComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
 
   const isOwner = user && post?.user?.id === user?.id;
 
@@ -55,25 +57,18 @@ export default function PostDetailScreen() {
   };
 
   const handleDeletePost = async () => {
-    Alert.alert(
-      'Eliminar publicación',
-      '¿Estás seguro de que querés eliminar este post?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        { 
-          text: 'Eliminar', 
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await deletePost(id, token);
-              router.replace('/auth/tabs/home');
-            } catch (err) {
-              Alert.alert('Error', 'Hubo un error al eliminar el post');
-            }
-          }
-        }
-      ]
-    );
+    setDeleteModalVisible(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await deletePost(id, token);
+      router.replace('/auth/tabs/home');
+    } catch (err) {
+      Alert.alert('Error', 'Hubo un error al eliminar');
+    } finally {
+      setDeleteModalVisible(false);
+    }
   };
 
   if (isLoading) {
@@ -113,6 +108,12 @@ export default function PostDetailScreen() {
         onCommentChange={setNewComment}
         onAddComment={handleAddComment}
         isSubmitting={isSubmitting}
+      />
+
+      <DeleteModal
+        isVisible={isDeleteModalVisible}
+        onClose={() => setDeleteModalVisible(false)}
+        onConfirm={confirmDelete}
       />
     </SafeAreaView>
   );

@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 400,
+    aspectRatio: 0.7,
     backgroundColor: '#FAFAFA',
   },
   footer: {

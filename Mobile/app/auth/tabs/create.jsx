@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   previewContainer: {
     width: '100%',
-    aspectRatio: 1,
+    aspectRatio: 0.7,
     backgroundColor: '#D9D9D9',
     justifyContent: 'center',
     alignItems: 'center',

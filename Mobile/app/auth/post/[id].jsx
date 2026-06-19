@@ -5,7 +5,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { getPost, addComment, deletePost } from '../../../services/postService';
 import PostCard from '../../../components/PostCard';
 import CommentsModal from '../../../components/commentsModal';
-import DeleteModal from '../../../components/deleteModal';
+import DeleteModal from '../../../components/DeleteModal';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function PostDetailScreen() {

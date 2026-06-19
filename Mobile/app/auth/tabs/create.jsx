@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   publishButton: {
-    backgroundColor: '#7C89FF', 
+    backgroundColor: '#495DF9B2', 
     marginTop: 'auto',
   }
 });

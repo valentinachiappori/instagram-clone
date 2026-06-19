@@ -54,14 +54,14 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: 500,
     marginBottom: 10,
     color: '#000000',
     textAlign: 'left',
   },
   modalText: {
     fontSize: 14,
-    color: '#333333',
+    color: '#000000',
     marginBottom: 20,
     textAlign: 'left',
     lineHeight: 20,
@@ -78,11 +78,11 @@ const styles = StyleSheet.create({
   },
   cancelText: {
     fontSize: 14,
-    color: '#666666',
+    color: '#000000',
     fontWeight: '600',
   },
   deleteButton: {
-    backgroundColor: '#6C8EEF',
+    backgroundColor: '#495DF9',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 8,

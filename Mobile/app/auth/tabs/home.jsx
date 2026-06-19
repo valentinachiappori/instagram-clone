@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, ActivityIndicator, RefreshControl, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, RefreshControl, SafeAreaView, Platform, StatusBar, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../../../context/AuthContext';
 import { getTimelineService } from '../../../services/userService';
@@ -8,7 +8,6 @@ import PostCard from '../../../components/PostCard';
 import Header from '../../../components/Header';
 import ErrorMessage from '../../../components/ErrorMessage';
 import CommentsModal from '../../../components/commentsModal';
-import { styles } from './home.styles';
 
 export default function Home() {
   const { user, token } = useAuth();
@@ -124,3 +123,16 @@ export default function Home() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  centerAll: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+});

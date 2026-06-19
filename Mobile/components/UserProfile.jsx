@@ -1,12 +1,11 @@
 import { useState, useCallback } from 'react';
-import { View, FlatList, ActivityIndicator } from 'react-native';
+import { View, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { getUser, followUser } from '../services/userService';
 import ProfileHeader from './ProfileHeader';
 import Button from './Button';
 import PostGridItem from './PostGridItem';
 import ErrorMessage from './ErrorMessage';
-import { styles } from './userProfile.styles';
 
 const UserProfile = ({ userId, isOwner, token, currentUser, onPress, onSignOut }) => {
   const [profileUser, setProfileUser] = useState(null);
@@ -89,5 +88,18 @@ const UserProfile = ({ userId, isOwner, token, currentUser, onPress, onSignOut }
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  actionButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    minWidth: 80,
+  },
+});
 
 export default UserProfile;

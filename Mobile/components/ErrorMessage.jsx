@@ -1,5 +1,4 @@
-import { Text } from 'react-native';
-import { styles } from './errorMessage.styles';
+import { Text, StyleSheet } from 'react-native';
 
 const ErrorMessage = ({ message, reserveSpace = false }) => {
   if (!reserveSpace && !message) return null;
@@ -10,5 +9,17 @@ const ErrorMessage = ({ message, reserveSpace = false }) => {
     </Text>
   );
 };
+
+const styles = StyleSheet.create({
+  error: {
+    color: '#ED4956',
+    textAlign: 'center',
+    marginBottom: 15,
+    fontSize: 14,
+  },
+  hidden: {
+    opacity: 0,
+  },
+});
 
 export default ErrorMessage;

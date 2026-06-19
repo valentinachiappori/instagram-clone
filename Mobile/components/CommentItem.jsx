@@ -1,6 +1,5 @@
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Avatar from './Avatar';
-import { styles } from './commentItem.styles';
 
 const CommentItem = ({ comment }) => (
   <View style={styles.container}>
@@ -11,5 +10,27 @@ const CommentItem = ({ comment }) => (
     </Text>
   </View>
 );
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    paddingVertical: 4,
+  },
+  avatar: {
+    marginRight: 8,
+    marginTop: 2,
+  },
+  name: {
+    fontWeight: 'bold',
+    color: '#262626',
+  },
+  text: {
+    flex: 1,
+    fontSize: 14,
+    color: '#262626',
+    lineHeight: 20,
+  },
+});
 
 export default CommentItem;

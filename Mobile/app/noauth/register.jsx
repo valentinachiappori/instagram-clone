@@ -7,6 +7,15 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import ErrorMessage from '../../components/ErrorMessage';
 import { styles } from './register.styles';
+import { object, string } from "yup";
+
+const registerSchema = object({
+    name: string().required("El nombre es obligatorio"),
+    email: string().required("El email es obligatorio").email("El email no tiene un formato válido"),
+    password: string().required("La contraseña es obligatoria").min(5, "La contraseña tiene menos de 5 caracteres").max(32, "La contraseña supera los 32 caracteres"),
+    image: string().url("La imagen debe ser una URL válida"),
+});
+
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -22,8 +31,10 @@ export default function Register() {
 
   const handleRegister = async () => {
     setLocalError('');
-    if (!email || !name || !password || !image) {
-      setLocalError('Por favor completá todos los campos.');
+    try {
+      registerSchema.validateSync({ name, email, password, image });
+    } catch (validationError) {
+      setLocalError(validationError.message);
       return;
     }
     try {

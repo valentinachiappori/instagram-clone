@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useRouter, Link } from 'expo-router';
 import { useAuth } from '../../context/AuthContext';
 import { SplashScreen } from '../../components/SplashScreen';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import ErrorMessage from '../../components/ErrorMessage';
-import { styles } from './login.styles';
+import { object, string } from "yup";
+
+const loginSchema = object({
+    email: string().required("El email es obligatorio").email("El email no tiene un formato válido"),
+    password: string().required("La contraseña es obligatoria"),
+});
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -20,8 +25,10 @@ export default function Login() {
 
   const handleLogin = async () => {
     setLocalError('');
-    if (!email || !password) {
-      setLocalError('Por favor completá todos los campos.');
+    try {
+      loginSchema.validateSync({ email, password });
+    } catch (validationError) {
+      setLocalError(validationError.message);
       return;
     }
     try {
@@ -73,3 +80,39 @@ export default function Login() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  logoImage: {
+    width: 200,
+    height: 70,
+    marginBottom: 20,
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 40,
+    borderTopWidth: 1,
+    borderTopColor: '#DBDBDB',
+    paddingTop: 20,
+  },
+  footerText: {
+    color: '#8E8E8E',
+    fontSize: 14,
+  },
+  link: {
+    color: '#0095F6',
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginLeft: 5,
+  },
+});

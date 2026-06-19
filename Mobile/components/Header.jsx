@@ -1,5 +1,4 @@
-import { View, Text, Image } from 'react-native';
-import { styles } from './header.styles';
+import { View, Text, Image, StyleSheet } from 'react-native';
 
 const Header = ({ title, logo, right }) => (
   <View style={styles.container}>
@@ -10,5 +9,30 @@ const Header = ({ title, logo, right }) => (
     <View style={styles.right}>{right}</View>
   </View>
 );
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#DBDBDB',
+    backgroundColor: '#fff',
+  },
+  logo: {
+    width: 120,
+    height: 40,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#262626',
+  },
+  right: {
+    alignItems: 'flex-end',
+  },
+});
 
 export default Header;

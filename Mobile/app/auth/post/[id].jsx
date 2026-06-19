@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, ActivityIndicator, Alert, StyleSheet } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useAuth } from '../../../context/AuthContext';
 import { getPost, addComment, deletePost } from '../../../services/postService';
 import PostCard from '../../../components/PostCard';
 import CommentsModal from '../../../components/commentsModal';
-import { styles } from './postDetail.styles';
+import DeleteModal from '../../../components/DeleteModal';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function PostDetailScreen() {
@@ -20,6 +20,7 @@ export default function PostDetailScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [newComment, setNewComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
 
   const isOwner = user && post?.user?.id === user?.id;
 
@@ -55,25 +56,18 @@ export default function PostDetailScreen() {
   };
 
   const handleDeletePost = async () => {
-    Alert.alert(
-      'Eliminar publicación',
-      '¿Estás seguro de que querés eliminar este post?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        { 
-          text: 'Eliminar', 
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await deletePost(id, token);
-              router.replace('/auth/tabs/home');
-            } catch (err) {
-              Alert.alert('Error', 'Hubo un error al eliminar el post');
-            }
-          }
-        }
-      ]
-    );
+    setDeleteModalVisible(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await deletePost(id, token);
+      router.replace('/auth/tabs/home');
+    } catch (err) {
+      Alert.alert('Error', 'Hubo un error al eliminar');
+    } finally {
+      setDeleteModalVisible(false);
+    }
   };
 
   if (isLoading) {
@@ -114,6 +108,83 @@ export default function PostDetailScreen() {
         onAddComment={handleAddComment}
         isSubmitting={isSubmitting}
       />
+
+      <DeleteModal
+        isVisible={isDeleteModalVisible}
+        onClose={() => setDeleteModalVisible(false)}
+        onConfirm={confirmDelete}
+      />
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    justifyContent: 'flex-end',
+  },
+  modalContent: {
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    height: '75%',
+    paddingTop: 10,
+    paddingHorizontal: 15,
+    paddingBottom: 20,
+  },
+  modalHandle: {
+    width: 40,
+    height: 5,
+    backgroundColor: '#DBDBDB',
+    borderRadius: 3,
+    alignSelf: 'center',
+    marginBottom: 15,
+  },
+  emptyComments: {
+    color: '#8E8E8E',
+    textAlign: 'center',
+    marginTop: 20,
+    fontStyle: 'italic',
+  },
+  inputWrapper: {
+    marginTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#EFEFEF',
+    paddingTop: 15,
+  },
+  textArea: {
+    borderWidth: 1,
+    borderColor: '#DBDBDB',
+    borderRadius: 5,
+    minHeight: 60,
+    padding: 10,
+    textAlignVertical: 'top',
+    fontSize: 14,
+    backgroundColor: '#FAFAFA',
+  },
+  publishButton: {
+    backgroundColor: '#6C8EEF',
+    paddingVertical: 12,
+    borderRadius: 5,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  publishButtonDisabled: {
+    backgroundColor: '#B2C6FB',
+  },
+  publishButtonText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+});

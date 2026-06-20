@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { View, Text, FlatList, ActivityIndicator, RefreshControl, SafeAreaView, Platform, StatusBar, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
 import { useAuth } from '../../../context/AuthContext';
 import { getTimelineService } from '../../../services/userService';
 import { addComment } from '../../../services/postService';
@@ -14,6 +14,7 @@ export default function Home() {
   const router = useRouter();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const hasLoadedRef = useRef(false);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
 
@@ -22,12 +23,14 @@ export default function Home() {
   const [newComment, setNewComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const fetchTimeline = async () => {
+  const fetchTimeline = async (showLoader = false) => {
     setError(null);
+    if (showLoader) setIsLoading(true);
     try {
       const data = await getTimelineService(token);
       setPosts(data.timeline || []);
-      
+      hasLoadedRef.current = true;
+
       if (activePost) {
         const updatedPost = (data.timeline || []).find(p => p.id === activePost.id);
         if (updatedPost) setActivePost(updatedPost);
@@ -40,13 +43,15 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    fetchTimeline();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchTimeline(!hasLoadedRef.current);
+    }, [])
+  );
 
   const onRefresh = () => {
     setRefreshing(true);
-    fetchTimeline();
+    fetchTimeline(false);
   };
 
   const handleOpenComments = (post) => {

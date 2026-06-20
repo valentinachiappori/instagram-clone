@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { View, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { getUser, followUser } from '../services/userService';
@@ -13,11 +13,12 @@ const UserProfile = ({ userId, isOwner, token, currentUser, onPress, onSignOut }
   const [error, setError] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const [followError, setFollowError] = useState(null);
+  const hasLoadedRef = useRef(false);
 
   useFocusEffect(
     useCallback(() => {
       let cancelled = false;
-      setLoading(true);
+      if (!hasLoadedRef.current) setLoading(true);
       setError(null);
 
       getUser(userId, token)
@@ -27,6 +28,7 @@ const UserProfile = ({ userId, isOwner, token, currentUser, onPress, onSignOut }
           setIsFollowing(
             (data.followers || []).some((f) => f.id === currentUser?.id)
           );
+          hasLoadedRef.current = true;
           setLoading(false);
         })
         .catch((err) => {

@@ -1,11 +1,13 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Avatar from './Avatar';
 
-const CommentItem = ({ comment }) => (
+const CommentItem = ({ comment, onUserPress }) => (
   <View style={styles.container}>
-    <Avatar uri={comment.user?.image} name={comment.user?.name} size={28} style={styles.avatar} />
+    <TouchableOpacity onPress={() => onUserPress?.(comment.user?.id)}>
+      <Avatar uri={comment.user?.image} name={comment.user?.name} size={28} style={styles.avatar} />
+    </TouchableOpacity>
     <Text style={styles.text}>
-      <Text style={styles.name}>{comment.user?.name} </Text>
+      <Text style={styles.name} onPress={() => onUserPress?.(comment.user?.id)}>{comment.user?.name} </Text>
       {comment.body}
     </Text>
   </View>

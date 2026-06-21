@@ -1,5 +1,4 @@
-import { Tabs, Redirect } from 'expo-router';
-import { ActivityIndicator, View } from 'react-native';
+import { Tabs } from 'expo-router';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { useAuth } from '../../../context/AuthContext';
 import Avatar from '../../../components/Avatar';
@@ -15,13 +14,7 @@ const renderIcon = (name) => ({ focused, color }) => {
 };
 
 export default function TabLayout() {
-  const { user, isAuthenticated, isLoading } = useAuth();
-
-  if (isLoading)
-    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator size="large" color="#0095F6" /></View>;
-
-  if (!isAuthenticated)
-    return <Redirect href="/noauth/login" />;
+  const { user } = useAuth();
 
   const renderProfileIcon = ({ focused }) => (
     <Avatar

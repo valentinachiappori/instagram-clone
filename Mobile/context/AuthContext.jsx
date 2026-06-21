@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loginService, registerService } from '../services/authService';
+import { setUnauthorizedHandler } from '../services/api';
 
 const AuthContext = createContext(null);
 
@@ -72,6 +73,10 @@ export const AuthProvider = ({ children }) => {
     await AsyncStorage.removeItem('token');
     await AsyncStorage.removeItem('user');
   };
+
+  useEffect(() => {
+    setUnauthorizedHandler(signOut);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, token, isAuthenticated: !!token, isLoading, error, signIn, signOut, signUp }}>

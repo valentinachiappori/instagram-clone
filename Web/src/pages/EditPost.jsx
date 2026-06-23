@@ -3,6 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getPost, editPost } from "../api/postService";
 import PostForm from "../components/PostForm";
 import Button from "../components/Button";
+import { object, string } from "yup";
+
+const editPostSchema = object({
+    description: string().required("La descripción es obligatoria"),
+    image: string().required("La imagen es obligatoria").url("La imagen debe ser una URL válida"),
+});
 
 const EditPost = ({ user }) => {
     const { postId } = useParams();
@@ -30,6 +36,7 @@ const EditPost = ({ user }) => {
             })
             .catch((err) => {
                 if (cancelled) return;
+                if (err.response?.status === 401) { navigate('/login'); return; }
                 setError(err.response?.data?.error || err.response?.data?.errors?.[0] || err.message);
                 setLoading(false);
             });
@@ -38,20 +45,27 @@ const EditPost = ({ user }) => {
     }, [postId, user, navigate]);
 
     const handleSubmit = async () => {
-        if (!image.trim() || !URL.canParse(image)) {
-            setError("La imagen debe ser una URL válida");
+        setError(null);
+
+        try {
+            editPostSchema.validateSync({ description, image });
+        } catch (validationError) {
+            setError(validationError.message);
             return;
         }
+
         setSaving(true);
         try {
             await editPost(postId, description, image);
             navigate(`/post/${postId}`);
         } catch (err) {
+            if (err.response?.status === 401) { navigate('/login'); return; }
             setError(
                 err.response?.data?.errors?.[0] ||
                 err.response?.data?.error ||
                 err.message
             );
+        } finally {
             setSaving(false);
         }
     };

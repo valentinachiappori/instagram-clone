@@ -1,0 +1,34 @@
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 100;
+}
+
+.loading-spinner {
+    width: 56px;
+    height: 56px;
+    border: 4px solid #dbdbdb;
+    border-top-color: #495DF9;
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+}
+
+.loading-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #8e8e8e;
+    letter-spacing: 0.3px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

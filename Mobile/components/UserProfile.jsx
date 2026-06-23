@@ -1,0 +1,108 @@
+import { useState, useCallback, useRef } from 'react';
+import { View, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
+import { useFocusEffect } from 'expo-router';
+import { getUser, followUser } from '../services/userService';
+import ProfileHeader from './ProfileHeader';
+import Button from './Button';
+import PostGridItem from './PostGridItem';
+import ErrorMessage from './ErrorMessage';
+
+const UserProfile = ({ userId, isOwner, token, currentUser, onPress, onSignOut }) => {
+  const [profileUser, setProfileUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [followError, setFollowError] = useState(null);
+  const hasLoadedRef = useRef(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      let cancelled = false;
+      if (!hasLoadedRef.current) setLoading(true);
+      setError(null);
+
+      getUser(userId, token)
+        .then((data) => {
+          if (cancelled) return;
+          setProfileUser(data);
+          setIsFollowing(
+            (data.followers || []).some((f) => f.id === currentUser?.id)
+          );
+          hasLoadedRef.current = true;
+          setLoading(false);
+        })
+        .catch((err) => {
+          if (cancelled) return;
+          setError(err.message);
+          setLoading(false);
+        });
+
+      return () => { cancelled = true; };
+    }, [userId])
+  );
+
+  const handleFollow = async () => {
+    try {
+      await followUser(profileUser.id, token);
+      setIsFollowing(!isFollowing);
+    } catch (err) {
+      setFollowError(err.message);
+    }
+  };
+
+  if (loading) return (
+    <View style={styles.center}>
+      <ActivityIndicator size="large" color="#0095F6" />
+    </View>
+  );
+
+  if (error || !profileUser) return (
+    <View style={styles.center}>
+      <ErrorMessage message={error || 'No se encontró el usuario.'} />
+    </View>
+  );
+
+  const posts = [...(profileUser.posts || [])].reverse();
+  const remainder = posts.length % 3;
+  const paddedPosts = remainder === 0 ? posts : [...posts, ...Array(3 - remainder).fill({ __empty: true })];
+
+  const actionButton = isOwner
+    ? <Button onPress={onSignOut} style={styles.actionButton}>Salir</Button>
+    : <Button onPress={handleFollow} style={styles.actionButton}>
+        {isFollowing ? 'Dejar de seguir' : 'Seguir'}
+      </Button>;
+
+  return (
+    <View style={{ flex: 1 }}>
+      <ProfileHeader user={profileUser} actionButton={actionButton} />
+      <ErrorMessage message={followError} />
+
+      <FlatList
+        data={paddedPosts}
+        keyExtractor={(item, index) => item.__empty ? `empty-${index}` : item.id.toString()}
+        numColumns={3}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) =>
+          item.__empty
+            ? <View style={{ flex: 1, aspectRatio: 4/5, margin: 0.5 }} />
+            : <PostGridItem post={item} onPress={() => onPress?.(item.id)} />
+        }
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  actionButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    minWidth: 80,
+  },
+});
+
+export default UserProfile;

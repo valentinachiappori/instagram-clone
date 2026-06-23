@@ -6,10 +6,9 @@ import ErrorMessage from './ErrorMessage';
 import PostActions from './post/PostActions';
 import "../styles/components/PostCard.css";
 
-const PostCard = ({ post }) => {
-  const navigate = useNavigate();
+const PostCard = ({ post, currentUser }) => {
+  
   const [isLiked, setIsLiked] = useState(() => {
-    const currentUser = JSON.parse(localStorage.getItem('user'));
     if (!currentUser || !post.likes) return false;
     
     return post.likes.some(likeUser => likeUser.id === currentUser.id);

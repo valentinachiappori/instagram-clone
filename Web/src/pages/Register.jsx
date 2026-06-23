@@ -5,6 +5,15 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import ErrorMessage from "../components/ErrorMessage";
 import "../styles/Register.css";
+import { storageService } from "../api/storageService"
+import { object, string } from "yup";
+
+const registerSchema = object({
+    name: string().required("El nombre es obligatorio"),
+    email: string().required("El email es obligatorio").email("El email no tiene un formato válido"),
+    password: string().required("La contraseña es obligatoria").min(5, "La contraseña tiene menos de 5 caracteres").max(32, "La contraseña supera los 32 caracteres"),
+    image: string().url("La imagen debe ser una URL válida"),
+});
 
 const Register = ({ onLogin }) => {
     const [name, setName] = useState("");
@@ -17,14 +26,22 @@ const Register = ({ onLogin }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        try {
+            registerSchema.validateSync({ name, email, password, image });
+        } catch (validationError) {
+            setError(validationError.message);
+            return;
+        }
+
         setLoading(true);
         setError(null);
         try {
             const response = await register(name, email, password, image);
             const authHeader = response.headers["authorization"] || "";
             const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : authHeader;
-            localStorage.setItem("token", token);
-            localStorage.setItem("user", JSON.stringify(response.data));
+            storageService.setToken(token);
+            storageService.setUser(response.data);
             onLogin(response.data);
             navigate("/");
         } catch (err) {

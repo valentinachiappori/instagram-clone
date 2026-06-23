@@ -4,23 +4,35 @@ import { useState } from "react";
 import Button from "../Button";
 import PostHeader from "./PostHeader";
 import PostActions from "./PostActions";
+import ErrorMessage from "../ErrorMessage";
+import { object, string } from "yup";
+
+const commentSchema = object({
+    body: string().required("El comentario es obligatorio"),
+});
 
 const PostDetail = ({ post, user, isOwner, onAddComment, onUpdateLike, onDeletePost }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [commentBody, setCommentBody] = useState('');
+    const [commentError, setCommentError] = useState(null);
     const navigate = useNavigate();
 
     const handleDelete = () => {
         onDeletePost(post.id);
         setIsModalOpen(false);
-    }; 
+    };
 
     const handlePublish = () => {
-        if (commentBody.trim()) {
-            onAddComment(post.id, commentBody);
-            setCommentBody('');
+        try {
+            commentSchema.validateSync({ body: commentBody });
+        } catch (validationError) {
+            setCommentError(validationError.message);
+            return;
         }
+        setCommentError(null);
+        onAddComment(post.id, commentBody);
+        setCommentBody('');
     };
 
     return (
@@ -72,18 +84,18 @@ const PostDetail = ({ post, user, isOwner, onAddComment, onUpdateLike, onDeleteP
                 <PostActions post={post} user={user} onUpdateLike={onUpdateLike} className="post-page-actions" />
 
                 <div className="comment-input-container">
-                    <textarea 
-                        placeholder="Agregá un comentario..." 
+                    <textarea
+                        placeholder="Agregá un comentario..."
                         className="comment-input"
                         rows="1"
                         value={commentBody}
                         onChange={(e) => setCommentBody(e.target.value)}
                     ></textarea>
                 </div>
-                <Button 
+                {commentError && <ErrorMessage message={commentError} />}
+                <Button
                     className="publish-button"
                     onClick={handlePublish}
-                    disabled={!commentBody.trim()}
                 >
                     Publicar
                 </Button>

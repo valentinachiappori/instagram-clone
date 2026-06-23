@@ -71,21 +71,13 @@ const PostCard = ({ post, currentUser, token, onPress, onAvatarPress, onCommentP
               size={26}
               color={isLiked ? '#ED4956' : '#262626'}
             />
+            <Text style={styles.actionCount}>{likesCount}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={onCommentPress || onPress} style={styles.actionButton}>
             <Ionicons name="chatbubble-outline" size={24} color="#262626" />
+            <Text style={styles.actionCount}>{post.comments?.length || 0}</Text>
           </TouchableOpacity>
         </View>
-
-        <Text style={styles.likesText}>{likesCount} Me gusta</Text>
-
-        {post.comments?.length > 0 && (
-          <TouchableOpacity onPress={onCommentPress || onPress}>
-            <Text style={styles.commentsText}>
-              Ver los {post.comments.length} comentarios
-            </Text>
-          </TouchableOpacity>
-        )}
 
         <View style={styles.descriptionRow}>
           <Text style={styles.text}>
@@ -146,15 +138,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   actionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginRight: 15,
   },
-  likesText: {
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  commentsText: {
-    color: '#8E8E8E',
-    marginBottom: 5,
+  actionCount: {
+    marginLeft: 4,
+    fontSize: 14,
+    color: '#262626',
   },
   descriptionRow: {
     flexDirection: 'row',

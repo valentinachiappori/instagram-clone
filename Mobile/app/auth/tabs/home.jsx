@@ -124,6 +124,10 @@ export default function Home() {
         onCommentChange={setNewComment}
         onAddComment={handleAddCommentFromHome}
         isSubmitting={isSubmitting}
+        onUserPress={(userId) => {
+          setModalVisible(false);
+          setTimeout(() => router.push(`/auth/profile/${userId}`), 300);
+        }}
       />
     </SafeAreaView>
   );

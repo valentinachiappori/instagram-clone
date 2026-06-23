@@ -63,6 +63,8 @@ const UserProfile = ({ userId, isOwner, token, currentUser, onPress, onSignOut }
   );
 
   const posts = [...(profileUser.posts || [])].reverse();
+  const remainder = posts.length % 3;
+  const paddedPosts = remainder === 0 ? posts : [...posts, ...Array(3 - remainder).fill({ __empty: true })];
 
   const actionButton = isOwner
     ? <Button onPress={onSignOut} style={styles.actionButton}>Salir</Button>
@@ -76,16 +78,15 @@ const UserProfile = ({ userId, isOwner, token, currentUser, onPress, onSignOut }
       <ErrorMessage message={followError} />
 
       <FlatList
-        data={posts}
-        keyExtractor={(item) => item.id.toString()}
+        data={paddedPosts}
+        keyExtractor={(item, index) => item.__empty ? `empty-${index}` : item.id.toString()}
         numColumns={3}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <PostGridItem
-            post={item}
-            onPress={() => onPress?.(item.id)}
-          />
-        )}
+        renderItem={({ item }) =>
+          item.__empty
+            ? <View style={{ flex: 1, aspectRatio: 4/5, margin: 0.5 }} />
+            : <PostGridItem post={item} onPress={() => onPress?.(item.id)} />
+        }
       />
     </View>
   );

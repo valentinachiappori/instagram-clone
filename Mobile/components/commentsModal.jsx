@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, FlatList, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Modal, StyleSheet } from 'react-native';
 import CommentItem from './CommentItem';
 
-const CommentsModal = ({ isVisible, onClose, comments, newComment, onCommentChange, onAddComment, isSubmitting }) => {
+const CommentsModal = ({ isVisible, onClose, comments, newComment, onCommentChange, onAddComment, isSubmitting, onUserPress }) => {
   return (
     <Modal
       visible={isVisible}
@@ -23,7 +23,7 @@ const CommentsModal = ({ isVisible, onClose, comments, newComment, onCommentChan
           <FlatList
             data={comments || []}
             keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()}
-            renderItem={({ item }) => <CommentItem comment={item} />}
+            renderItem={({ item }) => <CommentItem comment={item} onUserPress={onUserPress} />}
             ListEmptyComponent={<Text style={styles.emptyComments}>Sé el primero en comentar.</Text>}
             showsVerticalScrollIndicator={false}
           />

@@ -11,7 +11,14 @@ export const publicHeaders = {
   'Content-Type': 'application/json',
 };
 
+let unauthorizedHandler = null;
+export const setUnauthorizedHandler = (handler) => { unauthorizedHandler = handler; };
+
 export const handleResponse = async (response) => {
+  if (response.status === 401) {
+    if (unauthorizedHandler) unauthorizedHandler();
+    throw new Error('Sesión expirada. Iniciá sesión nuevamente.');
+  }
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
     throw new Error(error.message || `Error ${response.status}`);

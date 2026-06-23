@@ -107,6 +107,10 @@ export default function PostDetailScreen() {
         onCommentChange={setNewComment}
         onAddComment={handleAddComment}
         isSubmitting={isSubmitting}
+        onUserPress={(userId) => {
+          setModalVisible(false);
+          setTimeout(() => router.push(`/auth/profile/${userId}`), 300);
+        }}
       />
 
       <DeleteModal

@@ -9,13 +9,12 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isInitializing, setIsInitializing] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const loadSession = async () => {
       try {
-        await new Promise(resolve => setTimeout(resolve, 2000)); // splash screen
-
         const storedToken = await AsyncStorage.getItem('token');
         const storedUser = await AsyncStorage.getItem('user');
         if (storedToken && storedUser) {
@@ -26,6 +25,7 @@ export const AuthProvider = ({ children }) => {
         console.error('Error cargando sesión', e);
       } finally {
         setIsLoading(false);
+        setIsInitializing(false);
       }
     };
     loadSession();
@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, token, isAuthenticated: !!token, isLoading, error, signIn, signOut, signUp }}>
+    <AuthContext.Provider value={{ user, token, isAuthenticated: !!token, isLoading, isInitializing, error, signIn, signOut, signUp }}>
       {children}
     </AuthContext.Provider>
   );

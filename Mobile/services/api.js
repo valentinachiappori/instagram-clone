@@ -1,6 +1,7 @@
 import Constants from 'expo-constants';
 
-export const API_URL = `http://${Constants.expoConfig?.hostUri?.split(':')[0] ?? 'localhost'}:3000`;
+export const API_URL = process.env.EXPO_PUBLIC_API_URL
+  || `http://${Constants.expoConfig?.hostUri?.split(':')[0] ?? 'localhost'}:3000`;
 
 export const authHeaders = (token) => ({
   'Content-Type': 'application/json',

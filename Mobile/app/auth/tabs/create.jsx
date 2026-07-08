@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../../context/AuthContext';
 import { object, string } from 'yup';
@@ -22,6 +23,7 @@ export default function Create() {
   const [imageError, setImageError] = useState(false);
   const router = useRouter();
   const { token } = useAuth();
+  const insets = useSafeAreaInsets();
 
   const handleSubmit = async () => {
     setError(null);
@@ -52,15 +54,18 @@ export default function Create() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Crear publicacion</Text>
       </View>
 
-      <View style={styles.content}>
+      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         <Input
           style={styles.urlInput}
           placeholder="Image"
@@ -104,8 +109,8 @@ export default function Create() {
           Publicar
         </Button>
 
-      </View>
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -117,6 +122,8 @@ const styles = StyleSheet.create({
   content: {
     backgroundColor: '#FFFFFF',
     flex: 1,
+  },
+  contentContainer: {
     padding: 16,
   },
   header: {
@@ -167,7 +174,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   publishButton: {
-    backgroundColor: '#495DF9B2', 
-    marginTop: 'auto',
+    backgroundColor: '#495DF9B2',
+    marginTop: 16,
   }
 });

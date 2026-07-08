@@ -10,7 +10,7 @@ import { storageService } from "../api/storageService"
 import { object, string } from "yup";
 
 const loginSchema = object({
-    email: string().required("El email es obligatorio").email("El email no tiene un formato válido"),
+    email: string().required("El email es obligatorio").matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "El email no tiene un formato válido"),
     password: string().required("La contraseña es obligatoria"),
 });
 

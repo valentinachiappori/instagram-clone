@@ -63,7 +63,7 @@ function App() {
         
         <Route path="/" element={
           <PrivateRoute user={user} onLogout={handleLogout}>
-            <Home />
+            <Home user={user} />
           </PrivateRoute>
         } />
 

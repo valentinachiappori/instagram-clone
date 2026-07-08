@@ -4,11 +4,7 @@ import ErrorMessage from "./ErrorMessage";
 import "../styles/PostDetail.css";
 import "../styles/EditPost.css";
 
-/**
- * Layout compartido para crear y editar posts.
- * Izquierda: preview de imagen. Derecha: formulario (URL + descripción).
- * Los botones se pasan como `children`.
- */
+
 const PostForm = ({ imageUrl, onImageUrlChange, description, onDescriptionChange, onSubmit, error, children }) => {
     const [preview, setPreview] = useState({ url: "", ok: false });
     const showPreview = imageUrl.trim() !== "" && preview.url === imageUrl && preview.ok;

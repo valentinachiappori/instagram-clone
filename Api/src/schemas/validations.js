@@ -3,13 +3,13 @@ import { object, string } from "yup"
 export const register_schema = object({
     name: string().required(),
     password: string().required().max(32, "La contraseña supera los 32 caracteres").min(5, "la contraseña tiene menos de 5 caracteres"),
-    email: string().required("El email es obligatorio").email("El email no tiene un formato válido"),
-    image: string().url(),
+    email: string().required("El email es obligatorio").matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "El email no tiene un formato válido"),
+    image: string().url().required("La imagen es obligatoria"),
 
 })
 
 export const login_schema = object({
-    email: string().required("El email es obligatorio").email("El email no tiene un formato válido"),
+    email: string().required("El email es obligatorio").matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "El email no tiene un formato válido"),
     password: string().required(),
 })
 

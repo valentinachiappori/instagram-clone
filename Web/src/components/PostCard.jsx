@@ -7,7 +7,8 @@ import PostActions from './post/PostActions';
 import "../styles/components/PostCard.css";
 
 const PostCard = ({ post, currentUser }) => {
-  
+  const navigate = useNavigate();
+
   const [isLiked, setIsLiked] = useState(() => {
     if (!currentUser || !post.likes) return false;
     
@@ -26,7 +27,9 @@ const PostCard = ({ post, currentUser }) => {
     setLikeError(null);
 
     try {
-      await updateLike(post.id);
+      const updatedPost = await updateLike(post.id);
+      setIsLiked(updatedPost.likes.some(likeUser => likeUser.id === currentUser?.id));
+      setLikesCount(updatedPost.likes.length);
     } catch (error) {
       setIsLiked(previousIsLiked);
       setLikesCount(previousLikesCount);

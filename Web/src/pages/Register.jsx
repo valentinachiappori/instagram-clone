@@ -10,7 +10,7 @@ import { object, string } from "yup";
 
 const registerSchema = object({
     name: string().required("El nombre es obligatorio"),
-    email: string().required("El email es obligatorio").email("El email no tiene un formato válido"),
+    email: string().required("El email es obligatorio").matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "El email no tiene un formato válido"),
     password: string().required("La contraseña es obligatoria").min(5, "La contraseña tiene menos de 5 caracteres").max(32, "La contraseña supera los 32 caracteres"),
     image: string().required("La imagen es obligatoria").url("La imagen debe ser una URL válida"),
 });

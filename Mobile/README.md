@@ -9,7 +9,7 @@ EXPO_PUBLIC_API_URL= ...
 Por ejemplo:
 
 ```env
-EXPO_PUBLIC_API_URL=http://localhost:3000
+EXPO_PUBLIC_API_URL=http://{tu_ip}3000
 ```
 
 **Importante:** Este archivo no se encuentra versionado en el repositorio, por lo que cada desarrollador debe crear su propio `.env` con la URL correspondiente de la API.
